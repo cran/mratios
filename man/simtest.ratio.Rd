@@ -1,0 +1,159 @@
+\name{simtest.ratio}
+
+\alias{simtest.ratio}
+\alias{simtest.ratioI}
+
+
+\title{ Simultaneous tests for ratios of normal means  }
+\description{
+Performs simultaneous tests for several ratios of linear combinations of treatment means in the normal one-way ANOVA model with homogeneous variances.
+  
+}
+\usage{
+simtest.ratio(formula, data, type = "Dunnett", base = 1, alternative = "two.sided",
+ Margin.vec = NULL, FWER = 0.05, Num.Contrast = NULL, Den.Contrast = NULL, names = TRUE)
+}
+\arguments{
+  \item{formula}{ A formula specifying a numerical response and a grouping factor (e.g., response ~ treatment) }
+  \item{data}{  A dataframe containing the response and group variable }
+  \item{type}{ type of contrast, with the following options:
+  \itemize{
+    \item{"Dunnett":}{ many-to-one comparisons, with control in the denominator}
+    \item{"Tukey":}{ all-pair comparisons }
+    \item{"Sequen":}{ comparison of consecutive groups, where the group with lower order is the denomniator}
+    \item{"AVE":}{ comparison of each group with average of all others, where the average is taken as denominator}
+    \item{"Changepoint":}{ ratio of averages of groups of higher order divided by averages of groups of lower order }
+    \item{"Marcus":}{ Marcus contrasts as ratios }
+    \item{"McDermott":}{ McDermott contrasts as ratios }
+    \item{"Williams":}{ Williams contrasts as ratios }
+    }
+ Note: type is ignored if Num.Contrast and Den.Contrast are specified by the user (See below).
+}
+  \item{base}{ a single integer specifying the control (i.e. denominator) group for the Dunnett contrasts, ignored otherwise }
+  \item{alternative}{ a character string:
+    \itemize{
+    \item{"two.sided":}{ for two-sided tests }
+    \item{"less":}{ for lower tail tests }
+    \item{"greater":}{ for upper tail tests }
+}}
+  \item{Margin.vec}{ a single numerical value or vector of Margins under the null hypotheses, default is 1 }
+  \item{FWER}{ a single numeric value specifying the family-wise error rate to be controlled }
+  \item{Num.Contrast}{ Numerator contrast matrix, where columns correspond to groups and rows correspond to contrasts  }
+  \item{Den.Contrast}{ Denominator contrast matrix, where columns correspond to groups and rows correspond to contrasts }
+  \item{names}{ a logical value: if TRUE, the output will be named according to names of user defined contrast or factor levels }
+  
+}
+\details{
+ 
+Given a one-way ANOVA model, the interest is in simultaneous tests for several ratios of linear combinations of the treatment means.
+ Let us denote the ratios by \eqn{gamma[i], i=1,...,r}, and let \eqn{psi[i], i=1,...,r}, denote the relative margins against which we compare the ratios.
+ For example, upper-tail simultaneous tests for the ratios are stated as
+
+\deqn{H[0i]: gamma_i <= psi_i}
+ versus
+ \deqn{H[1i]: gamma_i > psi_i, i=1,...,r}.
+
+The associated likelihood ratio test statistic \eqn{T[i]} has a t-distribution.
+ For multiplicity adjustments, we use the joint distribution of the \eqn{T[i]} , \eqn{i=1,...,r},
+ which under the null hypotheses follows a central r-variate t-distribution.
+ Adjusted p-values can be calculated by adapting the results of Westfall et al. (1999) for ratio formatted hypotheses.
+
+}
+
+
+
+\value{
+  An object of class simtest.ratio containing:
+  
+  \item{estimate }{a (named) vector of estimated ratios}
+  \item{teststat }{ a (named) vector of the calculated test statistics}
+  \item{Num.Contrast }{the numerator contrast matrix}
+  \item{Den.Contrast }{the denominator contrast matrix}
+  \item{CorrMat }{the correlation matrix of the multivariate t-distribution calculated under the null hypotheses}
+  \item{critical.pt }{the equicoordinate critical value of the multi-variate t-distribution for a specified FWER}
+  \item{p.value.raw }{a (named) vector of unadjusted p-values}
+  \item{p.value.adj }{a (named) vector of p-values adjusted for multiplicity}
+  \item{Margin.vec }{the vector of margins under the null hypotheses}
+
+and some other input arguments.
+
+}
+
+
+
+
+\references{ 
+
+Dilba, G., Bretz, F., and Guiard, V. (2006): Simultaneous confidence sets and confidence intervals for multiple ratios. Journal of Statistical Planning and Inference 136, 2640-2658.
+
+Westfall, P.H., Tobias, R.D., Rom, D., Wolfinger, R.D., and Hochberg, Y. (1999): Multiple comparisons and multiple tests using the SAS system. SAS Institute Inc. Cary, NC, 65-81.
+
+ }
+\author{ 
+
+Gemechis Dilba, Frank Schaarschmidt }
+
+\seealso{ While \code{print.simtest.ratio} produces a small default print-out of the results, 
+ \code{summary.simtest.ratio} can be used to produce a more detailed print-out, which is recommended if user-defined contrasts are used
+
+\code{sci.ratio} for constructing simultaneous confidence intervals for ratios in oneway layout 
+
+ }
+
+
+\examples{
+
+data(AP)
+AP
+boxplot(pre_post~treatment, data=AP)
+
+# Test whether the differences of doses 50, 100, 150 vs. Placebo
+# are non-inferior to the difference of Active control vs. Placebo 
+
+# User-defined contrasts:
+
+# Numerator Contrasts:
+
+NC <- rbind(
+"(D100-D0)" = c(0,-1,1,0,0),
+"(D150-D0)" = c(0,-1,0,1,0),
+ "(D50-D0)" = c(0,-1,0,0,1))
+
+# Denominator Contrasts:
+
+DC <- rbind(
+"(AC-D0)" = c(1,-1,0,0,0),
+"(AC-D0)" = c(1,-1,0,0,0),
+"(AC-D0)" = c(1,-1,0,0,0))
+
+NC
+DC
+
+noninf <- simtest.ratio(pre_post ~ treatment, data=AP, Num.Contrast=NC, Den.Contrast=DC, Margin.vec=c(0.9,0.9,0.9), alternative="greater")
+
+summary( noninf )
+
+
+
+# Some more examples on standard multiple comparison procedures stated in terms of ratio hypotheses:
+
+# Comparisons vs. Control:
+
+many21 <- simtest.ratio(pre_post ~ treatment, data=AP, type="Dunnett")
+summary(many21)
+
+# Let the Placebo be the control group, which is the second level in alpha-numeric order.
+# A simultaneous test for superiority of the three doses and the Active control vs. Placebo could be done as: 
+
+many21P <- simtest.ratio(pre_post ~ treatment, data=AP, type="Dunnett", base=2, alternative="greater", Margin.vec=1.1)
+summary(many21P)
+
+# All pairwise comparisons:
+
+allpairs <- simtest.ratio(pre_post ~ treatment, data=AP, type="Tukey")
+summary(allpairs)
+
+}
+\keyword{ htest }
+
+

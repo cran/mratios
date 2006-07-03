@@ -1,0 +1,79 @@
+"simtest.ratioI" <-
+function(Response, Treatment, alternative="two.sided", Margin.vec=NULL, FWER=0.05, Num.Contrast, Den.Contrast) {
+
+require(mvtnorm)
+
+CMat <- Num.Contrast
+DMat <- Den.Contrast
+
+n.Treat <- tapply(Response,Treatment,length)
+ybar.Treat <- tapply(Response,Treatment,mean)
+var.Treat <-  tapply(Response,Treatment,var)
+d.freedom <- sum(n.Treat-1) 
+Var.pooled <- sum(var.Treat*(n.Treat - 1))/d.freedom
+
+
+MM <- diag(1/n.Treat)    #  Diagonal matrix containing reciprocals of the ni's
+
+ncomp <- nrow (CMat)    # Number of comparisons 
+
+Ratio.Estimate <- Test.Stat <- P.raw <- P.adjusted <-rep(NA,ncomp)
+#
+#  Correlation matrix under H0
+#
+CorrMat.H0 <- matrix(rep(NA,ncomp*ncomp),nr=ncomp)
+    for(i in 1:ncomp) {
+        for(j in 1:ncomp) {
+            CorrMat.H0[i,j] <- (Margin.vec[i]*DMat[i,] - CMat[i,])%*%MM%*%(Margin.vec[j]*DMat[j,] - CMat[j,])/
+            (sqrt((Margin.vec[i]*DMat[i,] - CMat[i,])%*%MM%*%(Margin.vec[i]*DMat[i,] - CMat[i,]))*
+            sqrt((Margin.vec[j]*DMat[j,] - CMat[j,])%*%MM%*%(Margin.vec[j]*DMat[j,] - CMat[j,])))
+        }
+    }
+
+for (i in 1:ncomp){
+    Ratio.Estimate[i] <- (CMat[i,]%*%ybar.Treat)/(DMat[i,]%*%ybar.Treat)
+    Test.Stat[i] <- ((CMat[i,] - Margin.vec[i]*DMat[i,])%*%ybar.Treat)/
+              sqrt(Var.pooled*(CMat[i,] - Margin.vec[i]*DMat[i,])%*%MM%*%(CMat[i,] - Margin.vec[i]*DMat[i,]))
+
+    if (alternative=="two.sided"){ 
+        P.adjusted[i] <- 1 - pmvt(lower=rep(-abs(Test.Stat[i]),ncomp), upper=rep(abs(Test.Stat[i]),ncomp), df=d.freedom,corr=CorrMat.H0, delta=rep(0,ncomp), abseps=1e-05)
+        }
+    
+    if (alternative=="greater"){
+        P.adjusted[i] <- 1 - pmvt(lower=rep(-Inf,ncomp), upper=rep(Test.Stat[i],ncomp), df=d.freedom,corr=CorrMat.H0, delta=rep(0,ncomp), abseps=1e-05)
+        }
+    if (alternative=="less"){
+        P.adjusted[i] <- 1 - pmvt(lower=rep(-Inf,ncomp), upper=rep(-Test.Stat[i],ncomp), df=d.freedom,corr=CorrMat.H0, delta=rep(0,ncomp), abseps=1e-05)
+        }
+    } # end of for loop
+
+if (alternative=="two.sided"){ 
+    Critical.pt <- qmvt(1-FWER, interval=c(0,4), df=d.freedom,corr=CorrMat.H0, delta=rep(0,ncomp),tail="both", abseps=1e-05)$quantile
+    P.raw  <-  2*pt(abs(Test.Stat),d.freedom,lower.tail=FALSE)
+    }
+    
+if (alternative=="greater"){
+     Critical.pt <- qmvt(1-FWER, interval=c(0,4), df=d.freedom,corr=CorrMat.H0, delta=rep(0,ncomp),tail="lower.tail", abseps=1e-05)$quantile
+     P.raw  <-  pt(Test.Stat,d.freedom,lower.tail=FALSE)
+      }
+if (alternative=="less"){
+     Critical.pt <-  qmvt(1-FWER, interval=c(0,4), df=d.freedom,corr=CorrMat.H0, delta=rep(0,ncomp),tail="lower.tail", abseps=1e-05)$quantile
+     P.raw  <-  pt(Test.Stat,d.freedom,lower.tail=TRUE)
+      }
+
+return(list(
+estimate=Ratio.Estimate,
+teststat=Test.Stat,
+Num.Contrast=Num.Contrast,
+Den.Contrast=Den.Contrast,
+CorrMat=CorrMat.H0,
+critical.pt=Critical.pt,
+p.value.raw=P.raw,
+p.value.adj=P.adjusted,
+Margin.vec=Margin.vec,
+alternative=alternative,
+FWER=FWER
+))
+
+}
+
