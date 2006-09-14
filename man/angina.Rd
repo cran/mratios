@@ -4,8 +4,7 @@
 \title{ The angina data set from 'multcomp' package }
 \description{
   Dose response study of an angina drug; data set taken from 
-     Westfall et al. (1999, p. 164). Different trend tests in a
-     balanced  one-way layout.
+     Westfall et al. (1999, p. 164).
 }
 \usage{data(angina)}
 \format{
@@ -28,6 +27,9 @@
   angina(multcomp)
 }
 \examples{
+
+library(mratios)
+
 data(angina)
 
 plot(response~dose, data=angina)

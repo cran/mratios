@@ -6,7 +6,9 @@
 Constructs simultaneous confidence intervals for multiple ratios of linear combinations of coefficients in the general linear model.
 }
 \usage{
-sci.ratio.gen(Y, X, Num.Contrast, Den.Contrast, alternative = "two.sided", conf.level = 0.95, method="Plug")
+sci.ratio.gen(Y, X, Num.Contrast, Den.Contrast,
+ alternative = "two.sided", conf.level = 0.95,
+ method="Plug")
 }
 
 \arguments{
@@ -40,7 +42,7 @@ inequalities for two- and one-sided confidence intervals, respectively), and (iv
 the maximum likelihood estimates of the ratios in the unknown correlation matrix). The MtI method consists
 of replacing the unknown correlation matrix by an identity matrix of the same dimension.
 
-Application include relative potency estimations in multiple parallel line or slope-ratio assays.
+Applications include relative potency estimations in multiple parallel line or slope-ratio assays.
 Users need to define the design matrix of the linear model and the corresponding contrast matrices 
 in an appropriate way.
 
@@ -73,8 +75,12 @@ Simple print and summary functions for sci.ratio objects are available.
 \seealso{ sci.ratio }
 \examples{
 
-# A first example: Slope-ratio assay, data from Jensen(1989), Biometrical Journal 31, 841-853.
-# Definition of the vector of responses and the design matrix can be done directly as follows:
+# Slope-ratio assay on data from Jensen(1989),
+# Biometrical Journal 31, 841-853.
+
+# Definition of the vector of responses and
+# the design matrix can be done directly as
+# follows:
 
 Y0 <- scan()
 1.3 1.7 2.4 2.7 3.6 3.6 4.7 5.0 6.1 6.3
@@ -105,9 +111,9 @@ Y
 
 X
 
-# In this problem, interest is simultaneous estimation of the ratios of slopes
-# relative to the slope of the standard treatment. Therefore the appropriate 
-# contrast matrices are:
+# In this problem, interest is simultaneous estimation of
+# the ratios of slopes relative to the slope of the standard
+# treatment. Therefore, the appropriate contrast matrices are:
 
 Num.Contrast <- matrix(c(0,0,1,0,0,
                          0,0,0,1,0,
@@ -118,7 +124,9 @@ Den.Contrast <- matrix(c(0,1,0,0,0,
 
 
 
-SlopeRatioCI <- sci.ratio.gen(Y=Y, X=X, Num.Contrast=Num.Contrast, Den.Contrast=Den.Contrast)
+SlopeRatioCI <- sci.ratio.gen(Y=Y, X=X,
+ Num.Contrast=Num.Contrast, Den.Contrast=Den.Contrast)
+
 SlopeRatioCI
 
 # Further details of the fitted model and the contrasts used:
@@ -128,9 +136,10 @@ summary(SlopeRatioCI)
 plot(SlopeRatioCI)
 
 
+# # #
 
-
-### If one starts with a dataframe, the function model.matrix can be used to create the design matrix:
+# If one starts with a dataframe, the function model.matrix
+# can be used to create the design matrix:
 
 data(SRAssay)
 SRAssay

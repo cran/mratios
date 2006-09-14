@@ -29,7 +29,7 @@ rownames(out) <- object$compnames
 colnames(out) <- c("margin", "estimate", "statistic", "p.value.raw", "p.value.adj")
 
 cat("","\n")
-print(out, digits=digits)
+print(round(out, digits=digits))
 cat("","\n")
 }
 

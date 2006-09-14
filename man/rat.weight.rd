@@ -20,6 +20,9 @@ Hauschke, D. (1999): Biometrische Methoden zur Auswertung und Planung von Sicher
 }
 
 \examples{
+
+library(mratios)
+
 data(rat.weight)
 boxplot(weight~group, data=rat.weight)
 

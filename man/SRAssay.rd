@@ -27,6 +27,8 @@ titer of a sample to pH 6.8.
 }
 \examples{
 
+library(mratios)
+
 data(SRAssay)
 
 plot(Response~Dose, data=SRAssay)

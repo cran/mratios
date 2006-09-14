@@ -19,6 +19,9 @@ Hauschke, D. (1999): Biometrische Methoden zur Auswertung und Planung von Sicher
 }
 
 \examples{
+
+library(mratios)
+
 data(ASAT)
 boxplot(ASAT~group, data=ASAT)
 

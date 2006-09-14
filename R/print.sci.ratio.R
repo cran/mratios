@@ -54,8 +54,8 @@ if(x$NSD)
 }
 else
 {
- print(cbind(estimate=x$estimate, x$conf.int), digits=digits )
+ print(round(cbind(estimate=x$estimate, x$conf.int), digits=digits) )
 }
-
+invisible(x)
 }
 

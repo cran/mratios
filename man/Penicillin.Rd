@@ -20,7 +20,10 @@ The production of antibiotics of 6 strains (mutants of the same micro organism) 
   Horn, M, Vollandt, R (1995): Multiple Tests und Auswahlverfahren in Biomtrie (Lorenz, RJ, Vollmar, J, eds). Gustav Fischerverlag, Stuttgart Jena New York.
 }
 \examples{
+
+library(mratios)
+
 data(Penicillin)
-## maybe str(Penicillin) ; plot(Penicillin) ...
+## str(Penicillin) ; plot(Penicillin) ...
 }
 \keyword{datasets}

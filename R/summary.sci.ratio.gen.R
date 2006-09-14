@@ -14,10 +14,6 @@ cat("       ", "\n")
 cat("Denominator contrast matrix:        ","\n")
 print( object$Den.Contrast, digits=digits )
 
-cat("       ","\n")
-cat("Estimated ratios:        ","\n")
-print( object$estimate, digits=digits )
-
 
 if(object$method=="Plug")
 {
@@ -78,7 +74,7 @@ if(object$NSD)
 }
 else
 {
- print(cbind(estimate=object$estimate, object$conf.int) ,digits=digits )
+ print(round(cbind(estimate=object$estimate, object$conf.int) ,digits=digits) )
 }
 
 

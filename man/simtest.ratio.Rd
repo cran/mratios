@@ -10,8 +10,9 @@ Performs simultaneous tests for several ratios of linear combinations of treatme
   
 }
 \usage{
-simtest.ratio(formula, data, type = "Dunnett", base = 1, alternative = "two.sided",
- Margin.vec = NULL, FWER = 0.05, Num.Contrast = NULL, Den.Contrast = NULL, names = TRUE)
+simtest.ratio(formula, data, type = "Dunnett", base = 1,
+ alternative = "two.sided", Margin.vec = NULL, FWER = 0.05,
+ Num.Contrast = NULL, Den.Contrast = NULL, names = TRUE)
 }
 \arguments{
   \item{formula}{ A formula specifying a numerical response and a grouping factor (e.g., response ~ treatment) }
@@ -46,15 +47,17 @@ simtest.ratio(formula, data, type = "Dunnett", base = 1, alternative = "two.side
 \details{
  
 Given a one-way ANOVA model, the interest is in simultaneous tests for several ratios of linear combinations of the treatment means.
- Let us denote the ratios by \eqn{gamma[i], i=1,...,r}, and let \eqn{psi[i], i=1,...,r}, denote the relative margins against which we compare the ratios.
+ Let us denote the ratios by \eqn{\gamma_i, i=1,...,r}, and let \eqn{\psi_i, i=1,...,r}, denote the relative margins against which we compare the ratios.
  For example, upper-tail simultaneous tests for the ratios are stated as
 
-\deqn{H[0i]: gamma_i <= psi_i}
- versus
- \deqn{H[1i]: gamma_i > psi_i, i=1,...,r}.
+\deqn{H_0i: \gamma_i <= \psi_i }
 
-The associated likelihood ratio test statistic \eqn{T[i]} has a t-distribution.
- For multiplicity adjustments, we use the joint distribution of the \eqn{T[i]} , \eqn{i=1,...,r},
+ versus
+
+\deqn{H_1i: \gamma_i > \psi_i, i=1,...,r}.
+
+The associated likelihood ratio test statistic \eqn{T_i} has a t-distribution.
+ For multiplicity adjustments, we use the joint distribution of the \eqn{T_i} , \eqn{i=1,...,r},
  which under the null hypotheses follows a central r-variate t-distribution.
  Adjusted p-values can be calculated by adapting the results of Westfall et al. (1999) for ratio formatted hypotheses.
 
@@ -93,15 +96,18 @@ Westfall, P.H., Tobias, R.D., Rom, D., Wolfinger, R.D., and Hochberg, Y. (1999):
 
 Gemechis Dilba, Frank Schaarschmidt }
 
-\seealso{ While \code{print.simtest.ratio} produces a small default print-out of the results, 
- \code{summary.simtest.ratio} can be used to produce a more detailed print-out, which is recommended if user-defined contrasts are used
+\seealso{ While \code{print.simtest.ratio} produces a small default print-out of the results,
+ 
+ \code{summary.simtest.ratio} can be used to produce a more detailed print-out, which is recommended if user-defined contrasts are used,
 
-\code{sci.ratio} for constructing simultaneous confidence intervals for ratios in oneway layout 
+ \code{sci.ratio} for constructing simultaneous confidence intervals for ratios in oneway layout 
 
  }
 
 
 \examples{
+
+library(mratios)
 
 data(AP)
 AP
@@ -129,28 +135,38 @@ DC <- rbind(
 NC
 DC
 
-noninf <- simtest.ratio(pre_post ~ treatment, data=AP, Num.Contrast=NC, Den.Contrast=DC, Margin.vec=c(0.9,0.9,0.9), alternative="greater")
+noninf <- simtest.ratio(pre_post ~ treatment, data=AP,
+ Num.Contrast=NC, Den.Contrast=DC, Margin.vec=c(0.9,0.9,0.9),
+ alternative="greater")
 
 summary( noninf )
 
 
 
-# Some more examples on standard multiple comparison procedures stated in terms of ratio hypotheses:
+# Some more examples on standard multiple comparison procedures
+# stated in terms of ratio hypotheses:
 
 # Comparisons vs. Control:
 
-many21 <- simtest.ratio(pre_post ~ treatment, data=AP, type="Dunnett")
+many21 <- simtest.ratio(pre_post ~ treatment, data=AP,
+ type="Dunnett")
+
 summary(many21)
 
-# Let the Placebo be the control group, which is the second level in alpha-numeric order.
-# A simultaneous test for superiority of the three doses and the Active control vs. Placebo could be done as: 
+# Let the Placebo be the control group, which is the second level
+# in alpha-numeric order. A simultaneous test for superiority of
+# the three doses and the Active control vs. Placebo could be
+# done as: 
 
-many21P <- simtest.ratio(pre_post ~ treatment, data=AP, type="Dunnett", base=2, alternative="greater", Margin.vec=1.1)
+many21P <- simtest.ratio(pre_post ~ treatment, data=AP,
+ type="Dunnett", base=2, alternative="greater", Margin.vec=1.1)
 summary(many21P)
 
 # All pairwise comparisons:
 
-allpairs <- simtest.ratio(pre_post ~ treatment, data=AP, type="Tukey")
+allpairs <- simtest.ratio(pre_post ~ treatment, data=AP,
+ type="Tukey")
+
 summary(allpairs)
 
 }

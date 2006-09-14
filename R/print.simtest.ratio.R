@@ -14,5 +14,8 @@ colnames(out) <- c("margin", "estimate", "statistic", "p.value.raw", "p.value.ad
 cat("","\n")
 print(out, digits=digits)
 cat("","\n")
+
+invisible(x)
+
 }
 

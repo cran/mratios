@@ -103,6 +103,9 @@ out<-simtest.ratioI(Response=Response, Treatment=Treatment, alternative=alternat
 out$type<-type
 out$compnames<-compnames
 
+colnames(out$Num.Contrast)<-varnames
+colnames(out$Den.Contrast)<-varnames
+
  names(out$p.value.raw)<-compnames
  names(out$p.value.adj)<-compnames
  names(out$estimate)<-compnames

@@ -4,7 +4,7 @@
 \title{ Angina pectoris data}
 \description{
   A data set is generated (from normal distribution) to imitate the summary statistics in Table II of Bauer et al. (1998). 
-  In the trial, patients with chronic stable angina pectoris were randomized to five treatment arms (placebo, three doses of a new compound, and an active control).
+  In the experiment, patients with chronic stable angina pectoris were randomized to five treatment arms (placebo, three doses of a new compound, and an active control).
   The primary endpoint is the difference in the duration of an exercise test before and after treatment.
 }
 \usage{data(AP)}
@@ -20,6 +20,9 @@ Bauer, P., Roehmel, J., Maurer, W., and Hothorn, L. (1998): Testing strategies i
 }
 
 \examples{
+
+library(mratios)
+
 data(AP)
 boxplot(pre_post ~ treatment, data=AP)
 by(AP,AP$treatment, function(x){mean(x$pre_post)})

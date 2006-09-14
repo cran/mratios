@@ -3,9 +3,8 @@
 
 \title{ Creates numerator and denominator contrast matrices for ratio-based hypotheses for common multiple comparison and trend test problems }
 \description{
- Creates numerator and denominator contrast matrices for some common multiple comparison and trend test problems,
- for internal use in the sci.ratio and simtest.ratio functions. A suggestion how to define contrast matrices for ratios analogously
- for most of the problems covered by the contrMat-function in the multcomp-package for differences of means.
+ Creates numerator and denominator contrast matrices for some common multiple comparison and trend test problems. 
+ These matrices are internally used by the sci.ratio and simtest.ratio functions. The contrMatRatio function is a modification of the function contrMat (multcomp).
 
  Whether the given definitions of contrast matrices for trend test problems in terms of ratios make sense and how they are to be interpreted is to be discussed.
 }
@@ -27,7 +26,7 @@ contrMatRatio(n, type = "Tukey", base = 1)
     \item{"Williams"}{ Williams contrasts for ratios }
     }
 }
-  \item{base}{ a single integer specifying the control (i.e. denominator) group for "Dunnett" contrasts }
+  \item{base}{a single integer specifying the control (i.e. denominator) group for "Dunnett"-type contrasts for calculating the ratios to the control }
 }
 \details{
   This is a simple adaption of the contrMat function in the package multcomp for ratio hypotheses.
@@ -45,6 +44,8 @@ contrMatRatio(n, type = "Tukey", base = 1)
 \seealso{ contrMat(multcomp) }
 \examples{
 
+library(mratios)
+
 n=c(A=10,B=20,Z=10,D=10)
 
 contrMatRatio(n=n, type="Dunnett", base=1)
@@ -54,6 +55,6 @@ contrMatRatio(n=n, type="Tukey")
 contrMatRatio(n=n, type="Sequen")
 contrMatRatio(n=n, type="AVE")
 contrMatRatio(n=n, type="Williams")
-
 }
-\keyword{ htest }
+
+\keyword{htest}

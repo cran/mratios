@@ -10,16 +10,18 @@
   Different methods are available for multiplicity adjustment.
 }
 \usage{
-sci.ratio(formula, data, type = "Dunnett", base = 1, method = "Plug", Num.Contrast = NULL, Den.Contrast = NULL, alternative = "two.sided", conf.level = 0.95, names=TRUE)
+sci.ratio(formula, data, type = "Dunnett", base = 1,
+ method = "Plug", Num.Contrast = NULL, Den.Contrast = NULL,
+ alternative = "two.sided", conf.level = 0.95, names=TRUE)
 
 }
 
 \arguments{
-  \item{formula}{ A formula specifying a numerical response and a grouping factor as e.g. response ~ treatment }
+  \item{formula}{ A formula specifying a numerical response and a grouping factor as e.g. \code{response ~ treatment} }
   \item{data}{  A dataframe containing the response and group variable }
   \item{type}{ type of contrast, with the following options:
     \itemize{
-    \item{"Dunnett":}{ many-to-one comparisons, with control in the denominator}
+    \item{"Dunnett":}{ many-to-one comparisons, with the control group in the denominator}
     \item{"Tukey":}{ all-pair comparisons }
     \item{"Sequen":}{ comparison of consecutive groups, where the group with lower order is the denominator}
     \item{"AVE":}{ comparison of each group with average of all others, where the average is taken as denominator}
@@ -80,9 +82,8 @@ their argument names, they will not be recognized.
   \item{Num.Contrast }{matrix of contrasts used for the numerator of ratios}
   \item{Den.Contrast }{matrix of contrasts used for the denominator of ratios}
   \item{conf.int }{the estimated confidence intervals}
-  \item{NSD }{a logical indicating whether any denominator occured, which were not significantly difference from 0}
-and some of the input arguments.
-
+  \item{NSD }{a logical, TRUE if any of the denomiantors was not significantly different from zero, FALSE otherwise}
+  \item{and ...}
 Simple print and summary functions for sci.ratio objects are available.   
 
 }
@@ -95,8 +96,11 @@ Simple print and summary functions for sci.ratio objects are available.
           plot.sci.ratio (mratios) for a plotting function of the intervals }
 
 \examples{
-####################################################################################
-# # # Antibiotic activity of 8 different strains of a MO (Horn and Vollandt, 1995): 
+
+# # #
+
+# Antibiotic activity of 8 different strains of a micro organisms.
+# (Horn and Vollandt, 1995): 
 
 data(Penicillin)
 
@@ -116,16 +120,22 @@ many21
 # library(multcomp)
 # summary(simint(diameter~strain, data=Penicillin, type="Tukey"))
  
-#######################################################################################
-# # # A 90-days chronic toxicity assay: 
-# which of the doses (groups 2,3,4) do not show a decrease in bodyweight more pronounced
-# than 90 percent of the bodyweight in the control group
+
+
+# # #
+
+# A 90-days chronic toxicity assay: 
+# Which of the doses (groups 2,3,4) do not show a decrease in
+# bodyweight more pronounced than 90 percent of the bodyweight
+# in the control group?
 
 data(BW)
 
 boxplot(Weight~Dose,data=BW)
 
-BWnoninf <- sci.ratio(Weight~Dose, data=BW, type="Dunnett", alternative="greater")
+BWnoninf <- sci.ratio(Weight~Dose, data=BW, type="Dunnett",
+ alternative="greater")
+
 plot(BWnoninf, rho0=0.9)
 
 }

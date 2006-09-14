@@ -20,6 +20,9 @@
 
 }
 \examples{
+
+library(mratios)
+
 data(BW)
 boxplot(Weight~Dose, data=BW)
 

@@ -94,10 +94,14 @@ alternative=alternative,conf.level=conf.level, method=method)
 out$type<-type
 out$compnames<-compnames
 
+# # #
+
+colnames(out$Num.Contrast) <- colnames(out$Den.Contrast) <- varnames
+rownames(out$conf.int)<-compnames
+# # #
 
 if(type=="User defined")
 {
- rownames(out$conf.int)<-compnames
  rownames(out$estimate)<-compnames
 }
 class(out) <- "sci.ratio"

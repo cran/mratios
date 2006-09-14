@@ -1,5 +1,5 @@
 "plot.sci.ratio" <-
-function(x, rho0 = 1, rho0lty=2, CIvert=FALSE, CIlty = 1, CIlwd=1, CIcex=1, main=NULL, ylab=NULL, xlab=NULL, sub=NULL, ...)
+function(x, rho0 = 1, rho0lty=2, rho0lwd=1, rho0col="black", CIvert=FALSE, CIlty = 1, CIlwd=1, CIcex=1, main=NULL, ylab=NULL, xlab=NULL, sub=NULL, ...)
 {
 
 old.par <- par(no.readonly=TRUE)
@@ -62,9 +62,10 @@ if( alternative == "two.sided" )
    
  # plot range:
  
- lplot <- min(lower, rho0)-0.1
+ lplot <- min(lower, rho0)
+ uplot <- max(upper, rho0)
 
- uplot <- max(upper, rho0)+0.1
+# # # # rplot <- c(lplot,uplot) + c(-0.05,0.05)*c(uplot-lplot)
 
  }
 
@@ -78,7 +79,7 @@ if( alternative == "two.sided" )
    {stop("Mean of control not significantly different from 0, no CI available")}
    
   lplot <- min(rho0, esti) 
-  uplot <- max(upper, rho0) 
+  uplot <- max(upper, rho0)
 
   }
 
@@ -89,12 +90,14 @@ if( alternative == "two.sided" )
   if(any(lower=="NSD") )
    {stop("Mean of control not significantly different from 0, no CI available")}
    
-  lplot <- min(rho0, lower)
+  lplot <- min(rho0, lower) 
   uplot <- max(esti, rho0)
 
 
   }
 
+ llplot <- lplot - 0.1*abs(lplot-uplot)
+ uuplot <- uplot + 0.1*abs(lplot-uplot)
   
 if(is.null(main))
  {if(alternative=="two.sided")
@@ -128,7 +131,7 @@ if(CIvert==TRUE)
         mymai[1] <- xwidth
  par(mai=mymai, new=TRUE)
 
-plot(x = num, y = esti, axes = FALSE, ylim = c(lplot, uplot), 
+plot(x = num, y = esti, axes = FALSE, ylim = c(llplot, uuplot)  , 
  type="p", pch=16, cex=CIcex,
  main=main,
  xlab="",
@@ -156,7 +159,7 @@ if(alternative=="less")
 {
  for(i in 1:length(num))
   {
-  lines(x = c(num[i],num[i]), y = c(lplot, upper[i]), lty = CIlty, lwd=CIlwd)
+  lines(x = c(num[i],num[i]), y = c(llplot, upper[i]), lty = CIlty, lwd=CIlwd)
   points(x = num[i], y = upper[i], pch="-", cex = CIcex*1.5)
   }
  }
@@ -166,12 +169,12 @@ if(alternative=="greater")
 {
  for(i in 1:length(num))
   {
-  lines(x = c(num[i],num[i]), y = c(lower[i], uplot), lty = CIlty, lwd=CIlwd)
+  lines(x = c(num[i],num[i]), y = c(lower[i], uuplot), lty = CIlty, lwd=CIlwd)
   points(x = num[i], y = lower[i], pch="--", cex = CIcex*1.5)
   }
  }
 
-abline(h=rho0, lty=2, lwd=1)
+abline(v=rho0, lty=rho0lty, lwd=rho0lwd, col=rho0col)
 
 }
 
@@ -198,7 +201,7 @@ if(CIvert==FALSE)
         mymai[2] <- ywidth
  par(mai=mymai, new=TRUE)
 
-plot(y = num, x = esti, axes = FALSE, xlim = c(lplot, uplot), 
+plot(y = num, x = esti, axes = FALSE, xlim = c(llplot, uuplot), 
  type="p", pch=16, cex=CIcex,
  main=main,
  xlab=xlab,
@@ -226,7 +229,7 @@ if(alternative=="less")
 {
  for(i in 1:length(num))
   {
-  lines(y = c(num[i],num[i]), x = c(lplot, upper[i]), lty = CIlty, lwd=CIlwd)
+  lines(y = c(num[i],num[i]), x = c(llplot, upper[i]), lty = CIlty, lwd=CIlwd)
   points(y = num[i], x = upper[i], pch="|", cex = CIcex*1.5)
   }
  }
@@ -236,12 +239,12 @@ if(alternative=="greater")
 {
  for(i in 1:length(num))
   {
-  lines(y = c(num[i],num[i]), x = c(lower[i], uplot), lty = CIlty, lwd=CIlwd)
+  lines(y = c(num[i],num[i]), x = c(lower[i], uuplot), lty = CIlty, lwd=CIlwd)
   points(y = num[i], x = lower[i], pch="|", cex = CIcex*1.5)
   }
  }
 
-abline(v=rho0, lty=2, lwd=1)
+abline(v=rho0, lty=rho0lty, lwd=rho0lwd, col=rho0col)
 
 }
 
