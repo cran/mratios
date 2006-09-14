@@ -13,10 +13,10 @@ function (m, rho, Power, CV0, rho.star, alpha, Min.power = TRUE)
           n.balance <- ((Equi.coord1 + Z1.beta)^2) * ((1 + rho^2)/((rho.star - 
              rho)^2)) * (CV0^2)
           n.balance <- ceiling(n.balance)
-          cat("                                      ", "\n")
-          cat("     Number of observations per treatment = ", n.balance, 
+          cat(" ", "\n")
+          cat(" Number of observations per treatment = ", n.balance, 
               "\n")
-          cat("             Total number of observations = ", (m + 
+          cat("         Total number of observations = ", (m + 
               1) * n.balance, "\n")
           cat("                                      ", "\n")
       }
@@ -26,10 +26,10 @@ function (m, rho, Power, CV0, rho.star, alpha, Min.power = TRUE)
           n.balance <- ((Equi.coord1 + Equi.coord2)^2) * ((1 + 
               rho^2)/((rho.star - rho)^2)) * (CV0^2)
           n.balance <- ceiling(n.balance)
-          cat("                                      ", "\n")
-          cat("     Number of observations per treatment = ", n.balance, 
+          cat(" ", "\n")
+          cat(" Number of observations per treatment = ", n.balance, 
               "\n")
-          cat("             Total number of observations = ", (m + 
+          cat("         Total number of observations = ", (m + 
               1) * n.balance, "\n")
           cat("                                      ", "\n")
       }
@@ -41,10 +41,10 @@ function (m, rho, Power, CV0, rho.star, alpha, Min.power = TRUE)
       n.balance <- ((Z1.alpha + Z1.beta)^2) * ((1 + rho^2)/((rho.star - 
              rho)^2)) * (CV0^2)
       n.balance <- ceiling(n.balance)
-      cat("                                      ", "\n")
-      cat("     Number of observations per treatment = ", n.balance, 
+      cat(" ", "\n")
+      cat(" Number of observations per treatment = ", n.balance, 
               "\n")
-      cat("             Total number of observations = ", (m + 
+      cat("         Total number of observations = ", (m + 
               1) * n.balance, "\n")
       cat("                                      ", "\n")
       }

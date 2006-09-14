@@ -125,6 +125,7 @@ function(x, y, alternative="two.sided", rho=1, var.equal=FALSE, conf.level=0.95,
  names(degf)<-"df"
  names(rho)<-"ratio of means" 
  data.name<-paste(namex,namey, sep=" and ")
+ attr(conf.int,"conf.level")<-conf.level
  
  if(any(conf.int=="NSD"))
   {cat("Mean of denominator group is not significantly different from zero","\n")}

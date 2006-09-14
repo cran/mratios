@@ -7,14 +7,18 @@ function(n, type="Tukey", base=1)
 type<-match.arg(arg=type, choices=c("Dunnett", "Tukey", "Sequen","AVE", "Changepoint", "Marcus", "McDermott", "Williams"))
 
 if (length(n) < 2) 
-        stop("less than 2 groups")
+ {stop("less than 2 groups")}
 
+if(!is.numeric(n))
+ {stop("n must be a numeric vector")}
+  
 if (any(n < 2)) 
-        stop("less than 2 observations in at least one group")
+ {stop("less than 2 observations in at least one group")}
 
 k <- length(n)
-    if (base < 1 || base > k) 
-        stop("base is not between 1 and ", k)
+
+if (base < 1 || base > k) 
+ {stop("base is not between 1 and ", k)}
 
 # define values 
 
