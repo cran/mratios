@@ -90,3 +90,5 @@ t.test(ASAT~group, data=ASAT, alternative="less",
 
 }
 \keyword{ htest }
+\concept{ratio}
+\concept{heteroscedasticity}

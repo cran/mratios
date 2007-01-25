@@ -20,5 +20,4 @@ A print out, containing the margins, estimates, teststatistics, and p.values com
 
 \author{ Frank Schaarschmidt }
 
-\keyword{ htest }
-
+\keyword{ print }

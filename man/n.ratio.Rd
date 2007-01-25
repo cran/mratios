@@ -69,8 +69,5 @@ The sample sizes are computed at the least favourable configurations, based on t
 
 }
 \keyword{ htest }
-
-
-
-
-
+\concept{sample size}
+\concept{power}

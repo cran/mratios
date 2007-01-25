@@ -22,7 +22,7 @@ A print out, containing the numerator and denominator contrast matrices, the cor
 
 \author{ Frank Schaarschmidt }
 
-\keyword{ htest }
+\keyword{ print }
 
 
 

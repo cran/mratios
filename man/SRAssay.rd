@@ -31,6 +31,8 @@ library(mratios)
 
 data(SRAssay)
 
+str(SRAssay)
+
 plot(Response~Dose, data=SRAssay)
 
 # library(lattice)
@@ -40,3 +42,4 @@ plot(Response~Dose, data=SRAssay)
 
 }
 \keyword{datasets}
+\concept{slope ratio assay}

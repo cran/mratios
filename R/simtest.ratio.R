@@ -111,6 +111,8 @@ colnames(out$Den.Contrast)<-varnames
  names(out$estimate)<-compnames
  names(out$teststat)<-compnames
 
+out$methodname<-"Tests for ratios of means assuming homogeneous variances \n"
+
 class(out) <- "simtest.ratio"
 
 return(out)

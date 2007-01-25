@@ -13,6 +13,17 @@ d.freedom <- sum(n.Treat-1)
 Var.pooled <- sum(var.Treat*(n.Treat - 1))/d.freedom
 
 
+if(!is.numeric(FWER) | length(FWER)!=1 | FWER<=0 | FWER>=0.5)
+ {stop("Argument 'FWER' must be a single numeric value between 0 and 0.5")}
+
+if(any( sqrt(var.Treat) < 10 * .Machine$double.eps * abs(ybar.Treat))) 
+ {warning("Data are essentially constant in a least one group")}
+
+if(any( sqrt(n.Treat) < 2 )) 
+ {warning("There are less than 2 observations in a least one group")}
+
+
+
 MM <- diag(1/n.Treat)    #  Diagonal matrix containing reciprocals of the ni's
 
 ncomp <- nrow (CMat)    # Number of comparisons 

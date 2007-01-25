@@ -20,14 +20,16 @@
 
 }
 \source{
- Adler, ID, and Kliesch, U (1990): Comparison of single and multiple treatment regiments in the mouse bone marrow micronucleus assay for hydroquinone and cyclophosphamide. Mutation Research 234, 115-123.
+ \emph{Adler, ID, and Kliesch, U (1990):} Comparison of single and multiple treatment regiments in the mouse bone marrow micronucleus assay for hydroquinone and cyclophosphamide. \emph{Mutation Research 234, 115-123.}
 }
 \references{
-Hauschke, D, Slacik-Erben, R, Hansen, S, Kaufmann,R (2005): Biostatistical Assessment of mutagenicity studies by including the positive control. Biometrical Journal 47, 82-87.
+\emph{Hauschke, D, Slacik-Erben, R, Hansen, S, Kaufmann,R (2005):} Biostatistical Assessment of mutagenicity studies by including the positive control. \emph{Biometrical Journal 47, 82-87.}
 }
 \examples{
 
 data(Mutagenicity)
+
+str(Mutagenicity)
 
 boxplot(MN~Treatment, data=Mutagenicity)
 

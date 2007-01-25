@@ -141,3 +141,5 @@ plot(BWnoninf, rho0=0.9)
 }
 
 \keyword{ htest }
+\concept{simultaneous confidence intervals}
+\concept{ratio}

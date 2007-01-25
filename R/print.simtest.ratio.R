@@ -1,6 +1,9 @@
 "print.simtest.ratio" <-
 function(x,digits=4,...)
 {
+
+cat(x$methodname)
+
 if(x$alternative=="two.sided")
  {cat("Alternative hypotheses: Ratios different from margins", "\n")}
 if(x$alternative!="two.sided")

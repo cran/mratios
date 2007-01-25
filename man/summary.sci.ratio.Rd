@@ -23,5 +23,5 @@ A more detailed print output of the results and some computational steps used in
 \seealso{ print.sci.ratio, plot.sci.ratio }
 \examples{
 }
-\keyword{ htest }
+\keyword{ print }
 

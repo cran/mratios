@@ -175,4 +175,7 @@ summary(sci.ratio.gen(Y=Response, X=X, Num.Contrast, Den.Contrast))
 
 }
 \keyword{ htest }
+\concept{simultaneous confidence intervals}
+\concept{general linear model}
+
 

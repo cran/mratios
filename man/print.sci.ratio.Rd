@@ -22,5 +22,4 @@
 \author{ Frank Schaarschmidt }
 \seealso{ \code{\link{plot.sci.ratio}}, \code{\link{summary.sci.ratio}} }
 
-\keyword{ htest }
-
+\keyword{ print }

@@ -104,6 +104,17 @@ if(type=="User defined")
 {
  rownames(out$estimate)<-compnames
 }
+
+if(method=="Unadj")
+{
+methodname<-paste("Local", round(conf.level*100,2), "-% simultaneous confidence intervals", sep="")
+}
+else{
+methodname<-paste("Simultaneous", round(conf.level*100,2), "-% simultaneous confidence intervals", sep="")
+}
+
+out$methodname<-methodname
+
 class(out) <- "sci.ratio"
 
 return(out)

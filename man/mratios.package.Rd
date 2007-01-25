@@ -18,7 +18,7 @@ mratios
 
 \author{
 
-Gemechis Dilba, Frank Schaarschmidt
+Gemechis Dilba, Mario Hasler, Frank Schaarschmidt
 
 Maintainer: Frank Schaarschmidt <schaarschmidt@biostat.uni-hannover.de>
 

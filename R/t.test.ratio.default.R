@@ -3,12 +3,36 @@ function(x, y, alternative="two.sided", rho=1, var.equal=FALSE, conf.level=0.95,
 
 { 
  addargs<-list(...)
+
+alternative <- match.arg(alternative, choices=c("two.sided","less","greater"))
  
+if(!is.numeric(rho) | length(rho)!=1)
+ {stop("Argument 'rho' must be a single numeric value")}
+
+if(!is.logical(var.equal) | length(var.equal)!=1)
+ {stop("Argument'var.equal' must be either TRUE or FALSE")}
+
+if(!is.numeric(conf.level) | length(conf.level)!=1 | conf.level<=0.5 | conf.level>=1)
+ {stop("Argument 'conf.level' must be a single numeric value between 0.5 and 1")}
+
+if(!is.numeric(c(x,y)))
+ {stop("x, y, must be numeric vectors")}
+
+if(length(x)<2 |length(y)<2)
+ {stop("x and y must contain at least two observations each")}
+
  mx <- mean(x); my <- mean(y)
  nx <- length(x); ny <- length(y)
  vx <- var(x); vy <- var(y)
  est <- mx/my
  
+if (sqrt(vx) < 10 * .Machine$double.eps * abs(mx)) 
+ {stop("data in x are essentially constant")}
+
+if (sqrt(vy) < 10 * .Machine$double.eps * abs(my)) 
+ {stop("data in y are essentially constant")}
+
+
  if(is.null(addargs$namex) || is.null(addargs$namey))
   {
    namex="x"
@@ -54,8 +78,8 @@ function(x, y, alternative="two.sided", rho=1, var.equal=FALSE, conf.level=0.95,
  
   if(tA>=0)
    {
-    upper<-"NSD"
-    lower<-"NSD"
+    upper<-NA
+    lower<-NA
    }
   else
    {
@@ -96,8 +120,8 @@ function(x, y, alternative="two.sided", rho=1, var.equal=FALSE, conf.level=0.95,
   tC <- ((vx*quant^2)/nx ) - mx^2 
   if(tA>=0)
    {
-    upper<-"NSD"
-    lower<-"NSD"
+    upper<-NA
+    lower<-NA
    }
   else
    {
@@ -127,8 +151,8 @@ function(x, y, alternative="two.sided", rho=1, var.equal=FALSE, conf.level=0.95,
  data.name<-paste(namex,namey, sep=" and ")
  attr(conf.int,"conf.level")<-conf.level
  
- if(any(conf.int=="NSD"))
-  {cat("Mean of denominator group is not significantly different from zero","\n")}
+ if(any(is.na(conf.int)))
+  {warning("Mean of denominator group is not significantly different from zero","\n")}
   
  
  out<-list(

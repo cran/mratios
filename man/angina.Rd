@@ -1,10 +1,10 @@
 \name{angina}
 \alias{angina}
 \docType{data}
-\title{ The angina data set from 'multcomp' package }
+\title{ The angina data set }
 \description{
-  Dose response study of an angina drug; data set taken from 
-     Westfall et al. (1999, p. 164).
+Dose response study of a drug to treat Angina pectoris. Response variable was the duration of pain-free walking after treatment, relative to the values before treatment. Large values indicate positive effects on patients. 
+ Data set taken from Westfall et al. (1999), p. 164.
 }
 \usage{data(angina)}
 \format{
@@ -32,8 +32,10 @@ library(mratios)
 
 data(angina)
 
+str(angina)
+
 plot(response~dose, data=angina)
 
 }
 \keyword{datasets}
-
+\concept{dose response}

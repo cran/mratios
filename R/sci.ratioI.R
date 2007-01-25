@@ -11,6 +11,16 @@ n.Treat <- tapply(Response,Treatment,length)
 Mean.Treat <- tapply(Response,Treatment,mean)
 Var.Treat <- tapply(Response,Treatment,var)
 
+if(!is.numeric(conf.level) | length(conf.level)!=1 | conf.level<=0.5 | conf.level>=1)
+ {stop("Argument 'conf.level' must be a single numeric value between 0.5 and 1")}
+
+if(any( sqrt(Var.Treat) < 10 * .Machine$double.eps * abs(Mean.Treat))) 
+ {warning("Data are essentially constant in a least one group")}
+
+if(any( sqrt(n.Treat) < 2 )) 
+ {warning("There are less than 2 observations in a least one group")}
+
+
 degree.f <- sum(n.Treat-1) 
 
 Pooled.Var <- sum( (n.Treat - 1)*Var.Treat)/degree.f
@@ -38,60 +48,8 @@ CorrMat.plug <- matrix(rep(NA,n.comp*n.comp),nr=n.comp)
 Quad.root <- function(Aj, Bj, Cj){
         Discrimi <- Bj^2 - 4*Aj*Cj   
         if ((Aj > 0)&(Discrimi >= 0)) Limit.s <- (-Bj + plus.minus*sqrt(Discrimi))/(2*Aj)
-        else  Limit.s <- "NSD"
+        else  Limit.s <- NA
         return(Limit.s)}
-
-if (alternative=="two.sided"){ 
-    side <- 2
-    plus.minus <- c(-1,1)
-    
-
-      #
-      # UNADJUSTED
-      #
-    cpUAd <- qt(1- (1-conf.level)/(side), degree.f, lower.tail = TRUE)
-      #
-      # BONFERRONI
-      #
-    cpBon <- qt(1- (1-conf.level)/(side*n.comp), degree.f, lower.tail = TRUE)
-      #
-      #  MtI
-      #
-    cpMtI <- qmvt(conf.level, interval=c(0,10),df=degree.f,corr=diag(n.comp),delta=rep(0,n.comp), tail="both", abseps=1e-05)$quantile
-      #
-      #  Plug-in
-      #
-    Cplug <- qmvt(conf.level, interval=c(0,10),df=degree.f,corr=CorrMat.plug,delta=rep(0,n.comp), tail="both", abseps=1e-05)$quantile
-    
-   } # End of two-sided CI
-    
-if ((alternative=="less")|(alternative=="greater")){
-    side <- 1
-    if (alternative=="less") plus.minus <- 1
-    else plus.minus <- -1
-
-      #
-      # UNADJUSTED
-      #
-    cpUAd <- qt(1- (1-conf.level)/(side), degree.f, lower.tail = TRUE)
-      #
-      # BONFERRONI
-      #
-    cpBon <- qt(1- (1-conf.level)/(side*n.comp), degree.f, lower.tail = TRUE)
-      #
-      #  MtI
-      #
-    cpMtI <- qmvt(conf.level, interval=c(0,10),df=degree.f,corr=diag(n.comp),delta=rep(0,n.comp), 
-tail="lower.tail", abseps=1e-05)$quantile
-      #
-      #  Plug-in
-      #
-    Cplug <- qmvt(conf.level, interval=c(0,10),df=degree.f,corr=CorrMat.plug,delta=rep(0,n.comp), 
-tail="lower.tail", abseps=1e-05)$quantile
-   
-    } # End of one-sided CI    
-    
-# Confidence intervals
 
 switch(method,
 
@@ -100,6 +58,19 @@ switch(method,
 
 Unadj = 
 {
+if (alternative=="two.sided"){ 
+    side <- 2
+    plus.minus <- c(-1,1)
+    cpUAd <- qt(1- (1-conf.level)/(side), degree.f, lower.tail = TRUE)
+   }
+    
+if ((alternative=="less")|(alternative=="greater")){
+    side <- 1
+    if (alternative=="less") plus.minus <- 1
+    else plus.minus <- -1
+    cpUAd <- qt(1- (1-conf.level)/(side), degree.f, lower.tail = TRUE)
+    }   
+
 UAdCL <- matrix(rep(NA,side*n.comp),nr=n.comp)
 for(j in 1:n.comp)
  {
@@ -118,6 +89,28 @@ sci.table <- data.frame( UAdCL)
 
 Bonf = 
 {
+
+
+
+if (alternative=="two.sided"){ 
+    side <- 2
+    plus.minus <- c(-1,1)
+   
+    cpBon <- qt(1- (1-conf.level)/(side*n.comp), degree.f, lower.tail = TRUE)
+
+   } # End of two-sided CI
+    
+if ((alternative=="less")|(alternative=="greater")){
+    side <- 1
+    if (alternative=="less") plus.minus <- 1
+    else plus.minus <- -1
+
+    cpBon <- qt(1- (1-conf.level)/(side*n.comp), degree.f, lower.tail = TRUE)
+
+    } # End of one-sided CI    
+    
+
+
 BonCL <- matrix(rep(NA,side*n.comp),nr=n.comp)
 for(j in 1:n.comp)
  {
@@ -136,6 +129,27 @@ sci.table <- data.frame(BonCL)
 
 MtI = 
 {
+
+if (alternative=="two.sided"){ 
+    side <- 2
+    plus.minus <- c(-1,1)
+    
+    cpMtI <- qmvt(conf.level, interval=c(0,4),df=degree.f,corr=diag(n.comp),delta=rep(0,n.comp), tail="both", abseps=1e-05)$quantile
+
+   } # End of two-sided CI
+    
+if ((alternative=="less")|(alternative=="greater")){
+    side <- 1
+    if (alternative=="less") plus.minus <- 1
+    else plus.minus <- -1
+
+    cpMtI <- qmvt(conf.level, interval=c(0,4),df=degree.f,corr=diag(n.comp),delta=rep(0,n.comp), 
+tail="lower.tail", abseps=1e-05)$quantile
+
+    } # End of one-sided CI    
+    
+
+
 MtICL <- matrix(rep(NA,side*n.comp),nr=n.comp)
 
 for(j in 1:n.comp)
@@ -157,6 +171,28 @@ sci.table <- data.frame(MtICL)
 
 Plug = 
 {
+
+
+if (alternative=="two.sided"){ 
+    side <- 2
+    plus.minus <- c(-1,1)
+    
+    Cplug <- qmvt(conf.level, interval=c(0,4),df=degree.f,corr=CorrMat.plug,delta=rep(0,n.comp), tail="both", abseps=1e-05)$quantile
+    
+   } # End of two-sided CI
+    
+if ((alternative=="less")|(alternative=="greater")){
+    side <- 1
+    if (alternative=="less") plus.minus <- 1
+    else plus.minus <- -1
+
+    Cplug <- qmvt(conf.level, interval=c(0,4),df=degree.f,corr=CorrMat.plug,delta=rep(0,n.comp), 
+tail="lower.tail", abseps=1e-05)$quantile
+   
+    } # End of one-sided CI    
+    
+
+
  PlugCL <- matrix(rep(NA,side*n.comp),nr=n.comp)
 
 for(j in 1:n.comp)
@@ -196,7 +232,7 @@ if( any(CorrMat.plug<0) && method=="MtI" && alternative!="two.sided")
   "therefore, according to Slepian inequality, the MtI method might yield incorrect estimates.","\n")
  }
 
-if (sum(sci.table=="NSD")>0){NSD <- TRUE}
+if (any(is.na(sci.table))){NSD <- TRUE}
  else{NSD <- FALSE}
 
 list(

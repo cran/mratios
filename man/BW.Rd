@@ -24,6 +24,9 @@
 library(mratios)
 
 data(BW)
+
+str(BW)
+
 boxplot(Weight~Dose, data=BW)
 
 

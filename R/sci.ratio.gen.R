@@ -75,63 +75,31 @@ Quad.root <- function(Aj, Bj, Cj){
         return(Limit.s)}
 
 
+switch(method,
+
+# UNADJUSTED CI
+
+Unadj={
 
 if (alternative=="two.sided"){ 
     side <- 2
     plus.minus <- c(-1,1)
-    
-
-      #
-      # UNADJUSTED
-      #
+ 
     cpUAd <- qt(1- (1-conf.level)/(side), Degree.f, lower.tail = TRUE)
-      #
-      # BONFERRONI
-      #
-    cpBon <- qt(1- (1-conf.level)/(side*n.comp), Degree.f, lower.tail = TRUE)
-      #
-      #  MtI
-      #
-    cpMtI <- qmvt(conf.level, interval=c(0,10),df=Degree.f,corr=diag(n.comp),delta=rep(0,n.comp), tail="both", abseps=1e-05)$quantile
-      #
-      #  Plug-in
-      #
-    Cplug <- qmvt(conf.level, interval=c(0,10),df=Degree.f,corr=CorrMat.plug,delta=rep(0,n.comp), tail="both", abseps=1e-05)$quantile
-    
+ 
    } # End of two-sided CI
     
 if ((alternative=="less")|(alternative=="greater")){
     side <- 1
     if (alternative=="less") plus.minus <- 1
     else plus.minus <- -1
-
-      #
-      # UNADJUSTED
-      #
     cpUAd <- qt(1- (1-conf.level)/(side), Degree.f, lower.tail = TRUE)
-      #
-      # BONFERRONI
-      #
-    cpBon <- qt(1- (1-conf.level)/(side*n.comp), Degree.f, lower.tail = TRUE)
-      #
-      #  MtI
-      #
-    cpMtI <- qmvt(conf.level, interval=c(0,10),df=Degree.f,corr=diag(n.comp),delta=rep(0,n.comp), 
-tail="lower.tail", abseps=1e-05)$quantile
-      #
-      #  Plug-in
-      #
-    Cplug <- qmvt(conf.level, interval=c(0,10),df=Degree.f,corr=CorrMat.plug,delta=rep(0,n.comp), 
-tail="lower.tail", abseps=1e-05)$quantile
    
     } # End of one-sided CI    
     
 
-switch(method,
 
-# UNADJUSTED CI
 
-Unadj={
 UAdCL <- matrix(rep(NA,side*n.comp),nrow=n.comp)
 for(j in 1:n.comp)
  {
@@ -146,6 +114,28 @@ sci.table <- data.frame(UAdCL)
 # BONFERRONI-ADJUSTED CI
 
 Bonf={
+
+
+
+if (alternative=="two.sided"){ 
+    side <- 2
+    plus.minus <- c(-1,1)
+
+    cpBon <- qt(1- (1-conf.level)/(side*n.comp), Degree.f, lower.tail = TRUE)
+
+   } # End of two-sided CI
+    
+if ((alternative=="less")|(alternative=="greater")){
+    side <- 1
+    if (alternative=="less") plus.minus <- 1
+    else plus.minus <- -1
+
+    cpBon <- qt(1- (1-conf.level)/(side*n.comp), Degree.f, lower.tail = TRUE)
+
+    } # End of one-sided CI    
+    
+
+
 BonCL <- matrix(rep(NA,side*n.comp),nrow=n.comp)
 for(j in 1:n.comp)
  {
@@ -160,6 +150,27 @@ sci.table <- data.frame(BonCL)
 # MtI-ADJUSTED CI (SIDAK, resp SLEPIAN)
 
 MtI={
+
+if (alternative=="two.sided"){ 
+    side <- 2
+    plus.minus <- c(-1,1)
+
+    cpMtI <- qmvt(conf.level, interval=c(0,10),df=Degree.f,corr=diag(n.comp),delta=rep(0,n.comp), tail="both", abseps=1e-05)$quantile
+
+   } # End of two-sided CI
+    
+if ((alternative=="less")|(alternative=="greater")){
+    side <- 1
+    if (alternative=="less") plus.minus <- 1
+    else plus.minus <- -1
+
+    cpMtI <- qmvt(conf.level, interval=c(0,10),df=Degree.f,corr=diag(n.comp),delta=rep(0,n.comp), 
+tail="lower.tail", abseps=1e-05)$quantile
+
+    } # End of one-sided CI    
+    
+
+
 MtICL <- matrix(rep(NA,side*n.comp),nrow=n.comp)
 for(j in 1:n.comp) {   
                   AjMtI <- (DMat[j,]%*%Beta.Coeff)^2 - (cpMtI^2)*Pooled.Var*DMat[j,]%*%M%*%DMat[j,]
@@ -173,6 +184,27 @@ sci.table <- data.frame(MtICL)
 # PLUG-IN-CI
 
 Plug={
+
+
+if (alternative=="two.sided"){ 
+    side <- 2
+    plus.minus <- c(-1,1)
+ 
+    Cplug <- qmvt(conf.level, interval=c(0,10),df=Degree.f,corr=CorrMat.plug,delta=rep(0,n.comp), tail="both", abseps=1e-05)$quantile
+    
+   } # End of two-sided CI
+    
+if ((alternative=="less")|(alternative=="greater")){
+    side <- 1
+    if (alternative=="less") plus.minus <- 1
+    else plus.minus <- -1
+
+    Cplug <- qmvt(conf.level, interval=c(0,10),df=Degree.f,corr=CorrMat.plug,delta=rep(0,n.comp), 
+tail="lower.tail", abseps=1e-05)$quantile
+   
+    } # End of one-sided CI    
+   
+
 PlugCL <- matrix(rep(NA,side*n.comp),nrow=n.comp) 
 for(j in 1:n.comp) { 
                   AjPlug <- (DMat[j,]%*%Beta.Coeff)^2 - (Cplug^2)*Pooled.Var*DMat[j,]%*%M%*%DMat[j,]
@@ -216,6 +248,16 @@ if (sum(sci.table=="NSD")>0){NSD <- TRUE}
  rownames(sci.table)<-compnames
  rownames(gammaC.vec)<-compnames
 
+
+if(method=="Unadj")
+{
+methodname<-paste("Local", round(conf.level*100,2), "-% simultaneous confidence intervals", sep="")
+}
+else{
+methodname<-paste("Simultaneous", round(conf.level*100,2), "-% simultaneous confidence intervals", sep="")
+}
+
+
 out<-list(
 estimate=gammaC.vec,
 CorrMat.est=CorrMat.plug,
@@ -225,6 +267,7 @@ conf.int=sci.table,
 compnames=compnames,
 NSD=NSD,
 method=method,
+methodname=methodname,
 alternative=alternative,
 conf.level=conf.level,
 type="User defined",

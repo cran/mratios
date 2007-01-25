@@ -190,6 +190,7 @@ CGM
 summary(CGM)
 
 }
+
 \keyword{ htest }
-
-
+\concept{ratio}
+\concept{multiple testing}

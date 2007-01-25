@@ -72,3 +72,4 @@ contrMatRatio(n=n, type="UmbrellaWilliams")
 }
 
 \keyword{htest}
+\concept{contrast}

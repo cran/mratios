@@ -24,6 +24,9 @@ Bauer, P., Roehmel, J., Maurer, W., and Hothorn, L. (1998): Testing strategies i
 library(mratios)
 
 data(AP)
+
+str(AP)
+
 boxplot(pre_post ~ treatment, data=AP)
 by(AP,AP$treatment, function(x){mean(x$pre_post)})
 by(AP,AP$treatment, function(x){sd(x$pre_post)})
