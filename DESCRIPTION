@@ -1,8 +1,8 @@
 Package: mratios
 Type: Package
 Title: Inferences for ratios of coefficients in the general linear model
-Version: 1.3.2
-Date: 2007-01-25
+Version: 1.3.3
+Date: 2007-01-29
 Author: Gemechis Dilba, Mario Hasler, Frank Schaarschmidt
 Maintainer: Frank Schaarschmidt <schaarschmidt@biostat.uni-hannover.de>
 Depends: R (>= 2.2.0), mvtnorm
@@ -14,4 +14,4 @@ Description:  With this package, it is possible to perform (simultaneous) infere
  with a control based on relative margins. For the simple two-sample problem, functions for a t-test for ratio-formatted
  hypotheses and the corresponding Fieller confidence interval are provided assuming homogeneous or heterogeneous group variances.
 License: GPL
-Packaged: Fri Jan 25 14:14:16 2008; manager
+Packaged: Tue Jan 29 09:22:10 2008; manager

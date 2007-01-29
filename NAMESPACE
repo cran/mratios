@@ -3,7 +3,7 @@ export(contrMatRatio, n.ratio,
  simtest.ratio, simtest.ratioVH,
  t.test.ratio, t.test.ratio.formula, t.test.ratio.default)
 
-import(graphics, mvtnorm, multcomp)
+import(graphics, mvtnorm)
 
 S3method(plot, sci.ratio)
 
