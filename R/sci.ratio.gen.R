@@ -12,15 +12,15 @@ if(all(c("two.sided", "less", "greater")!=alternative))
 if(nrow(Num.Contrast)!=nrow(Den.Contrast))
  {stop("Num.Contrast and Den.Contrast must have same number of rows")}
 
-NCrowsum<-apply(Num.Contrast, MARGIN=1, FUN=sum)
-DCrowsum<-apply(Den.Contrast, MARGIN=1, FUN=sum)
-if( !all( NCrowsum == DCrowsum ) )
- { cat("Warning: Check whether denominator and numerator contrast matrices are appropriately defined!", "\n") }
+#NCrowsum<-apply(Num.Contrast, MARGIN=1, FUN=sum)
+#DCrowsum<-apply(Den.Contrast, MARGIN=1, FUN=sum)
+#if( !all( NCrowsum == DCrowsum ) )
+# { cat("Warning: Check whether denominator and numerator contrast matrices are appropriately defined!", "\n") }
 
 NC0<-apply(X=Num.Contrast, MARGIN=1, function(x){all(x==0)})
 DC0<-apply(X=Den.Contrast, MARGIN=1, function(x){all(x==0)})
 if(any(c(NC0,DC0)))
- {cat("Warning: At least one row of the numerator or denominator contrasts matrices is a vector with all components equal to zero","\n")}
+ {cat("Warning: At least one row of the numerator or denominator contrast matrices is a vector with all components equal to zero","\n")}
 
 CMat <- Num.Contrast
 DMat <- Den.Contrast
@@ -92,11 +92,11 @@ if (alternative=="two.sided"){
       #
       #  MtI
       #
-    cpMtI <- qmvt(conf.level, interval=c(0,4),df=Degree.f,corr=diag(n.comp),delta=rep(0,n.comp), tail="both", abseps=1e-05)$quantile
+    cpMtI <- qmvt(conf.level, interval=c(0,10),df=Degree.f,corr=diag(n.comp),delta=rep(0,n.comp), tail="both", abseps=1e-05)$quantile
       #
       #  Plug-in
       #
-    Cplug <- qmvt(conf.level, interval=c(0,4),df=Degree.f,corr=CorrMat.plug,delta=rep(0,n.comp), tail="both", abseps=1e-05)$quantile
+    Cplug <- qmvt(conf.level, interval=c(0,10),df=Degree.f,corr=CorrMat.plug,delta=rep(0,n.comp), tail="both", abseps=1e-05)$quantile
     
    } # End of two-sided CI
     
@@ -116,12 +116,12 @@ if ((alternative=="less")|(alternative=="greater")){
       #
       #  MtI
       #
-    cpMtI <- qmvt(conf.level, interval=c(0,4),df=Degree.f,corr=diag(n.comp),delta=rep(0,n.comp), 
+    cpMtI <- qmvt(conf.level, interval=c(0,10),df=Degree.f,corr=diag(n.comp),delta=rep(0,n.comp), 
 tail="lower.tail", abseps=1e-05)$quantile
       #
       #  Plug-in
       #
-    Cplug <- qmvt(conf.level, interval=c(0,4),df=Degree.f,corr=CorrMat.plug,delta=rep(0,n.comp), 
+    Cplug <- qmvt(conf.level, interval=c(0,10),df=Degree.f,corr=CorrMat.plug,delta=rep(0,n.comp), 
 tail="lower.tail", abseps=1e-05)$quantile
    
     } # End of one-sided CI    

@@ -77,15 +77,13 @@ their argument names, they will not be recognized.
 }
 \value{
   An object of class "sci.ratio", containing a list with elements:
-  \item{estimate }{ the point estimates of the ratios}
-  \item{CorrMat.est }{the estimated correlation matrix}
+  \item{estimate }{point estimates of the ratios}
+  \item{CorrMat.est }{estimate of the correlation matrix (for the plug-in approach)}
   \item{Num.Contrast }{matrix of contrasts used for the numerator of ratios}
   \item{Den.Contrast }{matrix of contrasts used for the denominator of ratios}
-  \item{conf.int }{the estimated confidence intervals}
-  \item{NSD }{a logical, TRUE if any of the denomiantors was not significantly different from zero, FALSE otherwise}
-  \item{and ...}
-Simple print and summary functions for sci.ratio objects are available.   
+  \item{conf.int }{confidence interval estimates of the ratios}
 
+And some further elements to be passed to print and summary functions.
 }
 \references{ 
  Dilba, G., Bretz, F., and Guiard, V. (2006): Simultaneous confidence sets and confidence intervals for multiple ratios. Journal of Statistical Planning and Inference 136, 2640-2658.

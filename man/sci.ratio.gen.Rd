@@ -50,18 +50,15 @@ in an appropriate way.
 \value{
   A list containing 
   
-  \item{estimate }{ the point estimates of the contrasts}
-  \item{CorrMat.est }{the estimated correlation matrix}
-  \item{Num.Contrast }{matrix of contrasts used for the numerator of ratios}
-  \item{Den.Contrast }{matrix of contrasts used for the denominator of ratios}
-  \item{conf.int }{the estimated confidence intervals}
-  \item{NSD }{a logical indicating whether any denominator occured, which were not significantly difference from 0}
-  \item{Y }{the input vector of response }
-  \item{X }{the input design matrix}
+  \item{estimate}{point estimates for the ratios}
+  \item{CorrMat.est}{estimates of the correlation matrix (for the plug-in approach)}
+  \item{Num.Contrast}{matrix of contrasts used for the numerator of ratios}
+  \item{Den.Contrast}{matrix of contrasts used for the denominator of ratios}
+  \item{conf.int}{confidence interval estimates of the ratios}
+  \item{Y }{response vector }
+  \item{X }{design matrix}
   \item{fit }{ the model fit, an object of class "lm"}
-and some of the input arguments.
-
-Simple print and summary functions for sci.ratio objects are available.   
+and some further input arguments, to be passed to print and summary functions.   
 
 }
 \references{

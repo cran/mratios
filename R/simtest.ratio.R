@@ -50,15 +50,15 @@ if(is.null(Num.Contrast)==FALSE || is.null(Num.Contrast)==FALSE)
     # and the ratio sum(num)/sum(den) is not 1 
 
 
-    NCrowsum<-apply(Num.Contrast, MARGIN=1, FUN=sum)
-    DCrowsum<-apply(Den.Contrast, MARGIN=1, FUN=sum)
-    if( !all( NCrowsum == DCrowsum ) )
-     { cat("Warning: Check whether denominator and numerator contrast matrices are appropriately defined!", "\n") }
+   # NCrowsum<-apply(Num.Contrast, MARGIN=1, FUN=sum)
+   # DCrowsum<-apply(Den.Contrast, MARGIN=1, FUN=sum)
+   # if( !all( NCrowsum == DCrowsum ) )
+   #  { cat("Warning: Check whether denominator and numerator contrast matrices are appropriately defined!", "\n") }
 
     NC0<-apply(X=Num.Contrast, MARGIN=1, function(x){all(x==0)})
     DC0<-apply(X=Den.Contrast, MARGIN=1, function(x){all(x==0)})
     if(any(c(NC0,DC0)))
-     {cat("Warning: At least one row of the numerator or denominator contrasts matrices is a vector with all components equal to zero","\n")}
+     {cat("Warning: At least one row of the numerator or denominator contrast matrices is a vector with all components equal to zero","\n")}
 
      Num.C <- Num.Contrast
      Den.C <- Den.Contrast

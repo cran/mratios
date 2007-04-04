@@ -174,7 +174,7 @@ if(alternative=="greater")
   }
  }
 
-abline(v=rho0, lty=rho0lty, lwd=rho0lwd, col=rho0col)
+abline(h=rho0, lty=rho0lty, lwd=rho0lwd, col=rho0col)
 
 }
 

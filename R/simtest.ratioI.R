@@ -48,16 +48,16 @@ for (i in 1:ncomp){
     } # end of for loop
 
 if (alternative=="two.sided"){ 
-    Critical.pt <- qmvt(1-FWER, interval=c(0,4), df=d.freedom,corr=CorrMat.H0, delta=rep(0,ncomp),tail="both", abseps=1e-05)$quantile
+    Critical.pt <- qmvt(1-FWER, interval=c(0,10), df=d.freedom,corr=CorrMat.H0, delta=rep(0,ncomp),tail="both", abseps=1e-05)$quantile
     P.raw  <-  2*pt(abs(Test.Stat),d.freedom,lower.tail=FALSE)
     }
     
 if (alternative=="greater"){
-     Critical.pt <- qmvt(1-FWER, interval=c(0,4), df=d.freedom,corr=CorrMat.H0, delta=rep(0,ncomp),tail="lower.tail", abseps=1e-05)$quantile
+     Critical.pt <- qmvt(1-FWER, interval=c(0,10), df=d.freedom,corr=CorrMat.H0, delta=rep(0,ncomp),tail="lower.tail", abseps=1e-05)$quantile
      P.raw  <-  pt(Test.Stat,d.freedom,lower.tail=FALSE)
       }
 if (alternative=="less"){
-     Critical.pt <-  qmvt(1-FWER, interval=c(0,4), df=d.freedom,corr=CorrMat.H0, delta=rep(0,ncomp),tail="lower.tail", abseps=1e-05)$quantile
+     Critical.pt <-  qmvt(1-FWER, interval=c(0,10), df=d.freedom,corr=CorrMat.H0, delta=rep(0,ncomp),tail="lower.tail", abseps=1e-05)$quantile
      P.raw  <-  pt(Test.Stat,d.freedom,lower.tail=TRUE)
       }
 

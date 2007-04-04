@@ -7,7 +7,7 @@ function (m, rho, Power, CV0, rho.star, alpha, Min.power = TRUE)
       correla <- (rho^2)/sqrt((rho^2 + 1) * (rho^2 + 1))
       R.matrix <- matrix(rep(correla, m * m), nrow = m)
       diag(R.matrix) <- rep(1, m)
-        Equi.coord1 <- qmvnorm(1 - alpha, c(0, 5), corr = R.matrix, 
+        Equi.coord1 <- qmvnorm(1 - alpha, c(0, 10), corr = R.matrix, 
         tail = "lower.tail", abseps=1e-05)$quantile
       if (Min.power) {
           n.balance <- ((Equi.coord1 + Z1.beta)^2) * ((1 + rho^2)/((rho.star - 
@@ -21,7 +21,7 @@ function (m, rho, Power, CV0, rho.star, alpha, Min.power = TRUE)
           cat("                                      ", "\n")
       }
       else {
-          Equi.coord2 <- qmvnorm(Power, c(0, 5), corr = R.matrix, 
+          Equi.coord2 <- qmvnorm(Power, c(0, 10), corr = R.matrix, 
               tail = "lower.tail", abseps=1e-05)$quantile
           n.balance <- ((Equi.coord1 + Equi.coord2)^2) * ((1 + 
               rho^2)/((rho.star - rho)^2)) * (CV0^2)
