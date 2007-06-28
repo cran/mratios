@@ -4,7 +4,7 @@ function(n, type="Tukey", base=1)
 
 # check:
 
-type<-match.arg(arg=type, choices=c("Dunnett", "Tukey", "Sequen","AVE", "Changepoint", "Marcus", "McDermott", "Williams"))
+type<-match.arg(arg=type, choices=c("Dunnett", "Tukey", "Sequen", "AVE", "GrandMean", "Changepoint", "Marcus", "McDermott", "Williams", "UmbrellaWilliams"))
 
 if (length(n) < 2) 
  {stop("less than 2 groups")}
@@ -85,6 +85,23 @@ if(type=="Williams")
   rnames <- c(rnames, paste("C", 1:nrow(numC), sep = ""))
 }  
 
+if(type=="UmbrellaWilliams")
+{
+denC <- matrix( c( rep(1,(k)*(k-1)/2 ), rep(0,(k)*((k-1)^2)/2)), ncol=k, byrow=FALSE )
+
+numC <- c()
+
+ for(j in 1:(k-1))
+   {
+    for(i in 1:(k - j))
+      {
+       helper <- c(0, rep(0, k - i - j),
+              n[((k - i + 1):k)-(j-1)]/sum(n[((k - i + 1):k)-(j-1)]), rep(0, j-1))
+       numC <- rbind(numC, helper)
+      }
+   }
+rnames <- paste("C", 1:nrow(numC), sep = "")
+}
 
 if(type=="Changepoint") 
  {
@@ -123,6 +140,14 @@ if(type=="AVE")
 
         rnames <- paste("C", 1:nrow(numC), sep = "")
 }
+
+if(type=="GrandMean")
+{
+ numC <- diag(1,nrow=k)
+ denC <- matrix(rep(n/sum(n), times=k), byrow=TRUE, ncol=k)
+ rnames <- paste(varnames, "Grand mean", sep="/")
+}
+
 
 if(type=="McDermott")
 {

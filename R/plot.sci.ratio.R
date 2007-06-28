@@ -20,10 +20,15 @@ if(is.null(sub))
   {sub <- paste("User defined contrasts")}
  else
   {
-   if(any(c("Marcus", "McDermott", "Williams", "AVE", "Changepoint")==x$type))
+   if(any(c("Marcus", "McDermott", "Williams")==x$type))
     {sub <- paste(x$type, "-like contrasts for ratios")}
    else
     {
+
+     if(method=="UmbrellaWilliams"){sub <- paste("Umbrella-protected Williams contrasts")}
+     if(method=="Changepoint"){sub <- paste("Changepoint contrasts")}
+     if(method=="GrandMean"){sub <- paste("Comparisons to grand mean")}
+     if(method=="AVE"){sub <- paste("Comparisons to average of others")}
      if(method=="Tukey"){sub <- paste("All pairwise comparisons")}
      if(method=="Dunnett"){sub <- paste("Many-to-one comparisons")}
      if(method=="Sequen"){sub <- paste("Sequence contrasts")}
@@ -45,7 +50,6 @@ if(x$method=="MtI")
   else
    {mI <- "(method: Slepian)"; mcp<-"simultaneous" }
  } 
-
 
 if(x$method=="Unadj")
  {mI <- ""; mcp<-"unadjusted"   }
@@ -179,11 +183,7 @@ abline(h=rho0, lty=rho0lty, lwd=rho0lwd, col=rho0col)
 }
 
 
-
-
-
 # horizontal CI:
-
 
 
 if(CIvert==FALSE)

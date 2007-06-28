@@ -40,12 +40,10 @@ t.test.ratio(x, ...)
 
 Kieser, M., Hauschke, D. (2000): Statistical methods for demonstrating equivalence in crossover trials based on the ratio of two location parameters. Drug Information Journal 34, 563-568.
 
-
 Tamhane, A.C., Logan, B.R. (2004): Finding the maximum safe dose level for heteroscedastic data. Journal of Biopharmaceutical Statistics 14, 843-856.
 
  }
 \author{ Frank Schaarschmidt }
-\seealso{  }
 \examples{
 
 library(mratios)
@@ -88,9 +86,6 @@ t.test.ratio(ASAT~group, data=ASAT, alternative="less",
 
 t.test(ASAT~group, data=ASAT, alternative="less",
  mu=0, var.equal=TRUE)
-
-
-
 
 
 }

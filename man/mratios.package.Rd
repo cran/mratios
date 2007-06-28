@@ -20,7 +20,7 @@ mratios
 
 Gemechis Dilba, Frank Schaarschmidt
 
-Maintainer: Gemechis Dilba <dilba@biostat.uni-hannover.de>
+Maintainer: Frank Schaarschmidt <schaarschmidt@biostat.uni-hannover.de>
 
 }
 \references{

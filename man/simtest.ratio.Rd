@@ -19,23 +19,25 @@ simtest.ratio(formula, data, type = "Dunnett", base = 1,
   \item{data}{  A dataframe containing the response and group variable }
   \item{type}{ type of contrast, with the following options:
   \itemize{
-    \item{"Dunnett":}{ many-to-one comparisons, with control in the denominator}
-    \item{"Tukey":}{ all-pair comparisons }
-    \item{"Sequen":}{ comparison of consecutive groups, where the group with lower order is the denomniator}
-    \item{"AVE":}{ comparison of each group with average of all others, where the average is taken as denominator}
-    \item{"Changepoint":}{ ratio of averages of groups of higher order divided by averages of groups of lower order }
-    \item{"Marcus":}{ Marcus contrasts as ratios }
-    \item{"McDermott":}{ McDermott contrasts as ratios }
-    \item{"Williams":}{ Williams contrasts as ratios }
+    \item \bold{"Dunnett":} many-to-one comparisons, with control in the denominator
+    \item \bold{"Tukey":} all-pair comparisons 
+    \item \bold{"Sequen":} comparison of consecutive groups, where the group with lower order is the denomniator
+    \item \bold{"AVE":} comparison of each group with average of all others, where the average is taken as denominator
+    \item \bold{"GrandMean":} comparison of each group with grand mean of all groups, where the grand mean is taken as denominator
+    \item \bold{"Changepoint":} ratio of averages of groups of higher order divided by averages of groups of lower order 
+    \item \bold{"Marcus":} Marcus contrasts as ratios 
+    \item \bold{"McDermott":} McDermott contrasts as ratios 
+    \item \bold{"Williams":} Williams contrasts as ratios 
+    \item \bold{"UmbrellaWilliams":} Umbrella-protected Williams contrasts as ratios
     }
  Note: type is ignored if Num.Contrast and Den.Contrast are specified by the user (See below).
 }
   \item{base}{ a single integer specifying the control (i.e. denominator) group for the Dunnett contrasts, ignored otherwise }
   \item{alternative}{ a character string:
     \itemize{
-    \item{"two.sided":}{ for two-sided tests }
-    \item{"less":}{ for lower tail tests }
-    \item{"greater":}{ for upper tail tests }
+    \item \bold{"two.sided":} for two-sided tests 
+    \item \bold{"less":} for lower tail tests 
+    \item \bold{"greater":} for upper tail tests 
 }}
   \item{Margin.vec}{ a single numerical value or vector of Margins under the null hypotheses, default is 1 }
   \item{FWER}{ a single numeric value specifying the family-wise error rate to be controlled }
@@ -102,12 +104,18 @@ Gemechis Dilba, Frank Schaarschmidt }
 
  \code{sci.ratio} for constructing simultaneous confidence intervals for ratios in oneway layout 
 
+ See \code{summary.glht(multcomp)} for multiple tests for parameters of \code{lm}, \code{glm}.
  }
 
 
 \examples{
 
 library(mratios)
+
+# # #
+
+# User-defined contrasts for comparisons
+# between Active control, Placebo and three dosage groups:
 
 data(AP)
 AP
@@ -142,6 +150,7 @@ noninf <- simtest.ratio(pre_post ~ treatment, data=AP,
 summary( noninf )
 
 
+# # #
 
 # Some more examples on standard multiple comparison procedures
 # stated in terms of ratio hypotheses:
@@ -168,6 +177,17 @@ allpairs <- simtest.ratio(pre_post ~ treatment, data=AP,
  type="Tukey")
 
 summary(allpairs)
+
+# # #
+
+# Comparison to grand mean of all strains
+# in the Penicillin example:
+
+data(Penicillin)
+
+CGM <- simtest.ratio(diameter~strain, data=Penicillin, type="GrandMean")
+CGM
+summary(CGM)
 
 }
 \keyword{ htest }

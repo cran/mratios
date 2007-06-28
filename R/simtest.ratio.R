@@ -78,7 +78,7 @@ else
 
 # Use Contrasts defined by contrMatRatio otherwise: 
 
-type <- match.arg(type, choices=c("Dunnett", "Tukey", "Sequen", "AVE", "Changepoint", "Marcus", "McDermott", "Williams") )
+type <- match.arg(type, choices=c("Dunnett", "Tukey", "Sequen", "AVE", "GrandMean", "Changepoint", "Marcus", "McDermott", "Williams", "UmbrellaWilliams") )
 if(names==TRUE)
  {names(ni)<-varnames}
 

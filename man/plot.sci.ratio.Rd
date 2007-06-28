@@ -36,7 +36,6 @@ A plot of the confidence intervals in the sci.ratio object.
 }
 \references{ plot.hmtest(multcomp) }
 \author{ Frank Schaarschmidt }
-\seealso{ plot.hmtest(multcomp) }
 \examples{
 
 library(mratios)

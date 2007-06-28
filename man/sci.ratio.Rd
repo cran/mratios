@@ -21,35 +21,43 @@ sci.ratio(formula, data, type = "Dunnett", base = 1,
   \item{data}{  A dataframe containing the response and group variable }
   \item{type}{ type of contrast, with the following options:
     \itemize{
-    \item{"Dunnett":}{ many-to-one comparisons, with the control group in the denominator}
-    \item{"Tukey":}{ all-pair comparisons }
-    \item{"Sequen":}{ comparison of consecutive groups, where the group with lower order is the denominator}
-    \item{"AVE":}{ comparison of each group with average of all others, where the average is taken as denominator}
-    \item{"Changepoint":}{ ratio of averages of groups of higher order divided by averages of groups of lower order }
-    \item{"Marcus":}{ Marcus contrasts as ratios }
-    \item{"McDermott":}{ McDermott contrasts as ratios }
-    \item{"Williams": }{Williams contrasts as ratios }
-    }
- Note: type is ignored, if Num.Contrast and Den.Contrast are specified by the user (See below).}
 
+    \item \bold{"Dunnett":} many-to-one comparisons, with the control group in the denominator
+
+    \item \bold{"Tukey":} all-pair comparisons 
+
+    \item \bold{"Sequen":} comparison of consecutive groups, where the group with lower order is the denominator
+ 
+    \item \bold{"AVE":} comparison of each group with average of all others, where the average is taken as denominator
+
+    \item \bold{"GrandMean":} comparison of each group with grand mean of all groups, where the grand mean is taken as denominator
+
+    \item \bold{"Changepoint":} ratio of averages of groups of higher order divided by averages of groups of lower order 
+
+    \item \bold{"Marcus":} Marcus contrasts as ratios 
+
+    \item \bold{"McDermott":} McDermott contrasts as ratios 
+
+    \item \bold{"Williams":} Williams contrasts as ratios 
+
+    \item \bold{"UmbrellaWilliams":} Umbrella-protected Williams contrasts as ratios
+
+    }
+ Note: \code{type} is ignored, if \code{Num.Contrast} and \code{Den.Contrast} are specified by the user (See below).
+}
   \item{base}{ a single integer specifying the control (i.e. denominator) group for the Dunnett contrasts, ignored otherwise }
   \item{method}{ 
     character string specifying the method to be used for confidence interval construction:
-    \itemize{
-    \item{"Plug":}{ Plug-in of ratio estimates to obtain the correlation matrix of contrasts (default)}
-    \item{"Bonf":}{ Simple Bonferroni-adjustment of Fieller confidence intervals for the ratios }
-    \item{"MtI":}{ Sidak- or Slepian- adjustment for two-sided and one-sided confidence intervals, respectively  }
-    \item{"Unadj":}{ Unadjusted Fieller confidence intervals for the ratios (i.e. with comparisonwise confidence level = conf.level) }}
+\itemize{
+    \item \bold{"Plug":} Plug-in of ratio estimates in the correlation matrix of the multivariate t distribution. This method is the default.
+    \item \bold{"Bonf":} Simple Bonferroni-adjustment of Fieller confidence intervals for the ratios 
+    \item \bold{"MtI":} Sidak or Slepian- adjustment for two-sided and one-sided confidence intervals, respectively  
+    \item \bold{"Unadj":} Unadjusted Fieller confidence intervals for the ratios (i.e. with comparisonwise confidence level = conf.level) 
     }
+  }
   \item{Num.Contrast}{ Numerator contrast matrix, where columns correspond to groups and rows correspond to contrasts  }
   \item{Den.Contrast}{ Denominator contrast matrix, where columns correspond to groups and rows correspond to contrasts }
-  \item{alternative}{ 
-    a character string
-    \itemize{
-    \item{"two.sided":}{ for two-sided intervals }
-    \item{"less":}{ for upper confidence limits }
-    \item{"greater":}{ for lower confidence limits }}
-    }
+  \item{alternative}{ a character string: "two.sided" for two-sided intervals, "less" for upper confidence limits, "greater" for lower confidence limits }
   \item{conf.level}{ simultaneous confidence level in case of method="Plug","Bonf", or "MtI", and comparisonwise confidence level in case of method="Unadj" }
   \item{names}{logical, indicating whether rownames of the contrast matrices shall be retained in the output}
 }
@@ -90,8 +98,8 @@ And some further elements to be passed to print and summary functions.
  }
 \author{ Gemechis Dilba, Frank Schaarschmidt }
 
-\seealso{ simint (multcomp) for simultaneous CI of differences of means,
-          plot.sci.ratio (mratios) for a plotting function of the intervals }
+\seealso{ \code{glht(multcomp)} for simultaneous CI of differences of means,
+          \code{\link{plot.sci.ratio}} for a plotting function of the intervals }
 
 \examples{
 
@@ -108,17 +116,11 @@ allpairs<-sci.ratio(diameter~strain, data=Penicillin, type="Tukey")
 plot(allpairs)
 summary(allpairs)
 
-# Many-to-one comparisons, taking strain 1 as a control:
+# Comparison to the grand mean of all strains:
 
-many21<-sci.ratio(diameter~strain, data=Penicillin, type="Dunnett")
-many21
-
-
-# Compare to the approach based on the difference of means:
-# library(multcomp)
-# summary(simint(diameter~strain, data=Penicillin, type="Tukey"))
- 
-
+CGM<-sci.ratio(diameter~strain, data=Penicillin, type="GrandMean")
+plot(CGM)
+summary(CGM)
 
 # # #
 
@@ -139,8 +141,3 @@ plot(BWnoninf, rho0=0.9)
 }
 
 \keyword{ htest }
-
-
-
-
-

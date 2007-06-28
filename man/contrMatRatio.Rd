@@ -16,14 +16,26 @@ contrMatRatio(n, type = "Tukey", base = 1)
   \item{n}{ integer vector of sample sizes }
   \item{type}{the type of multiple contrasts 
   \itemize{
-    \item{"Dunnett"}{ many to one comparisons, with the control group in the denominator}
-    \item{"Tukey"}{ all-pair comparisons }
-    \item{"Sequen"}{ comparison of consecutive groups, where the groups of lower order is the denominator }
-    \item{"AVE"}{ comparison of each group with average of all others, where the average is taken as denominator}
-    \item{"Changepoint"}{ ratio of averages of groups of higher order divided by averages of groups of lower order }
-    \item{"Marcus"}{ Marcus contrasts defined for ratios }
-    \item{"McDermott"}{ McDermott contrasts for ratios }
-    \item{"Williams"}{ Williams contrasts for ratios }
+    \item \bold{"Dunnett":} many to one comparisons, with the control group in the denominator
+
+    \item \bold{"Tukey":} all-pair comparisons 
+
+    \item \bold{"Sequen":} comparison of consecutive groups, where the groups of lower order is the denominator 
+
+    \item \bold{"AVE":} comparison of each group with average of all others, where the average is taken as denominator
+
+    \item \bold{"GrandMean":} comparison of each group with grand mean of all groups, where the grand mean is taken as denominator
+
+    \item \bold{"Changepoint":} ratio of averages of groups of higher order divided by averages of groups of lower order 
+
+    \item \bold{"Marcus":} Marcus contrasts defined for ratios 
+
+    \item \bold{"McDermott":} McDermott contrasts for ratios 
+
+    \item \bold{"Williams":} Williams contrasts for ratios 
+
+    \item \bold{"UmbrellaWilliams":} Umbrella-protected Williams contrasts for ratios, i.e.a sequence of Williams-type contrasts with groups of higher order stepwise omitted 
+
     }
 }
   \item{base}{a single integer specifying the control (i.e. denominator) group for "Dunnett"-type contrasts for calculating the ratios to the control }
@@ -40,7 +52,7 @@ contrMatRatio(n, type = "Tukey", base = 1)
 
 }
 
-\author{ Frank Schaarschmidt, by slightly modifying the code of contrMat(multcomp) }
+\author{ Frank Schaarschmidt and Daniel Gerhard by modifying the code of contrMat(multcomp) }
 \seealso{ contrMat(multcomp) }
 \examples{
 
@@ -54,7 +66,9 @@ contrMatRatio(n=n, type="Dunnett", base=3)
 contrMatRatio(n=n, type="Tukey")
 contrMatRatio(n=n, type="Sequen")
 contrMatRatio(n=n, type="AVE")
+contrMatRatio(n=n, type="GrandMean")
 contrMatRatio(n=n, type="Williams")
+contrMatRatio(n=n, type="UmbrellaWilliams")
 }
 
 \keyword{htest}

@@ -20,15 +20,7 @@
 }
 
 \author{ Frank Schaarschmidt }
-\seealso{ plot.sci.ratio, summary.sci.ratio }
-\examples{
+\seealso{ \code{\link{plot.sci.ratio}}, \code{\link{summary.sci.ratio}} }
 
-
-
-
-
-
-
-}
 \keyword{ htest }
 

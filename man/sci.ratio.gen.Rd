@@ -21,10 +21,11 @@ sci.ratio.gen(Y, X, Num.Contrast, Den.Contrast,
   \item{method}{ 
     character string, specifying the method for confidence interval calculation:
   \itemize{
-    \item{"Plug":}{ Plug-in of ratio estimates in the correlation matrix of the multivariate t distribution. This method is the default.}
-    \item{"Bonf":}{ Simple Bonferroni-adjustment of Fieller confidence intervals for the ratios }
-    \item{"MtI":}{ Sidak or Slepian- adjustment for two-sided and one-sided confidence intervals, respectively  }
-    \item{"Unadj":}{ Unadjusted Fieller confidence intervals for the ratios (i.e. with comparisonwise confidence level = conf.level) }}
+    \item \bold{"Plug":} Plug-in of ratio estimates in the correlation matrix of the multivariate t distribution. This method is the default.
+    \item \bold{"Bonf":} Simple Bonferroni-adjustment of Fieller confidence intervals for the ratios 
+    \item \bold{"MtI":} Sidak or Slepian- adjustment for two-sided and one-sided confidence intervals, respectively  
+    \item \bold{"Unadj":} Unadjusted Fieller confidence intervals for the ratios (i.e. with comparisonwise confidence level = conf.level) 
+    }
   }
 }
 \details{
@@ -69,7 +70,13 @@ and some further input arguments, to be passed to print and summary functions.
 \note{ 
 
 }
-\seealso{ sci.ratio }
+\seealso{ glht(multcomp) for multiple comparisons of parameters from lm, glm,...,
+\code{\link{sci.ratio}} for confidence intervals for ratios of means in a one-way-layout,
+\code{\link{simtest.ratio}} for simultaneous tests for ratios of means in a one-way-layout,
+\code{\link{plot.sci.ratio}} for plotting the confidence intervals.
+
+ }
+
 \examples{
 
 # Slope-ratio assay on data from Jensen(1989),
