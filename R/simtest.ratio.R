@@ -3,7 +3,6 @@ function(formula, data, type="Dunnett", base=1, alternative = "two.sided", Margi
  names=TRUE)
  {
 
-require(mvtnorm)
 
 alternative <- match.arg(alternative, choices=c("two.sided","less","greater"))
 
@@ -24,6 +23,10 @@ k <- length(varnames)
 splitdat <- split(Response,Treatment)
 
 ni <- as.numeric(lapply(splitdat, FUN=length))
+
+
+if(any(ni<2))
+ {stop("the number of observations in each group should be at least 2")}
 
 
 #  check appropriateness of user-defined contrasts:

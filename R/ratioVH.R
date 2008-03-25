@@ -4,7 +4,7 @@ sci.ratioVH <- function(formula, data, type = "Dunnett", base = 1, method = "Plu
     Num.Contrast = NULL, Den.Contrast = NULL, alternative = "two.sided", 
     conf.level = 0.95, names = TRUE) 
 {
-    require(mvtnorm)
+   
     method <- match.arg(method, choices = c("Plug", "Bonf", "Unadj"))
     alternative <- match.arg(alternative, choices = c("two.sided", "less", "greater"))
 
@@ -24,6 +24,11 @@ sci.ratioVH <- function(formula, data, type = "Dunnett", base = 1, method = "Plu
     k <- length(varnames)
     splitdat <- split(Response, Treatment)
     ni <- as.numeric(lapply(splitdat, FUN = length))
+
+
+   if(any(ni<2))
+    {stop("the number of observations in each group should be at least 2")}
+
 
     if (is.null(Num.Contrast) == FALSE || is.null(Num.Contrast) == 
         FALSE) {
@@ -95,14 +100,14 @@ sci.ratioVH <- function(formula, data, type = "Dunnett", base = 1, method = "Plu
     {rownames(out$estimate) <- compnames}
 
 
-   
-    if(method=="Unadj")
-     {
-      methodname<-paste("Local", round(conf.level*100,2), "-% simultaneous confidence intervals", sep="")
-     }
-    else{
-      methodname<-paste("Simultaneous", round(conf.level*100,2), "-% simultaneous confidence intervals", sep="")
-     }
+
+if(method=="Unadj")
+{
+methodname<-paste("Local", round(conf.level*100,2), "-% confidence intervals", sep="")
+}
+else{
+methodname<-paste("Simultaneous", round(conf.level*100,2), "-% confidence intervals", sep="")
+}
 
      out$methodname<-methodname
 
@@ -292,7 +297,6 @@ simtest.ratioVH <- function(formula, data, type = "Dunnett", base = 1, alternati
     Margin.vec = NULL, FWER = 0.05, Num.Contrast = NULL, Den.Contrast = NULL, 
     names = TRUE) 
 {
-    require(mvtnorm)
     alternative <- match.arg(alternative, choices = c("two.sided", 
         "less", "greater"))
     if (length(formula) != 3) {
@@ -311,6 +315,10 @@ simtest.ratioVH <- function(formula, data, type = "Dunnett", base = 1, alternati
     k <- length(varnames)
     splitdat <- split(Response, Treatment)
     ni <- as.numeric(lapply(splitdat, FUN = length))
+
+   if(any(ni<2))
+    {stop("the number of observations in each group should be at least 2")}
+
     if (is.null(Num.Contrast) == FALSE || is.null(Num.Contrast) == 
         FALSE) {
         if (is.null(Den.Contrast == TRUE) && is.null(Den.Contrast == 
@@ -407,7 +415,7 @@ simtest.ratioII <-
 function (Response, Treatment, alternative = "two.sided", Margin.vec = NULL, 
     FWER = 0.05, Num.Contrast, Den.Contrast) 
 {
-    require(mvtnorm)
+    
     CMat <- Num.Contrast
     DMat <- Den.Contrast
     n.Treat <- tapply(Response, Treatment, length)

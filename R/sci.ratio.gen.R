@@ -1,8 +1,6 @@
 "sci.ratio.gen" <-
 function(Y, X, Num.Contrast, Den.Contrast, alternative = "two.sided", conf.level = 0.95, method="Plug") {
 
-require(mvtnorm)
-
 if(all(c("Plug", "Bonf", "MtI", "Unadj")!=method))
  {stop("argument method mis-specified")}
 

@@ -3,8 +3,6 @@ function(formula, data, type="Dunnett", base=1, method="Plug", Num.Contrast=NULL
 alternative = "two.sided", conf.level = 0.95, names=TRUE)
  {
 
-require(mvtnorm)
-
 method<-match.arg(method, choices=c("Plug", "MtI", "Bonf", "Unadj"))
 
 alternative <- match.arg(alternative, choices=c("two.sided","less","greater"))
@@ -27,6 +25,8 @@ splitdat <- split(Response,Treatment)
 
 ni <- as.numeric(lapply(splitdat, FUN=length))
 
+if(any(ni<2))
+ {stop("the number of observations in each group should be at least 2")}
 
 #  check appropriateness of user-defined contrasts:
 
@@ -107,10 +107,10 @@ if(type=="User defined")
 
 if(method=="Unadj")
 {
-methodname<-paste("Local", round(conf.level*100,2), "-% simultaneous confidence intervals", sep="")
+methodname<-paste("Local", round(conf.level*100,2), "-% confidence intervals", sep="")
 }
 else{
-methodname<-paste("Simultaneous", round(conf.level*100,2), "-% simultaneous confidence intervals", sep="")
+methodname<-paste("Simultaneous", round(conf.level*100,2), "-% confidence intervals", sep="")
 }
 
 out$methodname<-methodname

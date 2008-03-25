@@ -134,7 +134,7 @@ if (alternative=="two.sided"){
     side <- 2
     plus.minus <- c(-1,1)
     
-    cpMtI <- qmvt(conf.level, interval=c(0,4),df=degree.f,corr=diag(n.comp),delta=rep(0,n.comp), tail="both", abseps=1e-05)$quantile
+    cpMtI <- qmvt(conf.level, interval=c(0,10),df=degree.f,corr=diag(n.comp),delta=rep(0,n.comp), tail="both", abseps=1e-05)$quantile
 
    } # End of two-sided CI
     
@@ -143,7 +143,7 @@ if ((alternative=="less")|(alternative=="greater")){
     if (alternative=="less") plus.minus <- 1
     else plus.minus <- -1
 
-    cpMtI <- qmvt(conf.level, interval=c(0,4),df=degree.f,corr=diag(n.comp),delta=rep(0,n.comp), 
+    cpMtI <- qmvt(conf.level, interval=c(0,10),df=degree.f,corr=diag(n.comp),delta=rep(0,n.comp), 
 tail="lower.tail", abseps=1e-05)$quantile
 
     } # End of one-sided CI    
@@ -177,7 +177,7 @@ if (alternative=="two.sided"){
     side <- 2
     plus.minus <- c(-1,1)
     
-    Cplug <- qmvt(conf.level, interval=c(0,4),df=degree.f,corr=CorrMat.plug,delta=rep(0,n.comp), tail="both", abseps=1e-05)$quantile
+    Cplug <- qmvt(conf.level, interval=c(0,10),df=degree.f,corr=CorrMat.plug,delta=rep(0,n.comp), tail="both", abseps=1e-05)$quantile
     
    } # End of two-sided CI
     
@@ -186,7 +186,7 @@ if ((alternative=="less")|(alternative=="greater")){
     if (alternative=="less") plus.minus <- 1
     else plus.minus <- -1
 
-    Cplug <- qmvt(conf.level, interval=c(0,4),df=degree.f,corr=CorrMat.plug,delta=rep(0,n.comp), 
+    Cplug <- qmvt(conf.level, interval=c(0,10),df=degree.f,corr=CorrMat.plug,delta=rep(0,n.comp), 
 tail="lower.tail", abseps=1e-05)$quantile
    
     } # End of one-sided CI    

@@ -35,7 +35,7 @@ sci.ratioVH(formula, data,
 
   \item{base}{ a single integer specifying the control (i.e. denominator) group for the Dunnett contrasts, ignored otherwise }
   \item{method}{ 
-    character string specifying the method to be used for confidence interval construction:
+    a character string, specifying the method to be used for confidence interval construction:
     \itemize{
     \item{"Plug":}{ Plug-in of ratio estimates to obtain the correlation matrix of contrasts (default)}
     \item{"Bonf":}{ Simple Bonferroni-adjustment of Fieller confidence intervals for the ratios }
@@ -63,6 +63,8 @@ with possibly heterogeneous variances. Multivariate t-distributions are applied 
 depending on the unknown ratios and sample variances and degress of freedom according to Satterthwaite
 (1946).
 
+Using \code{method="Unadj"} results in the methods described in Hasler, Vonk and Hothorn (2007).
+
 }
 
 \value{
@@ -77,15 +79,26 @@ and some of the input arguments.
 
 }
 
-\references{ No publication so far for the implemented method.
-Satterthwaite, FE (1946). An approximate distribution of estimates of variance components. Biometrics 2, 110-114.
+\references{ 
+
+For the univariate confidence intervals, see
+
+\emph{Hasler M, Vonk R, Hothorn LA (2007).}
+ Assessing non-inferiority of a new treatment in a three-arm trial in the presence of heteroscedasticity.
+\emph{ Statistics in Medicine 27, 490-503.}
+
+For the simultaneous confidence intervals, there is so far no peer-reviewed publication available.
+
+
+\emph{Satterthwaite, FE (1946).} An approximate distribution of estimates of variance components. 
+\emph{Biometrics 2, 110-114.}
 
  }
 \author{ Mario Hasler, Frank Schaarschmidt }
 \note{ 
 
 }
-\seealso{ \code{\link{plot.sci.ratio}} }
+\seealso{ \code{\link{plot.sci.ratio}} for plots of confidence intervals and \code{\link{simtest.ratioVH}} for raw and multiplicity-adjusted p-values }
 \examples{
 
 data(Mutagenicity, package="mratios")
@@ -149,7 +162,22 @@ CIs<-sci.ratioVH(MN~Treatment, data=Mutagenicity,
  Num.Contrast=NC,
  Den.Contrast=DC)
 
+# # # #
+
+# Unadjusted confidence intervals for multiple ratios
+# of means assuming heterogeneous group variances.
+# The following code produces the results given in Table
+# V of Hasler, Vonk and Hothorn (2007).
+# The upper confidence limits in Table V can produced
+# by calling:
+
+sci.ratioVH(formula=MN~Treatment, data=Mutagenicity,
+ Num.Contrast=NC, Den.Contrast=DC,
+ method="Unadj", alternative="less", conf.level=0.95)
+
 }
+
+
 
 \keyword{ htest }
 \concept{ratio}

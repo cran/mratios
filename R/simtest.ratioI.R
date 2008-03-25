@@ -1,8 +1,6 @@
 "simtest.ratioI" <-
 function(Response, Treatment, alternative="two.sided", Margin.vec=NULL, FWER=0.05, Num.Contrast, Den.Contrast) {
 
-require(mvtnorm)
-
 CMat <- Num.Contrast
 DMat <- Den.Contrast
 

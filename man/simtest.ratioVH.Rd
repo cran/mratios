@@ -69,14 +69,24 @@ and some other input arguments.
 
 }
 
-\references{  No publication so far for the implemented method.
+\references{
+
+For the raw p-values, see
+
+\emph{Hasler M, Vonk R, Hothorn LA (2007).}
+ Assessing non-inferiority of a new treatment in a three-arm trial in the presence of heteroscedasticity.
+\emph{ Statistics in Medicine 27, 490-503.}
+
+For the multiplicity-adjusted p-values, there is so far no peer-reviewed publication available.
+
 \emph{Satterthwaite, FE (1946)}. An approximate distribution of estimates of variance components. \emph{Biometrics 2, 110-114}.
  }
+
 \author{ Mario Hasler, Frank Schaarschmidt }
 \note{ 
 
 }
-\seealso{ \code{\link{plot.sci.ratio}} }
+\seealso{ \code{\link{sci.ratioVH}} for corresponding confidence intervals }
 
 \examples{
 
@@ -88,6 +98,51 @@ Mutas<-subset(Mutagenicity, Treatment!="Cyclo25")
 
 simtest.ratioVH(MN~Treatment, data=Mutagenicity,
  type="Dunnett", base=6, Margin.vec=1.2, alternative="less")
+
+
+# # # #
+
+# Unadjusted confidence intervals for multiple ratios
+# of means assuming heterogeneous group variances.
+# The following code produces the results given in Table
+# V of Hasler, Vonk and Hothorn (2007).
+# The upper confidence limits in Table V can produced
+# by calling:
+
+# Mutagenicity of the doses of the new compound,
+# expressed as ratio (DoseX-Vehicle)/(Cyclo25-Vehicle):
+
+# Check the order of the factor levels:
+
+levels(Mutagenicity$Treatment)
+
+# numerators:
+
+NC<-rbind(
+"Hydro30-Vehicle"=c(0,0,1,0,0,-1),
+"Hydro50-Vehicle"=c(0,0,0,1,0,-1),
+"Hydro75-Vehicle"=c(0,0,0,0,1,-1),
+"Hydro100-Vehicle"=c(0,1,0,0,0,-1)
+)
+
+DC<-rbind(
+"Cyclo25-Vehicle"=c(1,0,0,0,0,-1),
+"Cyclo25-Vehicle"=c(1,0,0,0,0,-1),
+"Cyclo25-Vehicle"=c(1,0,0,0,0,-1),
+"Cyclo25-Vehicle"=c(1,0,0,0,0,-1)
+)
+
+colnames(NC)<-colnames(DC)<-levels(Mutagenicity$Treatment)
+
+NC
+
+DC
+
+# The raw p-values are those presented in Table V:
+
+simtest.ratioVH(formula=MN~Treatment, data=Mutagenicity,
+ Num.Contrast=NC, Den.Contrast=DC,
+ alternative="less", Margin.vec=0.5, FWER=0.05)
 
 }
 

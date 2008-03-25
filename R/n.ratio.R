@@ -1,7 +1,7 @@
 "n.ratio" <-
 function (m, rho, Power, CV0, rho.star, alpha, Min.power = TRUE) 
 {
-    require(mvtnorm)
+
     Z1.beta <- qnorm(Power)
     if(m > 1){
       correla <- (rho^2)/sqrt((rho^2 + 1) * (rho^2 + 1))
