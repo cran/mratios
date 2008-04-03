@@ -34,7 +34,7 @@ t.test.ratio(x, ...)
   \item{\dots}{arguments to be passed to t.test.ratio.default}
 }
 \details{
-This function implements the t-Test for the ratio of two means and Fiellers confidence interval for the ratio of two means assuming mutually independent Gaussian errors with homogeneous variances, e.g. in Kieser and Hauschke (2000), when the argument \kbd{var.equal=TRUE}. With the argument \kbd{var.equal=FALSE} (default), the t-Test for the ratio of two means assuming mutually independent Gaussian errors and possibly heterogeneous group variances (Tamhane and Logan, 2004) is implemented. When \kbd{iterativeCI = FALSE} (default) the corresponding confidence limits are obtained by using Fiellers formula with plug-in of the Satterthwaites degree of freedom calculated with the sample estimates for ratio and variances. These bounds perform quite well but do not necessarily exactly coincide with the test decision. Setting \kbd{iterativeCI = TRUE} invokes searching for teh confidence limits by inverting Tamhane and Logans test in a bisection (could be improved).
+This function implements the t-Test for the ratio of two means and Fiellers confidence interval for the ratio of two means assuming mutually independent Gaussian errors with homogeneous variances, e.g. in Hauschke, Kieser, Hothorn (1999), when the argument \kbd{var.equal=TRUE}. With the argument \kbd{var.equal=FALSE} (default), the t-Test for the ratio of two means assuming mutually independent Gaussian errors and possibly heterogeneous group variances (Tamhane and Logan, 2004) is implemented. When \kbd{iterativeCI = FALSE} (default) the corresponding confidence limits are obtained by using Fiellers formula with plug-in of the Satterthwaites degree of freedom calculated with the sample estimates for ratio and variances. These bounds perform quite well but do not necessarily exactly coincide with the test decision. Setting \kbd{iterativeCI = TRUE} invokes searching for teh confidence limits by inverting Tamhane and Logans test in a bisection (could be improved).
 
 Note that when the mean of the denominator of the ratio is close to zero, confidence intervals might be degenerated and are not returned.
 
@@ -44,9 +44,9 @@ Note that when the mean of the denominator of the ratio is close to zero, confid
 }
 \references{ 
 
-\emph{Kieser, M., Hauschke, D. (2000).}
- Statistical methods for demonstrating equivalence in crossover trials based on the ratio of two location parameters.
-\emph{ Drug Information Journal 34, 563-568.}
+\emph{Hauschke, D., Kieser, M., Hothorn, L.A. (1999).}
+ Proof of safety in toxicology based on the ratio of two means for normally distributed data.
+\emph{Biometrical Journal 41, 295-304.}
 
 \emph{Tamhane, A.C., Logan, B.R. (2004).}
  Finding the maximum safe dose level for heteroscedastic data.

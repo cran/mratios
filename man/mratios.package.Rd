@@ -52,8 +52,7 @@ Maintainer: Frank Schaarschmidt <schaarschmidt@biostat.uni-hannover.de>
 \keyword{ package }
 
 \seealso{
-Multiple comparisons for differences of means:
-\link[<multcomp>:<multcomp>-package]{<multcomp>}
+Multiple comparisons for differences of means: \pkg{multcomp}
 }
 
 \examples{
