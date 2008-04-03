@@ -12,16 +12,20 @@
 \format{
   A data frame with 31 observations on the following 2 variables.
   \describe{
-    \item{\code{Treatment}}{a factor with levels \code{Cyclo25} \code{Hydro100} \code{Hydro30} \code{Hydro50} \code{Hydro75} \code{Vehicle}}
-    \item{\code{MN}}{a numeric vector, giving the counts of micronuclei after 24h}
+    \item{Treatment}{a factor with levels Cyclo25, Hydro100, Hydro30, Hydro50, Hydro75, Vehicle}
+    \item{MN}{a numeric vector, giving the counts of micronuclei after 24h}
   }
 }
 
 \source{
- \emph{Adler, ID, and Kliesch, U (1990):} Comparison of single and multiple treatment regiments in the mouse bone marrow micronucleus assay for hydroquinone and cyclophosphamide. \emph{Mutation Research 234, 115-123.}
+ \emph{Adler, ID, and Kliesch, U (1990).}
+ Comparison of single and multiple treatment regiments in the mouse bone marrow micronucleus assay for hydroquinone and cyclophosphamide.
+ \emph{Mutation Research 234, 115-123.}
 }
 \references{
-\emph{Hauschke, D, Slacik-Erben, R, Hansen, S, Kaufmann,R (2005):} Biostatistical Assessment of mutagenicity studies by including the positive control. \emph{Biometrical Journal 47, 82-87.}
+\emph{Hauschke, D, Slacik-Erben, R, Hansen, S, Kaufmann,R (2005).}
+ Biostatistical Assessment of mutagenicity studies by including the positive control.
+ \emph{Biometrical Journal 47, 82-87.}
 }
 \examples{
 

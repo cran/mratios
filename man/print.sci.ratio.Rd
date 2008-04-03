@@ -19,7 +19,6 @@
   A print out of the confidence intervals computed by sci.ratio.
 }
 
-\author{ Frank Schaarschmidt }
-\seealso{ \code{\link{plot.sci.ratio}}, \code{\link{summary.sci.ratio}} }
+\seealso{ \link{plot.sci.ratio}, \link{summary.sci.ratio} }
 
 \keyword{ print }

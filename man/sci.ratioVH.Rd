@@ -63,7 +63,7 @@ with possibly heterogeneous variances. Multivariate t-distributions are applied 
 depending on the unknown ratios and sample variances and degress of freedom according to Satterthwaite
 (1946).
 
-Using \code{method="Unadj"} results in the methods described in Hasler, Vonk and Hothorn (2007).
+Using \kbd{method="Unadj"} results in the methods described in Hasler, Vonk and Hothorn (2007).
 
 }
 
@@ -81,22 +81,26 @@ and some of the input arguments.
 
 \references{ 
 
-For the univariate confidence intervals, see
+Simultaneous confidence intervals:
+
+\emph{Hasler, M. and Hothorn, L.A. (2008).}
+ Multiple contrast tests in the presence of heteroscedasticity.
+ \emph{ Biometrical Journal 50, 793-800.}
+
+Marginal (unadjusted) confidence intervals:
 
 \emph{Hasler M, Vonk R, Hothorn LA (2007).}
  Assessing non-inferiority of a new treatment in a three-arm trial in the presence of heteroscedasticity.
 \emph{ Statistics in Medicine 27, 490-503.}
 
-For the simultaneous confidence intervals, there is so far no peer-reviewed publication available.
-
-
-\emph{Satterthwaite, FE (1946).} An approximate distribution of estimates of variance components. 
+\emph{Satterthwaite, FE (1946).}
+ An approximate distribution of estimates of variance components. 
 \emph{Biometrics 2, 110-114.}
 
  }
-\author{ Mario Hasler, Frank Schaarschmidt }
+\author{ Mario Hasler}
 
-\seealso{ \code{\link{plot.sci.ratio}} for plots of confidence intervals and \code{\link{simtest.ratioVH}} for raw and multiplicity-adjusted p-values }
+\seealso{ \link{plot.sci.ratio} for plots of confidence intervals and \link{simtest.ratioVH} for raw and multiplicity-adjusted p-values }
 \examples{
 
 data(Mutagenicity, package="mratios")

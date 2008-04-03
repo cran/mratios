@@ -71,22 +71,30 @@ and some other input arguments.
 
 \references{
 
-For the raw p-values, see
+Simultaneous tests (adjusted p-values)
+
+\emph{Hasler, M. and Hothorn, L.A. (2008):}
+ Multiple contrast tests in the presence of heteroscedasticity.
+ \emph{ Biometrical Journal 50, 793-800.}
+
+Unadjusted tests (raw p-values)
 
 \emph{Hasler M, Vonk R, Hothorn LA (2007).}
  Assessing non-inferiority of a new treatment in a three-arm trial in the presence of heteroscedasticity.
-\emph{ Statistics in Medicine 27, 490-503.}
+ \emph{ Statistics in Medicine 27, 490-503.}
 
-For the multiplicity-adjusted p-values, there is so far no peer-reviewed publication available.
-
-\emph{Satterthwaite, FE (1946)}. An approximate distribution of estimates of variance components. \emph{Biometrics 2, 110-114}.
+\emph{Satterthwaite, FE (1946)}.
+ An approximate distribution of estimates of variance components.
+ \emph{Biometrics 2, 110-114}.
  }
 
-\author{ Mario Hasler, Frank Schaarschmidt }
+\author{ Mario Hasler}
 
-\seealso{ \code{\link{sci.ratioVH}} for corresponding confidence intervals }
+\seealso{ \link{sci.ratioVH} for corresponding confidence intervals }
 
 \examples{
+
+###############################################
 
 data(Mutagenicity, package="mratios")
 
@@ -98,7 +106,7 @@ simtest.ratioVH(MN~Treatment, data=Mutagenicity,
  type="Dunnett", base=6, Margin.vec=1.2, alternative="less")
 
 
-# # # #
+###############################################
 
 # Unadjusted confidence intervals for multiple ratios
 # of means assuming heterogeneous group variances.

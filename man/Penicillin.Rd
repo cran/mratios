@@ -11,19 +11,25 @@ The production of antibiotics of 6 strains (mutants of the same micro organism) 
 \format{
   A data frame with 48 observations on the following 2 variables.
   \describe{
-    \item{\code{strain}}{a numeric veactor, the number identifying the strains}
-    \item{\code{diameter}}{a numeric vector, size of the diameter of Bacteria-free area around each colony}
+    \item{strain}{a numeric veactor, the number identifying the strains}
+    \item{diameter}{a numeric vector, size of the diameter of Bacteria-free area around each colony}
   }
 }
 
 \source{
-  Horn, M, Vollandt, R (1995): Multiple Tests und Auswahlverfahren in Biomtrie (Lorenz, RJ, Vollmar, J, eds). Gustav Fischerverlag, Stuttgart Jena New York.
+\emph{ Horn, M, Vollandt, R (1995).}
+ Multiple Tests und Auswahlverfahren in Biomtrie \emph{(Lorenz, RJ, Vollmar, J, eds).}
+ Gustav Fischerverlag, Stuttgart Jena New York.
 }
 \examples{
 
 library(mratios)
 
 data(Penicillin)
-## str(Penicillin) ; plot(Penicillin) ...
+
+str(Penicillin)
+
+boxplot(diameter ~ strain, data=Penicillin)
+
 }
 \keyword{datasets}

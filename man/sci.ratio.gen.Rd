@@ -63,19 +63,22 @@ and some further input arguments, to be passed to print and summary functions.
 
 }
 \references{
- Dilba, G., Bretz, F., and Guiard, V. (2006): Simultaneous confidence sets and confidence intervals for multiple ratios.
- Journal of Statistical Planning and Inference 136, 2640-2658.
+ \emph{Dilba, G., Bretz, F., and Guiard, V. (2006).}
+ Simultaneous confidence sets and confidence intervals for multiple ratios.
+ \emph{Journal of Statistical Planning and Inference 136, 2640-2658.}
  }
-\author{ Gemechis Dilba, Frank Schaarschmidt }
+\author{ Gemechis Dilba Djira }
 
 \seealso{ glht(multcomp) for multiple comparisons of parameters from lm, glm,...,
-\code{\link{sci.ratio}} for confidence intervals for ratios of means in a one-way-layout,
-\code{\link{simtest.ratio}} for simultaneous tests for ratios of means in a one-way-layout,
-\code{\link{plot.sci.ratio}} for plotting the confidence intervals.
+\link{sci.ratio} for confidence intervals for ratios of means in a one-way-layout,
+\link{simtest.ratio} for simultaneous tests for ratios of means in a one-way-layout,
+\link{plot.sci.ratio} for plotting the confidence intervals.
 
  }
 
 \examples{
+
+################################################
 
 # Slope-ratio assay on data from Jensen(1989),
 # Biometrical Journal 31, 841-853.
@@ -138,7 +141,8 @@ summary(SlopeRatioCI)
 plot(SlopeRatioCI)
 
 
-# # #
+#########################################################
+
 
 # If one starts with a dataframe, the function model.matrix
 # can be used to create the design matrix:

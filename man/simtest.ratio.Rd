@@ -85,26 +85,25 @@ and some other input arguments.
 }
 
 
-
-
 \references{ 
 
-Dilba, G., Bretz, F., and Guiard, V. (2006): Simultaneous confidence sets and confidence intervals for multiple ratios. Journal of Statistical Planning and Inference 136, 2640-2658.
+\emph{Dilba, G., Bretz, F., and Guiard, V. (2006).}
+ Simultaneous confidence sets and confidence intervals for multiple ratios.
+ \emph{Journal of Statistical Planning and Inference 136, 2640-2658.}
 
-Westfall, P.H., Tobias, R.D., Rom, D., Wolfinger, R.D., and Hochberg, Y. (1999): Multiple comparisons and multiple tests using the SAS system. SAS Institute Inc. Cary, NC, 65-81.
+\emph{Westfall, P.H., Tobias, R.D., Rom, D., Wolfinger, R.D., and Hochberg, Y. (1999).}
+ Multiple comparisons and multiple tests using the SAS system. SAS Institute Inc. Cary, NC, 65-81.
 
  }
-\author{ 
+\author{ Gemechis Dilba Djira }
 
-Gemechis Dilba, Frank Schaarschmidt }
-
-\seealso{ While \code{print.simtest.ratio} produces a small default print-out of the results,
+\seealso{ While print.simtest.ratio produces a small default print-out of the results,
  
- \code{summary.simtest.ratio} can be used to produce a more detailed print-out, which is recommended if user-defined contrasts are used,
+ summary.simtest.ratio can be used to produce a more detailed print-out, which is recommended if user-defined contrasts are used,
 
- \code{sci.ratio} for constructing simultaneous confidence intervals for ratios in oneway layout 
+ sci.ratio for constructing simultaneous confidence intervals for ratios in oneway layout 
 
- See \code{summary.glht(multcomp)} for multiple tests for parameters of \code{lm}, \code{glm}.
+ See \kbd{summary.glht(multcomp)} for multiple tests for parameters of lm, glm.
  }
 
 
@@ -112,14 +111,14 @@ Gemechis Dilba, Frank Schaarschmidt }
 
 library(mratios)
 
-# # #
+########################################################
 
 # User-defined contrasts for comparisons
 # between Active control, Placebo and three dosage groups:
 
 data(AP)
 AP
-boxplot(pre_post~treatment, data=AP)
+boxplot(prepost~treatment, data=AP)
 
 # Test whether the differences of doses 50, 100, 150 vs. Placebo
 # are non-inferior to the difference of Active control vs. Placebo 
@@ -143,21 +142,21 @@ DC <- rbind(
 NC
 DC
 
-noninf <- simtest.ratio(pre_post ~ treatment, data=AP,
+noninf <- simtest.ratio(prepost ~ treatment, data=AP,
  Num.Contrast=NC, Den.Contrast=DC, Margin.vec=c(0.9,0.9,0.9),
  alternative="greater")
 
 summary( noninf )
 
 
-# # #
+#########################################################
 
 # Some more examples on standard multiple comparison procedures
 # stated in terms of ratio hypotheses:
 
 # Comparisons vs. Control:
 
-many21 <- simtest.ratio(pre_post ~ treatment, data=AP,
+many21 <- simtest.ratio(prepost ~ treatment, data=AP,
  type="Dunnett")
 
 summary(many21)
@@ -167,18 +166,18 @@ summary(many21)
 # the three doses and the Active control vs. Placebo could be
 # done as: 
 
-many21P <- simtest.ratio(pre_post ~ treatment, data=AP,
+many21P <- simtest.ratio(prepost ~ treatment, data=AP,
  type="Dunnett", base=2, alternative="greater", Margin.vec=1.1)
 summary(many21P)
 
 # All pairwise comparisons:
 
-allpairs <- simtest.ratio(pre_post ~ treatment, data=AP,
+allpairs <- simtest.ratio(prepost ~ treatment, data=AP,
  type="Tukey")
 
 summary(allpairs)
 
-# # #
+#######################################################
 
 # Comparison to grand mean of all strains
 # in the Penicillin example:

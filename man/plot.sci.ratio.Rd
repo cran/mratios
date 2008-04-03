@@ -41,6 +41,7 @@ A plot of the confidence intervals in the sci.ratio object.
 library(mratios)
 
 data(angina)
+
 aCI<-sci.ratio(response~dose, data=angina, type="Dunnett",
  alternative="greater")
 

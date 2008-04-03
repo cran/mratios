@@ -11,17 +11,19 @@ titer of a sample to pH 6.8.
 \format{
   A data frame with 34 observations on the following 3 variables.
   \describe{
-    \item{\code{Response}}{a numeric vector, containing the response variable (titer to pH 6.8)}
-    \item{\code{Treatment}}{a factor with levels \code{St} \code{U1} \code{U2} \code{U3}, specifying the standard and 3 unknown samples}
-    \item{\code{Dose}}{a numeric vector}
+    \item{Response}{a numeric vector, containing the response variable (titer to pH 6.8)}
+    \item{Treatment}{a factor with levels St, U1, U2 and U3, specifying the standard and 3 unknown samples, respectively}
+    \item{Dose}{a numeric vector}
   }
 }
 
 \source{
-  Jensen, D.R. (1989): Joint confidence sets in multiple dilution assays. Biometrical Journal 31, 841-853.
+\emph{Jensen, D.R. (1989).}
+ Joint confidence sets in multiple dilution assays. 
+\emph{Biometrical Journal 31, 841-853.}
 }
 \references{
-  Data originally from Bliss, C.I. (1952): The Statistics of Bioassay. Academic Press, New York.
+  Data originally from  \emph{Bliss, C.I. (1952).} The Statistics of Bioassay. Academic Press, New York.
 }
 \examples{
 

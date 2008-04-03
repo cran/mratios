@@ -10,8 +10,8 @@ Dose response study of a drug to treat Angina pectoris. Response variable was th
 \format{
   A data frame with 50 observations on the following 2 variables.
   \describe{
-    \item{\code{dose}}{a factor with levels \code{0} \code{1} \code{2} \code{3} \code{4}}
-    \item{\code{response}}{a numeric vector giving the change from pretreatment as measured
+    \item{dose}{a factor with levels 0, 1, 2, 3, 4}
+    \item{response}{a numeric vector giving the change from pretreatment as measured
           in minutes of pain-free walking.}
   }
 }

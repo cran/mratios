@@ -17,7 +17,7 @@ sci.ratio(formula, data, type = "Dunnett", base = 1,
 }
 
 \arguments{
-  \item{formula}{ A formula specifying a numerical response and a grouping factor as e.g. \code{response ~ treatment} }
+  \item{formula}{ A formula specifying a numerical response and a grouping factor as e.g. \kbd{response ~ treatment} }
   \item{data}{  A dataframe containing the response and group variable }
   \item{type}{ type of contrast, with the following options:
     \itemize{
@@ -43,7 +43,7 @@ sci.ratio(formula, data, type = "Dunnett", base = 1,
     \item \bold{"UmbrellaWilliams":} Umbrella-protected Williams contrasts as ratios
 
     }
- Note: \code{type} is ignored, if \code{Num.Contrast} and \code{Den.Contrast} are specified by the user (See below).
+ Note: \kbd{type} is ignored, if \kbd{Num.Contrast} and \kbd{Den.Contrast} are specified by the user (See below).
 }
   \item{base}{ a single integer specifying the control (i.e. denominator) group for the Dunnett contrasts, ignored otherwise }
   \item{method}{ 
@@ -96,10 +96,10 @@ And some further elements to be passed to print and summary functions.
 \references{ 
  Dilba, G., Bretz, F., and Guiard, V. (2006): Simultaneous confidence sets and confidence intervals for multiple ratios. Journal of Statistical Planning and Inference 136, 2640-2658.
  }
-\author{ Gemechis Dilba, Frank Schaarschmidt }
+\author{ Gemechis Dilba Djira}
 
-\seealso{ \code{glht(multcomp)} for simultaneous CI of differences of means,
-          \code{\link{plot.sci.ratio}} for a plotting function of the intervals }
+\seealso{ \kbd{glht(multcomp)} for simultaneous CI of differences of means,
+          \link{plot.sci.ratio} for a plotting function of the intervals }
 
 \examples{
 

@@ -19,7 +19,7 @@
 \value{
 A more detailed print output of the results and some computational steps used in sci.ratio. 
 }
-\author{ Frank Schaarschmidt }
+
 \seealso{ print.sci.ratio, plot.sci.ratio }
 
 \keyword{ print }

@@ -35,9 +35,13 @@ The sample sizes are computed at the least favourable configurations, based on t
 }
 
 \references{
- Dilba, G., Bretz, F., Hothorn, L.A., and Guiard, V. (2006): Power and sample size computations in simultaneous tests for non-inferiority based on relative margins. Statistics in Medicine 25, 1131-1147. }
 
-\author{ Gemechis Dilba }
+\emph{ Dilba, G., Bretz, F., Hothorn, L.A., and Guiard, V. (2006).}
+ Power and sample size computations in simultaneous tests for non-inferiority based on relative margins.
+\emph{ Statistics in Medicine 25, 1131-1147.}
+ }
+
+\author{ Gemechis Dilba Djira }
 
 \examples{
 

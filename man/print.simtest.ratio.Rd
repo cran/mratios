@@ -18,6 +18,5 @@
 A print out, containing the margins, estimates, teststatistics, and p.values computed by simtest.ratio. 
 }
 
-\author{ Frank Schaarschmidt }
 
 \keyword{ print }

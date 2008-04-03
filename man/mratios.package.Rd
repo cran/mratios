@@ -18,32 +18,49 @@ mratios
 
 \author{
 
-Gemechis Dilba, Mario Hasler, Frank Schaarschmidt
+Gemechis Dilba Djira, Mario Hasler, Daniel Gerhard, Frank Schaarschmidt
 
 Maintainer: Frank Schaarschmidt <schaarschmidt@biostat.uni-hannover.de>
 
 }
 \references{
 
-Dilba, G., Bretz, F., and Guiard, V. (2006): Simultaneous confidence sets and confidence intervals for multiple ratios. Journal of Statistical Planning and Inference 136, 2640-2658.
+\emph{Dilba, G., Bretz, F., and Guiard, V. (2006).}
+ Simultaneous confidence sets and confidence intervals for multiple ratios.
+ \emph{Journal of Statistical Planning and Inference 136, 2640-2658.}
 
-Dilba, G., Guiard, V., and Bretz, F.: On the efficiency of ratio formatted hypotheses (submitted). 
+\emph{ Dilba, G., Bretz, F., Hothorn, L.A., and Guiard, V. (2006).}
+ Power and sample size computations in simultaneous tests for non-inferiority based on relative margins.
+\emph{ Statistics in Medicine 25, 1131-1147.}
 
-Kieser, M. and Hauschke, D. (2000): Statistical methods for demonstrating equivalence in crossover trials based on the ratio of two location parameters. Drug Information Journal 34, 563-568.
+\emph{Dilba, G., Guiard, V., and Bretz, F.}
+ On the efficiency of ratio formatted hypotheses (submitted). 
 
-Tamhane, A.C. and Logan, B.R. (2004): Finding the maximum safe dose level for heteroscedastic data. Journal of Biopharmaceutical Statistics 14, 843-856.
+\emph{Kieser, M. and Hauschke, D. (2000).}
+ Statistical methods for demonstrating equivalence in crossover trials based on the ratio of two location parameters.
+ \emph{Drug Information Journal 34, 563-568.}
+
+\emph{Tamhane, A.C. and Logan, B.R. (2004).}
+ Finding the maximum safe dose level for heteroscedastic data.
+ \emph{Journal of Biopharmaceutical Statistics 14, 843-856.}
+
+\emph{Hasler, M. and Hothorn, L.A. (2008).}
+ Multiple contrast tests in the presence of heteroscedasticity.
+ \emph{Biometrical Journal 50, 793-800.}
 
 }
 \keyword{ package }
 
 \seealso{
 Multiple comparisons for differences of means:
-\code{\link[<multcomp>:<multcomp>-package]{<multcomp>}}
+\link[<multcomp>:<multcomp>-package]{<multcomp>}
 }
 
 \examples{
 
 library(mratios)
+
+############################################################
 
 # # # t.test.ratio: 
 # Two-sample test and confidence interval
@@ -103,7 +120,7 @@ plot(m21, rho0=0.9)
 
 data(AP)
 
-boxplot(pre_post~treatment, data=AP)
+boxplot(prepost~treatment, data=AP)
 
 # Test whether the differences of doses 50, 100, 150 vs. Placebo
 # are non-inferior to the difference Active Control vs. Placebo 
@@ -121,16 +138,16 @@ DC <- rbind(
 NC
 DC
 
-simtest.ratio(pre_post ~ treatment, data=AP,
+simtest.ratio(prepost ~ treatment, data=AP,
  Num.Contrast=NC, Den.Contrast=DC, Margin.vec=c(0.9,0.9,0.9))
 
-summary( simtest.ratio(pre_post ~ treatment, data=AP,
+summary( simtest.ratio(prepost ~ treatment, data=AP,
  Num.Contrast=NC, Den.Contrast=DC, Margin.vec=c(0.9,0.9,0.9)) )
 
 
 # Comparisons vs. Control (default type of comparisons):
 
-many21 <- simtest.ratio(pre_post ~ treatment, data=AP,
+many21 <- simtest.ratio(prepost ~ treatment, data=AP,
  type="Dunnett")
 
 summary(many21)
