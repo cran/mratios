@@ -17,7 +17,7 @@ if(!is.numeric(FWER) | length(FWER)!=1 | FWER<=0 | FWER>=0.5)
 if(any( sqrt(var.Treat) < 10 * .Machine$double.eps * abs(ybar.Treat))) 
  {warning("Data are essentially constant in a least one group")}
 
-if(any( sqrt(n.Treat) < 2 )) 
+if(any( n.Treat < 2 )) 
  {warning("There are less than 2 observations in a least one group")}
 
 

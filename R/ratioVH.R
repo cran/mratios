@@ -103,10 +103,10 @@ sci.ratioVH <- function(formula, data, type = "Dunnett", base = 1, method = "Plu
 
 if(method=="Unadj")
 {
-methodname<-paste("Local", round(conf.level*100,2), "-% confidence intervals", sep="")
+methodname<-paste("Local ", round(conf.level*100,2), "-% confidence intervals", sep="")
 }
 else{
-methodname<-paste("Simultaneous", round(conf.level*100,2), "-% confidence intervals", sep="")
+methodname<-paste("Simultaneous ", round(conf.level*100,2), "-% confidence intervals", sep="")
 }
 
      out$methodname<-methodname
@@ -134,7 +134,7 @@ if(!is.numeric(conf.level) | length(conf.level)!=1 | conf.level<=0.5 | conf.leve
 if(any( sqrt(Var.Treat) < 10 * .Machine$double.eps * abs(Mean.Treat))) 
  {warning("Data are essentially constant in a least one group")}
 
-if(any( sqrt(n.Treat) < 2 )) 
+if(any( n.Treat < 2 )) 
  {warning("There are less than 2 observations in a least one group")}
 
 
@@ -377,17 +377,33 @@ simtest.ratioVH <- function(formula, data, type = "Dunnett", base = 1, alternati
         Den.C <- Cmat$denC
         compnames <- Cmat$rnames
     }
-    if (is.null(Margin.vec)) {
-        Margin.vec <- rep(1, nrow(Num.C))
+
+
+if(is.null(Margin.vec))
+ {Margin.vec <- rep(1,nrow(Num.C))}
+else
+ {
+  if(is.numeric(Margin.vec) && length(Margin.vec)<=nrow(Num.C))
+   {Margin.vec <- cbind(Margin.vec,Num.C)[,1]}
+  else{
+    Margin.vec <- Margin.vec[1:nrow(Num.C)]
+    warning( paste("Margin.vec has more elements than there are comparisons. Only the first ", nrow(Num.C)," elements are used!") )
     }
-    else {
-        if (is.numeric(Margin.vec) && length(Margin.vec) <= nrow(Num.C)) {
-            Margin.vec <- cbind(Margin.vec, Num.C)[, 1]
-        }
-        else {
-            stop("Margin.vec must be a single numeric value or numeric vector not longer than nrow of contrasts ")
-        }
-    }
+ }
+
+
+#    if (is.null(Margin.vec)) {
+#        Margin.vec <- rep(1, nrow(Num.C))
+#    }
+#    else {
+#        if (is.numeric(Margin.vec) && length(Margin.vec) <= nrow(Num.C)) {
+#            Margin.vec <- cbind(Margin.vec, Num.C)[, 1]
+#        }
+#        else {
+#            stop("Margin.vec must be a single numeric value or numeric vector not longer than nrow of contrasts ")
+#        }
+#    }
+
     out <- simtest.ratioII(Response = Response, Treatment = Treatment, 
         alternative = alternative, Margin.vec = Margin.vec, FWER = FWER, 
         Num.Contrast = Num.C, Den.Contrast = Den.C)
@@ -429,7 +445,7 @@ if(!is.numeric(FWER) | length(FWER)!=1 | FWER<=0 | FWER>=0.5)
 if(any( sqrt(var.Treat) < 10 * .Machine$double.eps * abs(ybar.Treat))) 
  {warning("Data are essentially constant in a least one group")}
 
-if(any( sqrt(n.Treat) < 2 )) 
+if(any( n.Treat < 2 )) 
  {warning("There are less than 2 observations in a least one group")}
 
 

@@ -107,10 +107,10 @@ if(type=="User defined")
 
 if(method=="Unadj")
 {
-methodname<-paste("Local", round(conf.level*100,2), "-% confidence intervals", sep="")
+methodname<-paste("Local ", round(conf.level*100,2), "-% confidence intervals", sep="")
 }
 else{
-methodname<-paste("Simultaneous", round(conf.level*100,2), "-% confidence intervals", sep="")
+methodname<-paste("Simultaneous ", round(conf.level*100,2), "-% confidence intervals", sep="")
 }
 
 out$methodname<-methodname

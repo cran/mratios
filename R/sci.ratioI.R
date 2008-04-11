@@ -17,7 +17,7 @@ if(!is.numeric(conf.level) | length(conf.level)!=1 | conf.level<=0.5 | conf.leve
 if(any( sqrt(Var.Treat) < 10 * .Machine$double.eps * abs(Mean.Treat))) 
  {warning("Data are essentially constant in a least one group")}
 
-if(any( sqrt(n.Treat) < 2 )) 
+if(any( n.Treat < 2 )) 
  {warning("There are less than 2 observations in a least one group")}
 
 

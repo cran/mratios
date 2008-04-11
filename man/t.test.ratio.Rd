@@ -14,7 +14,8 @@ is used (Tamhane & Logan, 2004).
 \usage{
 t.test.ratio(x, ...) 
 \method{t.test.ratio}{default}(x, y, alternative = "two.sided",
- rho = 1, var.equal = FALSE, conf.level = 0.95, ...)
+ rho = 1, var.equal = FALSE, conf.level = 0.95,
+ iterativeCI=FALSE, maxit=100, ...)
 \method{t.test.ratio}{formula}(formula, data, base=2, ...)
 }
 \arguments{
@@ -28,10 +29,15 @@ t.test.ratio(x, ...)
   \item{var.equal}{ logical, if set TRUE, a ratio-t-test assuming equal group variances is performed, otherwise (default) unequal variances are assumed }
   \item{conf.level}{ confidence level of Fieller's interval for the ratio of two means }
   \item{base}{if formula is used: a single numeric value specifying whether the first or second group (according to alpha-numeric order) is to be used as denominator}
+  \item{iterativeCI}{a single logical, indicating whether the confidence limits shall be found with based on Fiellers formula (default) or by iteratively inverting the test (if TRUE); ignored when \code{var.equal=TRUE}}
+  \item{maxit}{ maximum of iteration steps \code{iterativeCI=TRUE}; ignored when \code{iterativeCI=FALSE} or \code{var.equal=TRUE} }
   \item{\dots}{arguments to be passed to t.test.ratio.default}
 }
 \details{
-  
+This function implements the t-Test for the ratio of two means and Fiellers confidence interval for the ratio of two means assuming mutually independent Gaussian errors with homogeneous variances, e.g. in Kieser and Hauschke (2000), when the argument \code{var.equal=TRUE}. With the argument \code{var.equal=FALSE} (default), the t-Test for the ratio of two means assuming mutually independent Gaussian errors and possibly heterogeneous group variances (Tamhane and Logan, 2004) is implemented. When \code{iterativeCI = FALSE} (default) the corresponding confidence limits are obtained by using Fiellers formula with plug-in of the Satterthwaites degree of freedom calculated with the sample estimates for ratio and variances. These bounds perform quite well but do not necessarily exactly coincide with the test decision. Setting \code{iterativeCI = TRUE} invokes searching for teh confidence limits by inverting Tamhane and Logans test in a bisection (could be improved).
+
+Note that when the mean of the denominator of the ratio is close to zero, confidence intervals might be degenerated and are not returned.
+
 }
 \value{
   An object of class "htest"

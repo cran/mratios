@@ -72,17 +72,25 @@ if(type=="Sequen")
 
 if(type=="Williams")
  {
-  for (i in 1:(k - 2)) {
-  help <- c(0, rep(0, k - i - 1), n[(k - i + 1):k]/sum(n[(k - i + 1):k]))
-  numC <- rbind(numC, help)
+ if(k==2)
+  {
+   numC<-matrix(c(0,1), ncol=2)
+   denC<-matrix(c(1,0), ncol=2)
+   rnames<-"C1"
+  }
+  else{
+   for (i in 1:(k - 2)) {
+   help <- c(0, rep(0, k - i - 1), n[(k - i + 1):k]/sum(n[(k - i + 1):k]))
+   numC <- rbind(numC, help)
 
-  denC <- rbind(denC, c(1, rep(0, times=k-1)))
+   denC <- rbind(denC, c(1, rep(0, times=k-1)))
+  }
+   help <- c(0, n[2:k]/sum(n[2:k]))
+   numC <- rbind(numC, help)
+   denC <- rbind(denC, c(1, rep(0, times=k-1)))
+
+   rnames <- c(rnames, paste("C", 1:nrow(numC), sep = ""))
  }
-  help <- c(0, n[2:k]/sum(n[2:k]))
-  numC <- rbind(numC, help)
-  denC <- rbind(denC, c(1, rep(0, times=k-1)))
-
-  rnames <- c(rnames, paste("C", 1:nrow(numC), sep = ""))
 }  
 
 if(type=="UmbrellaWilliams")
@@ -118,10 +126,18 @@ if(type=="Changepoint")
 
 if(type=="AVE")
 {
- helpnum <- c(1, rep(0, times=k-1))
- helpden <- c(0, n[2:k]/sum(n[2:k]))
- numC <- rbind(numC, helpnum)
- denC <- rbind(denC, helpden)
+
+ if(k==2)
+  {
+   numC<-matrix(c(0,1), ncol=2)
+   denC<-matrix(c(1,0), ncol=2)
+   rnames<-"C1"
+  }
+ else{
+   helpnum <- c(1, rep(0, times=k-1))
+   helpden <- c(0, n[2:k]/sum(n[2:k]))
+   numC <- rbind(numC, helpnum)
+   denC <- rbind(denC, helpden)
 
 
         for (i in 2:(k - 1)) {
@@ -139,6 +155,7 @@ if(type=="AVE")
         denC <- rbind(denC, helpden)
 
         rnames <- paste("C", 1:nrow(numC), sep = "")
+  }
 }
 
 if(type=="GrandMean")
@@ -151,23 +168,30 @@ if(type=="GrandMean")
 
 if(type=="McDermott")
 {
- for (i in 1:(k - 2))
+ if(k==2)
   {
-   helpnum <- c(rep(0, times=i), 1, rep(0, times = k - i - 1))
-   helpden <- c(n[1:i]/sum(n[1:i]),  rep(0, times= k - i ))
+   numC<-matrix(c(0,1), ncol=2)
+   denC<-matrix(c(1,0), ncol=2)
+   rnames<-"C1"
+  }
+ else{
+  for (i in 1:(k - 2))
+   {
+    helpnum <- c(rep(0, times=i), 1, rep(0, times = k - i - 1))
+    helpden <- c(n[1:i]/sum(n[1:i]),  rep(0, times= k - i ))
+
+    numC <- rbind(numC, helpnum)
+    denC <- rbind(denC, helpden)
+   }
+
+   helpnum <- c(rep(0, times=k-1), 1)
+   helpden <- c(n[1:(k - 1)]/sum(n[1:(k - 1)]), 0)
 
    numC <- rbind(numC, helpnum)
    denC <- rbind(denC, helpden)
 
-   }
-
-  helpnum <- c(rep(0, times=k-1), 1)
-  helpden <- c(n[1:(k - 1)]/sum(n[1:(k - 1)]), 0)
-
-  numC <- rbind(numC, helpnum)
-  denC <- rbind(denC, helpden)
-
-  rnames <- c(rnames, paste("C", 1:nrow(numC), sep = ""))
+   rnames <- c(rnames, paste("C", 1:nrow(numC), sep = ""))
+  }
 }
 
 if(type=="Marcus")
