@@ -83,9 +83,7 @@ For the multiplicity-adjusted p-values, there is so far no peer-reviewed publica
  }
 
 \author{ Mario Hasler, Frank Schaarschmidt }
-\note{ 
 
-}
 \seealso{ \code{\link{sci.ratioVH}} for corresponding confidence intervals }
 
 \examples{

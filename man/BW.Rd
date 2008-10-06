@@ -16,9 +16,7 @@
 \source{
   Hothorn, L.A. (2004): Statistische Auswerteverfahren. In: Regulatorische Toxikologie (Reichl, F.X., ed.). Springer Verlag Heidelberg, pp. 167-181.
 }
-\references{
 
-}
 \examples{
 
 library(mratios)

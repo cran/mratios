@@ -322,6 +322,7 @@ t.test.ratio.default <- function (x, y, alternative = "two.sided", rho = 1, var.
         }
     }
 
+    
     names(statistic) <- "t"
     estimate <- c(mx, my, est)
     names(estimate) <- c(paste("mean", namex), paste("mean", 
@@ -334,6 +335,9 @@ t.test.ratio.default <- function (x, y, alternative = "two.sided", rho = 1, var.
         warning("Mean of denominator group is not significantly different from zero", 
             "\n")
     }
+
+   conf.int<-as.numeric(conf.int)
+
     out <- list(statistic = statistic, parameter = degf, p.value = p.value, 
         conf.int = conf.int, estimate = estimate, null.value = rho, 
         alternative = alternative, method = method, data.name = data.name)

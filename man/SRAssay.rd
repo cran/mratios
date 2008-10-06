@@ -16,9 +16,7 @@ titer of a sample to pH 6.8.
     \item{\code{Dose}}{a numeric vector}
   }
 }
-\details{
-  
-}
+
 \source{
   Jensen, D.R. (1989): Joint confidence sets in multiple dilution assays. Biometrical Journal 31, 841-853.
 }

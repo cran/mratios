@@ -16,9 +16,7 @@
     \item{\code{MN}}{a numeric vector, giving the counts of micronuclei after 24h}
   }
 }
-\details{
 
-}
 \source{
  \emph{Adler, ID, and Kliesch, U (1990):} Comparison of single and multiple treatment regiments in the mouse bone marrow micronucleus assay for hydroquinone and cyclophosphamide. \emph{Mutation Research 234, 115-123.}
 }

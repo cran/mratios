@@ -95,9 +95,7 @@ For the simultaneous confidence intervals, there is so far no peer-reviewed publ
 
  }
 \author{ Mario Hasler, Frank Schaarschmidt }
-\note{ 
 
-}
 \seealso{ \code{\link{plot.sci.ratio}} for plots of confidence intervals and \code{\link{simtest.ratioVH}} for raw and multiplicity-adjusted p-values }
 \examples{
 

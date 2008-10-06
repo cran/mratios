@@ -52,7 +52,7 @@ gammaC.vec <- (CMat%*%Beta.Coeff)/DMat%*%Beta.Coeff          #  MLE of the ratio
 
 M <- solve(t(X)%*%X)
 
-CorrMat.plug <- matrix(rep(NA,n.comp*n.comp),nrow=n.comp)
+CorrMat.plug <- matrix(as.numeric(rep(NA,n.comp*n.comp)), nrow=n.comp)
     for(i in 1:n.comp) {
         for(j in 1:n.comp) {
             CorrMat.plug[i,j] <- (gammaC.vec[i]*DMat[i,] - CMat[i,])%*%M%*%(gammaC.vec[j]*DMat[j,] - CMat[j,])/
@@ -98,7 +98,7 @@ if ((alternative=="less")|(alternative=="greater")){
 
 
 
-UAdCL <- matrix(rep(NA,side*n.comp),nrow=n.comp)
+UAdCL <- matrix(as.numeric(rep(NA,side*n.comp)),nrow=n.comp)
 for(j in 1:n.comp)
  {
                   AjUAd <- (DMat[j,]%*%Beta.Coeff)^2 - (cpUAd^2)*Pooled.Var*DMat[j,]%*%M%*%DMat[j,]
@@ -134,7 +134,7 @@ if ((alternative=="less")|(alternative=="greater")){
     
 
 
-BonCL <- matrix(rep(NA,side*n.comp),nrow=n.comp)
+BonCL <- matrix(as.numeric(rep(NA,side*n.comp)), nrow=n.comp)
 for(j in 1:n.comp)
  {
                   AjBon <- (DMat[j,]%*%Beta.Coeff)^2 - (cpBon^2)*Pooled.Var*DMat[j,]%*%M%*%DMat[j,]
@@ -169,7 +169,7 @@ tail="lower.tail", abseps=1e-05)$quantile
     
 
 
-MtICL <- matrix(rep(NA,side*n.comp),nrow=n.comp)
+MtICL <- matrix(as.numeric(rep(NA,side*n.comp)),nrow=n.comp)
 for(j in 1:n.comp) {   
                   AjMtI <- (DMat[j,]%*%Beta.Coeff)^2 - (cpMtI^2)*Pooled.Var*DMat[j,]%*%M%*%DMat[j,]
                   BjMtI <- -2*((CMat[j,]%*%Beta.Coeff)*(DMat[j,]%*%Beta.Coeff) - (cpMtI^2)*Pooled.Var*CMat[j,]%*%M%*%DMat[j,])
@@ -203,7 +203,7 @@ tail="lower.tail", abseps=1e-05)$quantile
     } # End of one-sided CI    
    
 
-PlugCL <- matrix(rep(NA,side*n.comp),nrow=n.comp) 
+PlugCL <- matrix(as.numeric(rep(NA,side*n.comp)),nrow=n.comp) 
 for(j in 1:n.comp) { 
                   AjPlug <- (DMat[j,]%*%Beta.Coeff)^2 - (Cplug^2)*Pooled.Var*DMat[j,]%*%M%*%DMat[j,]
                   BjPlug <- -2*((CMat[j,]%*%Beta.Coeff)*(DMat[j,]%*%Beta.Coeff) - (Cplug^2)*Pooled.Var*CMat[j,]%*%M%*%DMat[j,])

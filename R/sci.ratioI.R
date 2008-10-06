@@ -34,7 +34,7 @@ n.comp <- nrow (CMat)     # Number of comparisons
 
 gammaC.vec <- CMat%*%Mean.Treat/DMat%*%Mean.Treat   #  MLE of the ratios
 
-CorrMat.plug <- matrix(rep(NA,n.comp*n.comp),nr=n.comp)
+CorrMat.plug <- matrix(as.numeric(rep(NA,n.comp*n.comp)),nr=n.comp)
     for(i in 1:n.comp) {
         for(j in 1:n.comp) {
             CorrMat.plug[i,j] <- (gammaC.vec[i]*DMat[i,] - CMat[i,])%*%M%*%(gammaC.vec[j]*DMat[j,] - CMat[j,])/
@@ -48,7 +48,7 @@ CorrMat.plug <- matrix(rep(NA,n.comp*n.comp),nr=n.comp)
 Quad.root <- function(Aj, Bj, Cj){
         Discrimi <- Bj^2 - 4*Aj*Cj   
         if ((Aj > 0)&(Discrimi >= 0)) Limit.s <- (-Bj + plus.minus*sqrt(Discrimi))/(2*Aj)
-        else  Limit.s <- NA
+        else  Limit.s <- as.numeric(NA)
         return(Limit.s)}
 
 switch(method,
@@ -71,7 +71,7 @@ if ((alternative=="less")|(alternative=="greater")){
     cpUAd <- qt(1- (1-conf.level)/(side), degree.f, lower.tail = TRUE)
     }   
 
-UAdCL <- matrix(rep(NA,side*n.comp),nr=n.comp)
+UAdCL <- matrix(as.numeric(rep(NA,side*n.comp)),nr=n.comp)
 for(j in 1:n.comp)
  {
                   AjUAd <- (DMat[j,]%*%Mean.Treat)^2 - (cpUAd^2)*Pooled.Var*DMat[j,]%*%M%*%DMat[j,]
@@ -111,7 +111,7 @@ if ((alternative=="less")|(alternative=="greater")){
     
 
 
-BonCL <- matrix(rep(NA,side*n.comp),nr=n.comp)
+BonCL <- matrix(as.numeric(rep(NA,side*n.comp)),nr=n.comp)
 for(j in 1:n.comp)
  {
                   AjBon <- (DMat[j,]%*%Mean.Treat)^2 - (cpBon^2)*Pooled.Var*DMat[j,]%*%M%*%DMat[j,]
@@ -150,7 +150,7 @@ tail="lower.tail", abseps=1e-05)$quantile
     
 
 
-MtICL <- matrix(rep(NA,side*n.comp),nr=n.comp)
+MtICL <- matrix(as.numeric(rep(NA,side*n.comp)),nr=n.comp)
 
 for(j in 1:n.comp)
  {
@@ -193,7 +193,7 @@ tail="lower.tail", abseps=1e-05)$quantile
     
 
 
- PlugCL <- matrix(rep(NA,side*n.comp),nr=n.comp)
+ PlugCL <- matrix(as.numeric(rep(NA,side*n.comp)),nr=n.comp)
 
 for(j in 1:n.comp)
  {

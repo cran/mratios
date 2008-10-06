@@ -1,7 +1,7 @@
 \name{sci.ratio.gen}
 \alias{sci.ratio.gen}
 
-\title{ Simultaneous confidence intervals for ratios of coefficients in the general linear models }
+\title{ Simultaneous confidence intervals for ratios of coefficients in the general linear model }
 \description{
 Constructs simultaneous confidence intervals for multiple ratios of linear combinations of coefficients in the general linear model.
 }
@@ -67,9 +67,7 @@ and some further input arguments, to be passed to print and summary functions.
  Journal of Statistical Planning and Inference 136, 2640-2658.
  }
 \author{ Gemechis Dilba, Frank Schaarschmidt }
-\note{ 
 
-}
 \seealso{ glht(multcomp) for multiple comparisons of parameters from lm, glm,...,
 \code{\link{sci.ratio}} for confidence intervals for ratios of means in a one-way-layout,
 \code{\link{simtest.ratio}} for simultaneous tests for ratios of means in a one-way-layout,

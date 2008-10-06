@@ -140,7 +140,7 @@ if(any( n.Treat < 2 ))
 
     MMH <- diag(Var.Treat/n.Treat)  # Diagonal matrix containing the variances divided by the sample sizes
     n.comp <- nrow(CMat)
-    degree.f <- cpUAd <- cpBon <- cpMtI <- Cplug <- rep(NA,n.comp)
+    degree.f <- cpUAd <- cpBon <- cpMtI <- Cplug <- as.numeric(rep(NA,n.comp))
     gammaC.vec <- CMat %*% Mean.Treat/DMat %*% Mean.Treat
 
     for (i in 1:n.comp) {
@@ -149,7 +149,7 @@ if(any( n.Treat < 2 ))
       degree.f[i] <- max(round(dfNum.i/dfDen.i, 4),2) # Minimal degrees of freedom = 2 to avoid adj. p.val. < raw p.val.
     }
 
-    CorrMat.plug <- matrix(rep(NA, n.comp * n.comp), nr = n.comp)
+    CorrMat.plug <- matrix(as.numeric(rep(NA, n.comp * n.comp)), nr = n.comp)
     for (i in 1:n.comp) {
         for (j in 1:n.comp) {
             CorrMat.plug[i, j] <- (gammaC.vec[i] * DMat[i, ] - 
@@ -167,7 +167,7 @@ if(any( n.Treat < 2 ))
         if ((Aj > 0) & (Discrimi >= 0))
             Limit.s <- (-Bj + plus.minus * sqrt(Discrimi))/(2 * 
                 Aj)
-        else Limit.s <- NA
+        else Limit.s <- as.numeric(NA)
         return(Limit.s)
     }
 
@@ -193,7 +193,7 @@ for (i in 1:n.comp) {
 
     }
 }
-        UAdCL <- matrix(rep(NA, side * n.comp), nr = n.comp)
+        UAdCL <- matrix(as.numeric(rep(NA, side * n.comp)), nr = n.comp)
         for (j in 1:n.comp) {
             AjUAd <- (DMat[j, ] %*% Mean.Treat)^2 - (cpUAd[j]^2) * 
                 DMat[j, ] %*% MMH %*% DMat[j, ]
@@ -228,7 +228,7 @@ for (i in 1:n.comp)
         cpBon[i] <- qt(1 - (1 - conf.level)/(side * n.comp), degree.f[i], lower.tail = TRUE)
     }
  }
-        BonCL <- matrix(rep(NA, side * n.comp), nr = n.comp)
+        BonCL <- matrix(as.numeric(rep(NA, side * n.comp)), nr = n.comp)
         for (j in 1:n.comp) {
             AjBon <- (DMat[j,]%*%Mean.Treat)^2 - (cpBon[j]^2)*DMat[j,]%*%MMH%*%DMat[j,]
             BjBon <- -2*((CMat[j,]%*%Mean.Treat)*(DMat[j,]%*%Mean.Treat) - (cpBon[j]^2)*CMat[j,]%*%MMH%*%DMat[j,])
@@ -261,7 +261,7 @@ for (i in 1:n.comp) {
             abseps = 1e-05)$quantile
     }
 }
-        PlugCL <- matrix(rep(NA, side * n.comp), nr = n.comp)
+        PlugCL <- matrix(as.numeric(rep(NA, side * n.comp)), nr = n.comp)
         for (j in 1:n.comp) {
             AjPlug <- (DMat[j,]%*%Mean.Treat)^2 - (Cplug[j]^2)*DMat[j,]%*%MMH%*%DMat[j,]
             BjPlug <- -2*((CMat[j,]%*%Mean.Treat)*(DMat[j,]%*%Mean.Treat) - (Cplug[j]^2)*CMat[j,]%*%MMH%*%DMat[j,])
@@ -451,13 +451,13 @@ if(any( n.Treat < 2 ))
 
     MMH <- diag(var.Treat/n.Treat)  # Diagonal matrix containing the variances divided by the sample sizes
     ncomp <- nrow(CMat)
-    Ratio.Estimate <- Test.Stat <- P.raw <- P.adjusted <- d.freedom <- Critical.pt <- rep(NA, ncomp)
+    Ratio.Estimate <- Test.Stat <- P.raw <- P.adjusted <- d.freedom <- Critical.pt <- as.numeric(rep(NA, ncomp))
     for (i in 1:ncomp){
       dfNum.i  <- (  sum(  ((CMat[i,] - Margin.vec[i]*DMat[i,])^2)*(var.Treat/n.Treat)  )  )^2
       dfDen.i  <-    sum(  ((CMat[i,] - Margin.vec[i]*DMat[i,])^4)*((var.Treat/n.Treat)^2)/(n.Treat - 1)  )
       d.freedom[i] <- max(round(dfNum.i/dfDen.i, 4),2) # min df = 2 to avoid adj. p.val. < raw p.val.
     }
-    CorrMat.H0 <- matrix(rep(NA, ncomp * ncomp), nr = ncomp)
+    CorrMat.H0 <- matrix(as.numeric(rep(NA, ncomp * ncomp)), nr = ncomp)
     for (i in 1:ncomp) {
         for (j in 1:ncomp) {
             CorrMat.H0[i, j] <- (Margin.vec[i] * DMat[i, ] - 
