@@ -1,6 +1,7 @@
 export(contrMatRatio, n.ratio,
  sci.ratio, sci.ratio.gen, sci.ratioVH,
  simtest.ratio, simtest.ratioVH,
+ gsci.ratio,
  t.test.ratio, t.test.ratio.formula, t.test.ratio.default)
 
 import(graphics, mvtnorm)
