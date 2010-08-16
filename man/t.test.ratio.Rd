@@ -6,7 +6,7 @@
 
 \title{ t-test for the ratio of two means }
 \description{
-Performs t-test for the ratio of means of independent samples from two gaussian distributions.
+Performs t-test for the ratio of means of two independent samples from two gaussian distributions.
 In case of heterogeneous variances a Satterthwaite approximation of the degrees of freedom
 is used (Tamhane & Logan, 2004).
 }
@@ -34,7 +34,7 @@ t.test.ratio(x, ...)
   \item{\dots}{arguments to be passed to t.test.ratio.default}
 }
 \details{
-This function implements the t-Test for the ratio of two means and Fiellers confidence interval for the ratio of two means assuming mutually independent Gaussian errors with homogeneous variances, e.g. in Hauschke, Kieser, Hothorn (1999), when the argument \kbd{var.equal=TRUE}. With the argument \kbd{var.equal=FALSE} (default), the t-Test for the ratio of two means assuming mutually independent Gaussian errors and possibly heterogeneous group variances (Tamhane and Logan, 2004) is implemented. When \kbd{iterativeCI = FALSE} (default) the corresponding confidence limits are obtained by using Fiellers formula with plug-in of the Satterthwaites degree of freedom calculated with the sample estimates for ratio and variances. These bounds perform quite well but do not necessarily exactly coincide with the test decision. Setting \kbd{iterativeCI = TRUE} invokes searching for teh confidence limits by inverting Tamhane and Logans test in a bisection (could be improved).
+This function implements the t-Test for the ratio of two means and Fiellers confidence interval for the ratio of two means assuming mutually independent Gaussian errors with homogeneous variances, e.g. in Hauschke, Kieser, Hothorn (1999), when the argument \kbd{var.equal=TRUE}. With the argument \kbd{var.equal=FALSE} (default), the t-Test for the ratio of two means assuming mutually independent Gaussian errors and possibly heterogeneous group variances (Tamhane and Logan, 2004) is implemented. When \kbd{iterativeCI = FALSE} (default) the corresponding confidence limits are obtained by using Fiellers formula with plug-in of the Satterthwaites degree of freedom calculated with the sample estimates for ratio and variances (not published). These bounds perform quite well but do not necessarily exactly coincide with the test decision. Setting \kbd{iterativeCI = TRUE} invokes searching for the confidence limits by inverting Tamhane and Logans test in a bisection.
 
 Note that when the mean of the denominator of the ratio is close to zero, confidence intervals might be degenerated and are not returned.
 

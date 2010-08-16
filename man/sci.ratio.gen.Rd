@@ -87,18 +87,10 @@ and some further input arguments, to be passed to print and summary functions.
 # the design matrix can be done directly as
 # follows:
 
-Y0 <- scan()
-1.3 1.7 2.4 2.7 3.6 3.6 4.7 5.0 6.1 6.3
-
-Y1 <- scan()
-2.8 2.9 4.1 3.7 5.5 5.5 6.4 6.7
-
-Y2 <- scan()
-2.2 2.1 3.2 3.2 3.8 3.9 4.7 4.9
-
-Y3 <- scan()
-2.3 2.3 3.2 3.0 4.2 4.2 4.6 5.1
- 
+Y0 <- c(1.3, 1.7, 2.4, 2.7, 3.6, 3.6, 4.7, 5.0, 6.1, 6.3)
+Y1 <- c(2.8, 2.9, 4.1, 3.7, 5.5, 5.5, 6.4, 6.7)
+Y2 <- c(2.2, 2.1, 3.2, 3.2, 3.8, 3.9, 4.7, 4.9)
+Y3 <- c(2.3, 2.3, 3.2, 3.0, 4.2, 4.2, 4.6, 5.1)
 Y <- c(Y0,Y1,Y2,Y3) # the response vector
 
 xi <- rep(1,34)

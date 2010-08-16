@@ -18,5 +18,11 @@
 A print out, containing the margins, estimates, teststatistics, and p.values computed by simtest.ratio. 
 }
 
+\examples{
+data(BW)
+RES <- simtest.ratio(Weight~Dose, data=BW, type="Dunnett", Margin.vec=0.9, alternative="greater")
+print(RES)
+}
+
 
 \keyword{ print }

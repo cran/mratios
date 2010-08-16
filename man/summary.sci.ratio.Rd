@@ -7,7 +7,7 @@
   Detailed print out for sci.ratio objects.
 }
 \usage{
-\method{summary}{sci.ratio}(object, digits=4,...)
+\method{summary}{sci.ratio}(object, digits=4, ...)
 }
 
 \arguments{
@@ -21,6 +21,13 @@ A more detailed print output of the results and some computational steps used in
 }
 
 \seealso{ print.sci.ratio, plot.sci.ratio }
+
+
+\examples{
+data(BW)
+RES <- sci.ratio(Weight~Dose, data=BW, type="Dunnett", alternative="greater")
+summary(RES)
+}
 
 \keyword{ print }
 
