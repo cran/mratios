@@ -1,167 +1,66 @@
 
 "CIratioiter" <- 
-function (x, y, alternative = "two.sided", conf.level = 0.95, maxit=100) 
+function (nx, ny, mx, my, vx, vy, alternative = "two.sided", conf.level = 0.95, ul=1e10, ll=-1e10) 
 {
-    mx <- mean(x)
-    my <- mean(y)
-    nx <- length(x)
-    ny <- length(y)
-    vx <- var(x)
-    vy <- var(y)
+
     est <- mx/my
 
-##############
+tratio <- function(rho, nx, ny, mx, my, vx, vy, alpha) {
+degf <- ((vx/nx + (rho^2) * vy/ny)^2)/((vx^2)/((nx^2) * (nx - 1)) + (rho^4) * (vy^2)/((ny^2) * (ny - 1)))
+crit <- qt(p = alpha, df = degf, lower.tail = FALSE)
+stat <- (mx - my * rho)/sqrt(vx/nx + (rho^2) * vy/ny)
+return(abs(stat)-crit)}
 
-tratioless<-function(nx,ny, mx,my, vx,vy, rho)
-{
-degf <- ((vx/nx + (rho^2) * vy/ny)^2)/((vx^2)/((nx^2) * 
-            (nx - 1)) + (rho^4) * (vy^2)/((ny^2) * (ny - 1)))
-stderr <- sqrt(vx/nx + (rho^2) * vy/ny)
-statistic <- (mx - my * rho)/stderr
-return(pt(q = statistic, df = degf, lower.tail = TRUE))
-}
+switch(alternative,
+"two.sided"={
+alpha2 <- (1-conf.level)/2
 
+UPPER <- try(uniroot(f=function(x){tratio(rho=x, nx=nx, ny=ny, mx=mx, my=my, vx=vx, vy=vy, alpha=alpha2)},
+interval=c(est,ul)), silent=TRUE)
 
+LOWER <- try(uniroot(f=function(x){tratio(rho=x, nx=nx, ny=ny, mx=mx, my=my, vx=vx, vy=vy, alpha=alpha2)},
+interval=c(ll, est)), silent=TRUE)
 
-tratiogreater<-function(nx,ny, mx,my, vx,vy, rho)
-{
-degf <- ((vx/nx + (rho^2) * vy/ny)^2)/((vx^2)/((nx^2) * 
-            (nx - 1)) + (rho^4) * (vy^2)/((ny^2) * (ny - 1)))
-stderr <- sqrt(vx/nx + (rho^2) * vy/ny)
-statistic <- (mx - my * rho)/stderr
-return(pt(q = statistic, df = degf, lower.tail = FALSE))
-}
+if(class(LOWER)=="try-error")
+{lower<-NA; warning(paste("Lower confidence limit can not be found in [",ll, ",", signif(est,3),"].", LOWER))}
+else{lower <- LOWER$root}
 
-stderr <- sqrt(vx/nx + (est^2) * vy/ny)
+if(class(UPPER)=="try-error")
+{upper <- NA; warning(paste("Upper confidence limit can not be foundin [", signif(est,4), ",", ul,"].", UPPER))}
+else{upper <- UPPER$root}
+},
+"less"={
+alpha <- (1-conf.level)
+lower <- (-Inf)
 
-if(alternative=="two.sided")
-{
- 
-pm<-c(-1)
+UPPER <- try(uniroot(f=function(x){tratio(rho=x, nx=nx, ny=ny, mx=mx, my=my, vx=vx, vy=vy, alpha=alpha)},
+lower=est, upper=ul), silent=TRUE)
+if(class(UPPER)=="try-error")
+{upper <- NA; warning(paste("Upper confidence limit can not be found in [", signif(est,4), ",", ul,"].", UPPER))}
+else{upper <- UPPER$root}
+},
 
-stepit <- stderr*est
+"greater"={
+alpha <- (1-conf.level)
+upper <- Inf
 
-rhoit <- est + pm*stepit
+LOWER <- try(uniroot(f=function(x){tratio(rho=x, nx=nx, ny=ny, mx=mx, my=my, vx=vx, vy=vy, alpha=alpha)},
+lower=ll, upper=est), silent=TRUE)
+if(class(LOWER)=="try-error")
+{lower<-NA; warning(paste("Lower confidence limit can not be found in [",ll, ",", signif(est,3),"].", LOWER))}
+else{lower <- LOWER$root}
 
-a2<-(1-conf.level)/2
+})
 
-# bisection lower bound
+return(c(lower=lower, upper=upper))
 
-for(it in 1:maxit)
-{
-rhoito<-rhoit
-pmo<-pm
-pit<-tratiogreater(nx=nx,ny=ny, mx=mx,my=my, vx=vx,vy=vy, rho=rhoit)
-if(pit<a2){pm<-c(1)}
- else{pm<-c(-1)}
-if(sign(pm)!=sign(pmo))
- {stepit<-stepit/2}
-rhoit<- rhoit+pm*stepit
-}
-
-lower<-rhoit
-
-if(abs(rhoit-rhoito) > abs(stepit/10))
- {lower<-NA}
-
-pm <- 1
-stepit <- stderr*est
-rhoit <- est + pm*stepit
-a2<-(1-conf.level)/2
-
-# bisection upper bound
-
-for(it in 1:maxit)
-{
-rhoito<-rhoit
-pmo<-pm
-pit<-tratioless(nx=nx,ny=ny, mx=mx,my=my, vx=vx,vy=vy, rho=rhoit)
-if(pit<a2){pm<-c(-1)}
- else{pm<-1}
-if(sign(pm)!=sign(pmo)) {stepit<-stepit/2}
-rhoit<- rhoit+pm*stepit
-}
-upper<-rhoit
-
-if(abs(rhoit-rhoito) > abs(stepit/10))
- {upper<-NA}
-
-}
-
-
-if(alternative=="less")
-{
- 
-
-lower<-c(-Inf)
-
-pm <- 1
-stepit <- stderr*est
-rhoit <- est #+ pm*stepit
-a2<-(1-conf.level)
-
-# bisection upper bound
-
-for(it in 1:maxit)
-{
-rhoito<-rhoit
-pmo<-pm
-pit<-tratioless(nx=nx,ny=ny, mx=mx,my=my, vx=vx,vy=vy, rho=rhoit)
-if(pit<a2){pm<-c(-1)}
- else{pm<-1}
-if(sign(pm)!=sign(pmo)) {stepit<-stepit/2}
-rhoit<- rhoit+pm*stepit
-}
-upper<-rhoit
-
-if(abs(rhoit-rhoito) > abs(stepit/10))
- {upper<-NA}
-
-}
-
-
-if(alternative=="greater")
-{
- 
-
-pm<-c(-1)
-
-stepit <- stderr*est
-
-rhoit <- est #+ pm*stepit
-
-a2<-(1-conf.level)
-
-# bisection lower bound
-
-for(it in 1:maxit)
-{
-rhoito<-rhoit
-pmo<-pm
-pit<-tratiogreater(nx=nx,ny=ny, mx=mx,my=my, vx=vx,vy=vy, rho=rhoit)
-if(pit<a2){pm<-c(1)}
- else{pm<-c(-1)}
-if(sign(pm)!=sign(pmo))
- {stepit<-stepit/2}
-rhoit<- rhoit+pm*stepit
-}
-
-lower<-rhoit
-
-if(abs(rhoit-rhoito) > abs(stepit/10))
- {lower<-NA}
-
-upper<-Inf
-}
-
-return(c(lower, upper))
 }
 
 
 ###################################################
 
 
-t.test.ratio.default <- function (x, y, alternative = "two.sided", rho = 1, var.equal = FALSE, conf.level = 0.95, iterativeCI=FALSE, maxit=100, ...) 
+t.test.ratio.default <- function (x, y, alternative = "two.sided", rho = 1, var.equal = FALSE, conf.level = 0.95, iterativeCI=FALSE, ul=1e10, ll=-1e10, ...) 
 {
     addargs <- list(...)
     alternative <- match.arg(alternative, choices = c("two.sided", 
@@ -228,6 +127,7 @@ t.test.ratio.default <- function (x, y, alternative = "two.sided", rho = 1, var.
         tB <- 2 * mx * my
         tC <- ((vpool * quant^2)/nx) - mx^2
         if (tA >= 0) {
+            warning("Confidence set unbounded.")
             upper <- NA
             lower <- NA
         }
@@ -270,6 +170,7 @@ t.test.ratio.default <- function (x, y, alternative = "two.sided", rho = 1, var.
         tC <- ((vx * quant^2)/nx) - mx^2
 
         if (tA >= 0) {
+            warning("Confidence set unbounded.")
             upper <- NA
             lower <- NA
         }
@@ -302,7 +203,7 @@ t.test.ratio.default <- function (x, y, alternative = "two.sided", rho = 1, var.
 
         method <- "Ratio t-test for unequal variances"
         
-        conf.int <- CIratioiter(x=x, y=y, alternative = alternative, conf.level = conf.level,             maxit=maxit) 
+        conf.int <- CIratioiter(nx=nx, ny=ny, mx=mx, my=my, vx=vx, vy=vy, alternative = alternative, conf.level = conf.level, ul=ul, ll=ll) 
         lower<-conf.int[1]
         upper<-conf.int[2]
     }
@@ -330,13 +231,8 @@ t.test.ratio.default <- function (x, y, alternative = "two.sided", rho = 1, var.
     names(degf) <- "df"
     names(rho) <- "ratio of means"
     data.name <- paste(namex, namey, sep = " and ")
+    conf.int<-as.numeric(conf.int)
     attr(conf.int, "conf.level") <- conf.level
-    if (any(is.na(conf.int))) {
-        warning("Mean of denominator group is not significantly different from zero", 
-            "\n")
-    }
-
-   conf.int<-as.numeric(conf.int)
 
     out <- list(statistic = statistic, parameter = degf, p.value = p.value, 
         conf.int = conf.int, estimate = estimate, null.value = rho, 

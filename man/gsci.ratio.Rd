@@ -1,6 +1,6 @@
 \name{gsci.ratio}
 \alias{gsci.ratio}
-\title{Test version! Simultaneous confidence intervals for ratios of linear combinations of parameter.}
+\title{Test version! Simultaneous confidence intervals for ratios of linear combinations of parameters.}
 \description{
 This function calculates simultaneous confidence intervals for ratios of user-defined linear combinations, given a vector parameter estiamtes and a corresponding variance-covariance matrix.
 Beside unadjusted intervals, multiplicity adjustments are available using quantiles of a multivariate Normal- or t-distribution. The function provides a more general, but less user-friendly function

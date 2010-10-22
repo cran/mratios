@@ -15,7 +15,7 @@ is used (Tamhane & Logan, 2004).
 t.test.ratio(x, ...) 
 \method{t.test.ratio}{default}(x, y, alternative = "two.sided",
  rho = 1, var.equal = FALSE, conf.level = 0.95,
- iterativeCI=FALSE, maxit=100, ...)
+ iterativeCI=FALSE, ul=1e+10, ll=-1e+10, ...)
 \method{t.test.ratio}{formula}(formula, data, base=2, ...)
 }
 \arguments{
@@ -30,11 +30,12 @@ t.test.ratio(x, ...)
   \item{conf.level}{ confidence level of Fieller's interval for the ratio of two means }
   \item{base}{if formula is used: a single numeric value specifying whether the first or second group (according to alpha-numeric order) is to be used as denominator}
   \item{iterativeCI}{a single logical, indicating whether the confidence limits shall be found with based on Fiellers formula (default) or by iteratively inverting the test (if TRUE); ignored when \kbd{var.equal=TRUE}}
-  \item{maxit}{ maximum of iteration steps \kbd{iterativeCI=TRUE}; ignored when \kbd{iterativeCI=FALSE} or \kbd{var.equal=TRUE} }
+  \item{ul}{a single numeric, defining the upper limit for searching the upper confidence bound in uniroot, if iterativeCI=TRUE and var.equal=FALSE, ignored otherwise}
+  \item{ll}{a single numeric, defining the lower limit for searching the lower confidence bound in uniroot, if iterativeCI=TRUE and var.equal=FALSE, ignored otherwise}
   \item{\dots}{arguments to be passed to t.test.ratio.default}
 }
 \details{
-This function implements the t-Test for the ratio of two means and Fiellers confidence interval for the ratio of two means assuming mutually independent Gaussian errors with homogeneous variances, e.g. in Hauschke, Kieser, Hothorn (1999), when the argument \kbd{var.equal=TRUE}. With the argument \kbd{var.equal=FALSE} (default), the t-Test for the ratio of two means assuming mutually independent Gaussian errors and possibly heterogeneous group variances (Tamhane and Logan, 2004) is implemented. When \kbd{iterativeCI = FALSE} (default) the corresponding confidence limits are obtained by using Fiellers formula with plug-in of the Satterthwaites degree of freedom calculated with the sample estimates for ratio and variances (not published). These bounds perform quite well but do not necessarily exactly coincide with the test decision. Setting \kbd{iterativeCI = TRUE} invokes searching for the confidence limits by inverting Tamhane and Logans test in a bisection.
+This function implements the t-test for the ratio of two means and Fiellers confidence interval for the ratio of two means assuming mutually independent Gaussian errors with homogeneous variances, e.g. in Hauschke, Kieser, Hothorn (1999), when the argument \kbd{var.equal=TRUE}. With the argument \kbd{var.equal=FALSE} (default), the t-test for the ratio of two means assuming mutually independent Gaussian errors and possibly heterogeneous group variances (Tamhane and Logan, 2004) is implemented. When \kbd{iterativeCI = FALSE} (default) the corresponding confidence limits are obtained by using Fiellers formula with plug-in of the Satterthwaites degree of freedom calculated with the sample estimates for ratio and variances (not published). These bounds perform quite well but do not necessarily exactly coincide with the test decision. Setting \kbd{iterativeCI = TRUE} invokes interatively searching for the confidence limits by inverting Tamhane and Logans test using the function uniroot. If the confidence set is unbounded or gives irregular upper and/or lower bounds, a warning and NAs for the confidence limits are returned.
 
 Note that when the mean of the denominator of the ratio is close to zero, confidence intervals might be degenerated and are not returned.
 
@@ -100,6 +101,26 @@ t.test.ratio(ASAT~group, data=ASAT, alternative="less",
 t.test(ASAT~group, data=ASAT, alternative="less",
  mu=0, var.equal=TRUE)
 
+# Ratio of means bewtween negative and positive control in the
+# mutagenicity data set, allowing heterogeneous variances:
+
+data(Mutagenicity)
+DM<-subset(Mutagenicity, Treatment=="Vehicle"|Treatment=="Cyclo25")
+
+# 95%-CI using the Fieller formula, Satterthwaite df with plug-in of 
+# ratio estimate 
+
+t.test.ratio(MN~Treatment, data=DM, alternative="two.sided",
+ var.equal=FALSE, iterativeCI=FALSE)
+
+# 95%-CI based on directly inverting Tamhane and Logans test 
+# (Satterthwaite df, avoiding simple plug-in of the ratio estimate)
+
+t.test.ratio(MN~Treatment, data=DM, alternative="two.sided",
+ var.equal=FALSE, iterativeCI=TRUE)
+
+t.test.ratio(MN~Treatment, data=DM, alternative="greater", rho=4.589893)$p.value
+t.test.ratio(MN~Treatment, data=DM, alternative="less", rho=18.640143)$p.value
 
 }
 \keyword{ htest }

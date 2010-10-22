@@ -105,13 +105,13 @@ if( alternative == "two.sided" )
   
 if(is.null(main))
  {if(alternative=="two.sided")
-   {main <- paste("Two-sided ",conf.level*100, "%",mcp," CI for ratios ",mI)}
+   {main <- paste(conf.level*100, "%",mcp," CI (two-sided) for ratios ",mI)}
 
   if(alternative=="less")
-    {main <- paste("Upper ",conf.level*100,  "%",mcp, " CI for ratios ",mI)}
+    {main <- paste(conf.level*100,  "%",mcp, " upper confidence limits for ratios ",mI)}
 
   if(alternative=="greater")
-    {main <- paste("Lower ",conf.level*100, "%",mcp, " CI for ratios ",mI)}
+    {main <- paste("Lower ",conf.level*100, "%",mcp, " lower confidence limits for ratios ",mI)}
  }
  
 if (is.null(ylab)) {ylab=""}

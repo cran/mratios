@@ -108,6 +108,12 @@ Y
 
 X
 
+# Internally in sci.ratio.gen, the following model is fitted
+ 
+Fiti <- lm(Y ~ X - 1)
+Fiti
+summary(Fiti)
+
 # In this problem, interest is simultaneous estimation of
 # the ratios of slopes relative to the slope of the standard
 # treatment. Therefore, the appropriate contrast matrices are:
