@@ -137,6 +137,8 @@ if(any( sqrt(Var.Treat) < 10 * .Machine$double.eps * abs(Mean.Treat)))
 if(any( n.Treat < 2 )) 
  {warning("There are less than 2 observations in a least one group")}
 
+#if(any( Mean.Treat<0 ))
+# {warning("At least one sample mean is negative. Note, that with negative denominators in the ratio of interest, tests with one-sided alternatives may test the incorrect direction.")}
 
     MMH <- diag(Var.Treat/n.Treat)  # Diagonal matrix containing the variances divided by the sample sizes
     n.comp <- nrow(CMat)
@@ -447,6 +449,9 @@ if(any( sqrt(var.Treat) < 10 * .Machine$double.eps * abs(ybar.Treat)))
 
 if(any( n.Treat < 2 )) 
  {warning("There are less than 2 observations in a least one group")}
+
+if(any( ybar.Treat<0 ))
+ {warning("At least one sample mean is negative. Note, that with negative denominators in the ratio of interest, tests with one-sided alternatives may test the incorrect direction.")}
 
 
     MMH <- diag(var.Treat/n.Treat)  # Diagonal matrix containing the variances divided by the sample sizes

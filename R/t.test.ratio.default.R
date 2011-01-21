@@ -103,10 +103,13 @@ t.test.ratio.default <- function (x, y, alternative = "two.sided", rho = 1, var.
         namex = addargs$namex
         namey = addargs$namey
     }
+    if(any(c(my,mx)<0)){warning("Sample means are smaller than 0! References for this test do not consider this case explicitly!")}
+    if(my<0){mxI<-(-mx); myI<-(-my)}else{mxI<-mx; myI<-my}
+
     if (var.equal == TRUE) {
         degf <- nx + ny - 2
         spool <- sqrt((vx * (nx - 1) + vy * (ny - 1))/degf)
-        statistic <- (mx - my * rho)/(spool * sqrt(1/nx + (rho^2)/ny))
+        statistic <- (mxI - myI * rho)/(spool * sqrt(1/nx + (rho^2)/ny))
         if (alternative == "less") {
             p.value <- pt(q = statistic, df = degf, lower.tail = TRUE)
             alpha <- (1 - conf.level)
@@ -124,7 +127,7 @@ t.test.ratio.default <- function (x, y, alternative = "two.sided", rho = 1, var.
         vpool <- (vx * (nx - 1) + vy * (ny - 1))/degf
         quant <- qt(p = 1 - alpha, df = degf, lower.tail = TRUE)
         tA <- ((vpool * quant^2)/ny) - my^2
-        tB <- 2 * mx * my
+        tB <- 2 * mxI * myI
         tC <- ((vpool * quant^2)/nx) - mx^2
         if (tA >= 0) {
             warning("Confidence set unbounded.")
@@ -143,7 +146,7 @@ t.test.ratio.default <- function (x, y, alternative = "two.sided", rho = 1, var.
             (nx - 1)) + (rho^4) * (vy^2)/((ny^2) * (ny - 1))) )
 
         stderr <- sqrt(vx/nx + (rho^2) * vy/ny)
-        statistic <- (mx - my * rho)/stderr
+        statistic <- (mxI - myI * rho)/stderr
 
         if (alternative == "less") {
             p.value <- pt(q = statistic, df = degf, lower.tail = TRUE)
@@ -166,7 +169,7 @@ t.test.ratio.default <- function (x, y, alternative = "two.sided", rho = 1, var.
         quant <- qt(p = 1 - alpha, df = degfest, lower.tail = TRUE)
 
         tA <- ((vy * quant^2)/ny) - my^2
-        tB <- 2 * mx * my
+        tB <- 2 * mxI * myI
         tC <- ((vx * quant^2)/nx) - mx^2
 
         if (tA >= 0) {
@@ -186,7 +189,7 @@ t.test.ratio.default <- function (x, y, alternative = "two.sided", rho = 1, var.
         degf <- ((vx/nx + (rho^2) * vy/ny)^2)/((vx^2)/((nx^2) * 
             (nx - 1)) + (rho^4) * (vy^2)/((ny^2) * (ny - 1)))
         stderr <- sqrt(vx/nx + (rho^2) * vy/ny)
-        statistic <- (mx - my * rho)/stderr
+        statistic <- (mxI - myI * rho)/stderr
         if (alternative == "less") {
             p.value <- pt(q = statistic, df = degf, lower.tail = TRUE)
             alpha <- (1 - conf.level)
@@ -203,7 +206,7 @@ t.test.ratio.default <- function (x, y, alternative = "two.sided", rho = 1, var.
 
         method <- "Ratio t-test for unequal variances"
         
-        conf.int <- CIratioiter(nx=nx, ny=ny, mx=mx, my=my, vx=vx, vy=vy, alternative = alternative, conf.level = conf.level, ul=ul, ll=ll) 
+        conf.int <- CIratioiter(nx=nx, ny=ny, mx=mxI, my=myI, vx=vx, vy=vy, alternative = alternative, conf.level = conf.level, ul=ul, ll=ll) 
         lower<-conf.int[1]
         upper<-conf.int[2]
     }

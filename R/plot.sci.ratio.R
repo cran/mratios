@@ -38,17 +38,17 @@ if(is.null(sub))
 
 
 if(x$method=="Plug")
- {mI <- "(method: Plug-in)"; mcp<-"simultaneous" }
+ {mI <- "\n(method: Plug-in)"; mcp<-"simultaneous" }
 
 if(x$method=="Bonf")
- {mI <- "(method: Bonferroni)"; mcp<-"simultaneous"   }
+ {mI <- "\n(method: Bonferroni)"; mcp<-"simultaneous"   }
 
 if(x$method=="MtI")
  {
   if(alternative=="two.sided")
-   {mI <- "(method: Sidak)"; mcp<-"simultaneous" }
+   {mI <- "\n(method: Sidak)"; mcp<-"simultaneous" }
   else
-   {mI <- "(method: Slepian)"; mcp<-"simultaneous" }
+   {mI <- "\n(method: Slepian)"; mcp<-"simultaneous" }
  } 
 
 if(x$method=="Unadj")
@@ -105,13 +105,13 @@ if( alternative == "two.sided" )
   
 if(is.null(main))
  {if(alternative=="two.sided")
-   {main <- paste(conf.level*100, "%",mcp," CI (two-sided) for ratios ",mI)}
+   {main <- paste(conf.level*100, "%",mcp,"CI (two-sided) for ratios",mI)}
 
   if(alternative=="less")
-    {main <- paste(conf.level*100,  "%",mcp, " upper confidence limits for ratios ",mI)}
+    {main <- paste(conf.level*100,  "%",mcp, "upper confidence limits for ratios",mI)}
 
   if(alternative=="greater")
-    {main <- paste("Lower ",conf.level*100, "%",mcp, " lower confidence limits for ratios ",mI)}
+    {main <- paste(conf.level*100, "%",mcp, "lower confidence limits for ratios",mI)}
  }
  
 if (is.null(ylab)) {ylab=""}

@@ -20,6 +20,8 @@ if(any( sqrt(var.Treat) < 10 * .Machine$double.eps * abs(ybar.Treat)))
 if(any( n.Treat < 2 )) 
  {warning("There are less than 2 observations in a least one group")}
 
+if(any( ybar.Treat<0 ))
+ {warning("At least one sample mean is negative. Note, that with negative denominators in the ratio of interest, tests with one-sided alternatives may test the incorrect direction.")}
 
 
 MM <- diag(1/n.Treat)    #  Diagonal matrix containing reciprocals of the ni's
