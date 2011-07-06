@@ -248,7 +248,7 @@ for (i in 1:n.comp) {
         side <- 2
         plus.minus <- c(-1, 1)
 
-        Cplug[i] <- qmvt(conf.level, interval = c(0, 10), df = degree.f[i], 
+        Cplug[i] <- qmvt(conf.level, df = degree.f[i], 
             corr = CorrMat.plug, delta = rep(0, n.comp), tail = "both", 
             abseps = 1e-05)$quantile
     }
@@ -258,7 +258,7 @@ for (i in 1:n.comp) {
             plus.minus <- 1
         else plus.minus <- -1
 
-        Cplug[i] <- qmvt(conf.level, interval = c(0, 10), df = degree.f[i], 
+        Cplug[i] <- qmvt(conf.level, df = degree.f[i], 
             corr = CorrMat.plug, delta = rep(0, n.comp), tail = "lower.tail", 
             abseps = 1e-05)$quantile
     }
@@ -480,19 +480,19 @@ if(any( ybar.Treat<0 ))
                         sqrt((CMat[i,] - Margin.vec[i]*DMat[i,])%*%MMH%*%(CMat[i,] - Margin.vec[i]*DMat[i,]))
 
         if (alternative=='two.sided'){ 
-            P.adjusted[i] <- 1 - pmvt(lower=rep(-abs(Test.Stat[i]),ncomp), upper=rep(abs(Test.Stat[i]),ncomp), df=d.freedom[i],corr=CorrMat.H0, delta=rep(0,ncomp) ,abseps = 0.00001)
-            Critical.pt[i] <- qmvt(1-FWER, interval=c(0,8), df=d.freedom[i],corr=CorrMat.H0, delta=rep(0,ncomp),tail='both' ,abseps = 0.00001)$quantile
+            P.adjusted[i] <- 1 - pmvt(lower=rep(-abs(Test.Stat[i]),ncomp), upper=rep(abs(Test.Stat[i]),ncomp), df=d.freedom[i],corr=CorrMat.H0, abseps = 0.00001)
+            Critical.pt[i] <- qmvt(1-FWER, df=d.freedom[i],corr=CorrMat.H0, delta=0,tail='both' ,abseps = 0.00001)$quantile
             P.raw[i]  <-  2*pt(abs(Test.Stat[i]),d.freedom[i],lower.tail=FALSE)
         }
     
         if (alternative=='greater'){
-            P.adjusted[i] <- 1 - pmvt(lower=rep(-Inf,ncomp), upper=rep(Test.Stat[i],ncomp), df=d.freedom[i],corr=CorrMat.H0, delta=rep(0,ncomp) ,abseps = 0.00001)
-            Critical.pt[i] <- qmvt(1-FWER, interval=c(0,8), df=d.freedom[i],corr=CorrMat.H0, delta=rep(0,ncomp),tail='lower.tail' ,abseps = 0.00001)$quantile
+            P.adjusted[i] <- 1 - pmvt(lower=rep(-Inf,ncomp), upper=rep(Test.Stat[i],ncomp), df=d.freedom[i],corr=CorrMat.H0, abseps = 0.00001)
+            Critical.pt[i] <- qmvt(1-FWER,  df=d.freedom[i],corr=CorrMat.H0, delta=0,tail='lower.tail' ,abseps = 0.00001)$quantile
             P.raw[i]  <-  pt(Test.Stat[i],d.freedom[i],lower.tail=FALSE)
         }
         if (alternative=='less'){
-            P.adjusted[i] <- 1 - pmvt(lower=rep(-Inf,ncomp), upper=rep(-Test.Stat[i],ncomp), df=d.freedom[i],corr=CorrMat.H0, delta=rep(0,ncomp) ,abseps = 0.00001)
-            Critical.pt[i] <-  qmvt(1-FWER, interval=c(0,8), df=d.freedom[i],corr=CorrMat.H0, delta=rep(0,ncomp),tail='lower.tail' ,abseps = 0.00001)$quantile
+            P.adjusted[i] <- 1 - pmvt(lower=rep(-Inf,ncomp), upper=rep(-Test.Stat[i],ncomp), df=d.freedom[i],corr=CorrMat.H0,abseps = 0.00001)
+            Critical.pt[i] <-  qmvt(1-FWER,  df=d.freedom[i],corr=CorrMat.H0, delta=0,tail='lower.tail' ,abseps = 0.00001)$quantile
             P.raw[i]  <-  pt(Test.Stat[i],d.freedom[i],lower.tail=TRUE)
         }
     }
