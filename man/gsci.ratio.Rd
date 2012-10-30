@@ -22,10 +22,9 @@ gsci.ratio(est, vcmat, Num.Contrast, Den.Contrast,
   \item{adjusted}{If \kbd{TRUE}, the simultaneous confidence level is controlled, otherwise the comparisonwise confidence level is used}
 }
 \details{
-THIS VERSION IS ONLY FOR TESTING!!!
 
-Given a parameter vector and it's corresponding variance-covariance matrix, simultaneous confidence intervals for several ratios of linear combinations of these parameters are calculated.
-For simultaneous confidence intervals (adjusted=TRUE) the Plug-in method is used (plugging the maximum likelihood estimates of the ratios in the unknown correlation matrix, to calculate quantiles of a multivariate distribution).
+Given a parameter vector and its corresponding covariance matrix from a linera model fit, approximate simultaneous confidence intervals for several ratios of linear combinations of these parameters are calculated.
+For simultaneous confidence intervals (adjusted=TRUE) the plug-in method is used (plugging the maximum likelihood estimates of the ratios to obtain the correlation matrix for calculating quantiles of a multivariate t or normal distribution).
 
 Linear combinations can be defined by providing matrices for the nominator and the denominator; some pre-defined contrasts can be constructed by the function contrMatRatio. (These may be weighted for different sample sizes.)
 }
@@ -40,10 +39,18 @@ An object of class "sci.ratio" and "gsci.ratio", containing a list with elements
   
 And some further elements to be passed to print and summary functions.
 }
-\references{ The code is an adaptation of the methods described for the completely randomized one-way layout by 
+\references{ The general methodology of constructing inference for ratios of linear model parameters can be found in:
+
+\emph{Zerbe G.O., (1978):} On Fieller's Theorem and the General Linear Model. The American Statistician 32(3), 103-105.
+
+\emph{Young D.A., Zerbe G.O., Hay W.W. (1997):} Fieller's Theorem, Scheffe's simultaneous confidence intervals, and ratios of parameters of linear and nonlinear mixed-effect models. Biometrics 53(3), 835-847.
+
+\emph{Djira G.D.(2010)}: Relative Potency Estimation in Parallel-Line Assays - Method Comparison and Some Extensions. Communications in Statistics - Theory and Methods 39(7), 1180-1189.
+
+However, when \code{adjusted=TRUE}, the quantiles are not obtained as described in Zerbe(1978) or Young et al. (1997), but by adapting the 'plug-in' method described for the completely randomized one-way layout in 
+
 \emph{Dilba, G., Bretz, F., and Guiard, V. (2006):} Simultaneous confidence sets and confidence intervals for multiple ratios. Journal of Statistical Planning and Inference 136, 2640-2658.
 
-When used in mixed models, the methods are only asymptically valid.
 }
 \author{Daniel Gerhard, adapting code of Gemechis Dilba Djira}
 \seealso{glht(multcomp) for simultaneous CI of differences of means, and function sci.ratio.gen(mratios)}

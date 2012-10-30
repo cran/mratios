@@ -32,7 +32,7 @@ Ratio.Estimate <- Test.Stat <- P.raw <- P.adjusted <-rep(NA,ncomp)
 #
 #  Correlation matrix under H0
 #
-CorrMat.H0 <- matrix(rep(NA,ncomp*ncomp),nr=ncomp)
+CorrMat.H0 <- matrix(rep(NA,ncomp*ncomp),nrow=ncomp)
     for(i in 1:ncomp) {
         for(j in 1:ncomp) {
             CorrMat.H0[i,j] <- (Margin.vec[i]*DMat[i,] - CMat[i,])%*%MM%*%(Margin.vec[j]*DMat[j,] - CMat[j,])/
@@ -47,28 +47,28 @@ for (i in 1:ncomp){
               sqrt(Var.pooled*(CMat[i,] - Margin.vec[i]*DMat[i,])%*%MM%*%(CMat[i,] - Margin.vec[i]*DMat[i,]))
 
     if (alternative=="two.sided"){ 
-        P.adjusted[i] <- 1 - pmvt(lower=rep(-abs(Test.Stat[i]),ncomp), upper=rep(abs(Test.Stat[i]),ncomp), df=d.freedom,corr=CorrMat.H0, delta=rep(0,ncomp), abseps=1e-05)
+        P.adjusted[i] <- 1 - pmvt(lower=rep(-abs(Test.Stat[i]),ncomp), upper=rep(abs(Test.Stat[i]),ncomp), df=as.integer(d.freedom),corr=CorrMat.H0, delta=rep(0,ncomp), abseps=1e-05)
         }
     
     if (alternative=="greater"){
-        P.adjusted[i] <- 1 - pmvt(lower=rep(-Inf,ncomp), upper=rep(Test.Stat[i],ncomp), df=d.freedom,corr=CorrMat.H0, delta=rep(0,ncomp), abseps=1e-05)
+        P.adjusted[i] <- 1 - pmvt(lower=rep(-Inf,ncomp), upper=rep(Test.Stat[i],ncomp), df=as.integer(d.freedom),corr=CorrMat.H0, delta=rep(0,ncomp), abseps=1e-05)
         }
     if (alternative=="less"){
-        P.adjusted[i] <- 1 - pmvt(lower=rep(-Inf,ncomp), upper=rep(-Test.Stat[i],ncomp), df=d.freedom,corr=CorrMat.H0, delta=rep(0,ncomp), abseps=1e-05)
+        P.adjusted[i] <- 1 - pmvt(lower=rep(-Inf,ncomp), upper=rep(-Test.Stat[i],ncomp), df=as.integer(d.freedom),corr=CorrMat.H0, delta=rep(0,ncomp), abseps=1e-05)
         }
     } # end of for loop
 
 if (alternative=="two.sided"){ 
-    Critical.pt <- qmvt(1-FWER, df=d.freedom,corr=CorrMat.H0, delta=rep(0,ncomp),tail="both", abseps=1e-05)$quantile
+    Critical.pt <- qmvt(1-FWER, df=as.integer(d.freedom),corr=CorrMat.H0, delta=rep(0,ncomp),tail="both", abseps=1e-05)$quantile
     P.raw  <-  2*pt(abs(Test.Stat),d.freedom,lower.tail=FALSE)
     }
     
 if (alternative=="greater"){
-     Critical.pt <- qmvt(1-FWER, df=d.freedom,corr=CorrMat.H0, delta=rep(0,ncomp),tail="lower.tail", abseps=1e-05)$quantile
+     Critical.pt <- qmvt(1-FWER, df=as.integer(d.freedom),corr=CorrMat.H0, delta=rep(0,ncomp),tail="lower.tail", abseps=1e-05)$quantile
      P.raw  <-  pt(Test.Stat,d.freedom,lower.tail=FALSE)
       }
 if (alternative=="less"){
-     Critical.pt <-  qmvt(1-FWER, df=d.freedom,corr=CorrMat.H0, delta=rep(0,ncomp),tail="lower.tail", abseps=1e-05)$quantile
+     Critical.pt <-  qmvt(1-FWER, df=as.integer(d.freedom),corr=CorrMat.H0, delta=rep(0,ncomp),tail="lower.tail", abseps=1e-05)$quantile
      P.raw  <-  pt(Test.Stat,d.freedom,lower.tail=TRUE)
       }
 
@@ -79,6 +79,7 @@ Num.Contrast=Num.Contrast,
 Den.Contrast=Den.Contrast,
 CorrMat=CorrMat.H0,
 critical.pt=Critical.pt,
+df=d.freedom,
 p.value.raw=P.raw,
 p.value.adj=P.adjusted,
 Margin.vec=Margin.vec,

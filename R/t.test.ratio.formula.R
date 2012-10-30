@@ -13,7 +13,7 @@ mf<-model.frame(formula,data=data)
 if (!is.numeric(mf[,1]))
  {stop("response variable must be numeric")}
 
-datalist=split(x=mf[,1], f=mf[,2], drop=TRUE)
+datalist=split(x=mf[,1], f=droplevels(mf[,2]), drop=TRUE)
 
 groupnames<-names(datalist)
 

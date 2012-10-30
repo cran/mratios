@@ -14,7 +14,7 @@ mf <- model.frame( formula, data)
 if (is.numeric(mf[,1])==FALSE){stop("Response variable must be numeric")}
 
  Response <- mf[,1] 
- Treatment <- as.factor(mf[,2])
+ Treatment <- droplevels(as.factor(mf[,2]))
 
 varnames <- levels(Treatment)
 

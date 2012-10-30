@@ -12,7 +12,7 @@ is used (Tamhane & Logan, 2004).
 }
 
 \usage{
-t.test.ratio(x, ...) 
+ 
 \method{t.test.ratio}{default}(x, y, alternative = "two.sided",
  rho = 1, var.equal = FALSE, conf.level = 0.95,
  iterativeCI=FALSE, ul=1e+10, ll=-1e+10, ...)

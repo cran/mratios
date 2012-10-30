@@ -15,7 +15,7 @@ mf <- model.frame( formula, data)
 if (is.numeric(mf[,1])==FALSE){stop("Response variable must be numeric")}
 
  Response <- mf[,1] 
- Treatment <- as.factor(mf[,2])
+ Treatment <- droplevels(as.factor(mf[,2]))
 
 varnames <- levels(Treatment)
 
@@ -107,10 +107,10 @@ if(type=="User defined")
 
 if(method=="Unadj")
 {
-methodname<-paste("Local ", round(conf.level*100,2), "-% confidence intervals", sep="")
+methodname<-paste( round(conf.level*100,2), "-% confidence intervals", sep="")
 }
 else{
-methodname<-paste("Simultaneous ", round(conf.level*100,2), "-% confidence intervals", sep="")
+methodname<-paste("Simultaneous ", round(conf.level*100,4), "% confidence intervals", sep="")
 }
 
 out$methodname<-methodname

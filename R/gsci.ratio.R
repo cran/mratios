@@ -35,7 +35,7 @@ function(est, vcmat, Num.Contrast, Den.Contrast,
           Cplug <- qmvnorm(conf.level, interval = c(0, 10),
             corr = CorrMat.plug, mean = rep(0, n.comp), tail = "both.tails")$quantile
         } else {
-          Cplug <- qmvt(conf.level, interval = c(0, 10), df = degfree,
+          Cplug <- qmvt(conf.level, interval = c(0, 10), df = as.integer(degfree),
             corr = CorrMat.plug, delta = rep(0, n.comp), tail = "both.tails")$quantile
         }
       } else {
@@ -54,7 +54,7 @@ function(est, vcmat, Num.Contrast, Den.Contrast,
           Cplug <- qmvnorm(conf.level, interval = c(0, 10),
             corr = CorrMat.plug, mean = rep(0, n.comp), tail = "lower.tail")$quantile
         } else {
-          Cplug <- qmvt(conf.level, interval = c(0, 10), df = degfree,
+          Cplug <- qmvt(conf.level, interval = c(0, 10), df = as.integer(degfree),
             corr = CorrMat.plug, delta = rep(0, n.comp), tail = "lower.tail")$quantile
         }
       } else {
@@ -97,9 +97,11 @@ function(est, vcmat, Num.Contrast, Den.Contrast,
     out$alternative <- alternative
     out$conf.level <- conf.level
     out$compnames <- rownames(SCIs)
-    out$methodname <- if (adjusted) paste("Simultaneous ",conf.level*100,"-% confidence intervals", sep="") else paste("Unadjusted ",conf.level*100,"-% confidence intervals", sep="")
+    out$methodname <- if (adjusted) paste("Simultaneous ",signif(conf.level*100,4),"% confidence intervals", sep="") else paste("Unadjusted ",signif(conf.level*100,4),"% confidence intervals", sep="")
     out$type <-  "User defined"
     out$method <- if (adjusted) "Plug" else "Unadj"
+    out$df <-  degfree
+    out$quantile <- quant
     class(out) <- c("sci.ratio","gsci.ratio")
     out
 }

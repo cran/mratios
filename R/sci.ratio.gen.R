@@ -107,6 +107,7 @@ for(j in 1:n.comp)
     UAdCL[j,]  <- Quad.root(AjUAd, BjUAd,  CjUAd)
     }
 sci.table <- data.frame(UAdCL)
+df <- Degree.f; critp <- cpUAd
 },
 
 # BONFERRONI-ADJUSTED CI
@@ -143,6 +144,7 @@ for(j in 1:n.comp)
     BonCL[j,]  <- Quad.root(AjBon, BjBon,  CjBon)
     }
 sci.table <- data.frame(BonCL)
+df <- Degree.f; critp <- cpBon
 },
 
 # MtI-ADJUSTED CI (SIDAK, resp SLEPIAN)
@@ -153,7 +155,7 @@ if (alternative=="two.sided"){
     side <- 2
     plus.minus <- c(-1,1)
 
-    cpMtI <- qmvt(conf.level, interval=c(0,10),df=Degree.f,corr=diag(n.comp),delta=rep(0,n.comp), tail="both", abseps=1e-05)$quantile
+    cpMtI <- qmvt(conf.level, interval=c(0,10),df=as.integer(Degree.f),corr=diag(n.comp),delta=rep(0,n.comp), tail="both", abseps=1e-05)$quantile
 
    } # End of two-sided CI
     
@@ -162,7 +164,7 @@ if ((alternative=="less")|(alternative=="greater")){
     if (alternative=="less") plus.minus <- 1
     else plus.minus <- -1
 
-    cpMtI <- qmvt(conf.level, interval=c(0,10),df=Degree.f,corr=diag(n.comp),delta=rep(0,n.comp), 
+    cpMtI <- qmvt(conf.level, interval=c(0,10),df=as.integer(Degree.f),corr=diag(n.comp),delta=rep(0,n.comp), 
 tail="lower.tail", abseps=1e-05)$quantile
 
     } # End of one-sided CI    
@@ -177,6 +179,7 @@ for(j in 1:n.comp) {
     MtICL[j,]  <- Quad.root(AjMtI, BjMtI,  CjMtI)
     }
 sci.table <- data.frame(MtICL)
+df <- as.integer(Degree.f); critp <- cpMtI
 },
 
 # PLUG-IN-CI
@@ -188,7 +191,7 @@ if (alternative=="two.sided"){
     side <- 2
     plus.minus <- c(-1,1)
  
-    Cplug <- qmvt(conf.level, interval=c(0,10),df=Degree.f,corr=CorrMat.plug,delta=rep(0,n.comp), tail="both", abseps=1e-05)$quantile
+    Cplug <- qmvt(conf.level, interval=c(0,10),df=as.integer(Degree.f),corr=CorrMat.plug,delta=rep(0,n.comp), tail="both", abseps=1e-05)$quantile
     
    } # End of two-sided CI
     
@@ -197,7 +200,7 @@ if ((alternative=="less")|(alternative=="greater")){
     if (alternative=="less") plus.minus <- 1
     else plus.minus <- -1
 
-    Cplug <- qmvt(conf.level, interval=c(0,10),df=Degree.f,corr=CorrMat.plug,delta=rep(0,n.comp), 
+    Cplug <- qmvt(conf.level, interval=c(0,10),df=as.integer(Degree.f),corr=CorrMat.plug,delta=rep(0,n.comp), 
 tail="lower.tail", abseps=1e-05)$quantile
    
     } # End of one-sided CI    
@@ -212,6 +215,7 @@ for(j in 1:n.comp) {
 
     } 
 sci.table <- data.frame(PlugCL)
+df <- as.integer(Degree.f); critp <- Cplug
 }  
 )  
 # end of switch method
@@ -234,8 +238,8 @@ names(sci.table) <- c("lower")
 
 if( any(CorrMat.plug<0) && method=="MtI" && alternative!="two.sided")
  {
-  cat("Warning: At least one element of the estimated correlation matrix is negative,","\n",
-  "therefore, according to Slepian inequality, the MtI method might yield incorrect estimates.","\n")
+  warning("At least one element of the estimated correlation matrix is negative,
+  therefore, according to Slepian inequality, the MtI method might yield incorrect estimates.")
  }
 
 
@@ -249,10 +253,10 @@ if (sum(sci.table=="NSD")>0){NSD <- TRUE}
 
 if(method=="Unadj")
 {
-methodname<-paste("Local", round(conf.level*100,2), "-% simultaneous confidence intervals", sep="")
+methodname<-paste( signif(conf.level*100,2), "% confidence intervals", sep="")
 }
 else{
-methodname<-paste("Simultaneous", round(conf.level*100,2), "-% simultaneous confidence intervals", sep="")
+methodname<-paste("Simultaneous", signif(conf.level*100,2), "% simultaneous confidence intervals", sep="")
 }
 
 
@@ -271,7 +275,9 @@ conf.level=conf.level,
 type="User defined",
 Y=Y,
 X=X,
-fit=Lm.Fit
+fit=Lm.Fit,
+df=df,
+quantile=critp
 )
 
 class(out)<-c("sci.ratio.gen", "sci.ratio")

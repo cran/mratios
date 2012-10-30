@@ -19,7 +19,7 @@ sci.ratioVH <- function(formula, data, type = "Dunnett", base = 1, method = "Plu
      {stop("Response variable must be numeric")}
 
     Response <- mf[, 1]
-    Treatment <- as.factor(mf[, 2])
+    Treatment <- droplevels(as.factor(mf[, 2]))
     varnames <- levels(Treatment)
     k <- length(varnames)
     splitdat <- split(Response, Treatment)
@@ -103,10 +103,10 @@ sci.ratioVH <- function(formula, data, type = "Dunnett", base = 1, method = "Plu
 
 if(method=="Unadj")
 {
-methodname<-paste("Local ", round(conf.level*100,2), "-% confidence intervals", sep="")
+methodname<-paste( round(conf.level*100,4), "% confidence intervals (heteroscedasticity)", sep="")
 }
 else{
-methodname<-paste("Simultaneous ", round(conf.level*100,2), "-% confidence intervals", sep="")
+methodname<-paste("Simultaneous ", round(conf.level*100,4), "% confidence intervals (heteroscedasticity)", sep="")
 }
 
      out$methodname<-methodname
@@ -151,7 +151,7 @@ if(any( n.Treat < 2 ))
       degree.f[i] <- max(round(dfNum.i/dfDen.i, 4),2) # Minimal degrees of freedom = 2 to avoid adj. p.val. < raw p.val.
     }
 
-    CorrMat.plug <- matrix(as.numeric(rep(NA, n.comp * n.comp)), nr = n.comp)
+    CorrMat.plug <- matrix(as.numeric(rep(NA, n.comp * n.comp)), nrow = n.comp)
     for (i in 1:n.comp) {
         for (j in 1:n.comp) {
             CorrMat.plug[i, j] <- (gammaC.vec[i] * DMat[i, ] - 
@@ -195,7 +195,7 @@ for (i in 1:n.comp) {
 
     }
 }
-        UAdCL <- matrix(as.numeric(rep(NA, side * n.comp)), nr = n.comp)
+        UAdCL <- matrix(as.numeric(rep(NA, side * n.comp)), nrow = n.comp)
         for (j in 1:n.comp) {
             AjUAd <- (DMat[j, ] %*% Mean.Treat)^2 - (cpUAd[j]^2) * 
                 DMat[j, ] %*% MMH %*% DMat[j, ]
@@ -207,6 +207,7 @@ for (i in 1:n.comp) {
             UAdCL[j, ] <- Quad.root(AjUAd, BjUAd, CjUAd)
         }
         sci.table <- data.frame(UAdCL)
+	df <- degree.f; critp <- cpUAd
     },
 
 
@@ -230,7 +231,7 @@ for (i in 1:n.comp)
         cpBon[i] <- qt(1 - (1 - conf.level)/(side * n.comp), degree.f[i], lower.tail = TRUE)
     }
  }
-        BonCL <- matrix(as.numeric(rep(NA, side * n.comp)), nr = n.comp)
+        BonCL <- matrix(as.numeric(rep(NA, side * n.comp)), nrow = n.comp)
         for (j in 1:n.comp) {
             AjBon <- (DMat[j,]%*%Mean.Treat)^2 - (cpBon[j]^2)*DMat[j,]%*%MMH%*%DMat[j,]
             BjBon <- -2*((CMat[j,]%*%Mean.Treat)*(DMat[j,]%*%Mean.Treat) - (cpBon[j]^2)*CMat[j,]%*%MMH%*%DMat[j,])
@@ -238,6 +239,7 @@ for (i in 1:n.comp)
             BonCL[j,]  <- Quad.root(AjBon, BjBon,  CjBon)
         }
         sci.table <- data.frame(BonCL)
+	df <- degree.f; critp <- cpBon
     },
 
 
@@ -248,7 +250,7 @@ for (i in 1:n.comp) {
         side <- 2
         plus.minus <- c(-1, 1)
 
-        Cplug[i] <- qmvt(conf.level, df = degree.f[i], 
+        Cplug[i] <- qmvt(conf.level, df = as.integer(degree.f[i]), 
             corr = CorrMat.plug, delta = rep(0, n.comp), tail = "both", 
             abseps = 1e-05)$quantile
     }
@@ -258,12 +260,12 @@ for (i in 1:n.comp) {
             plus.minus <- 1
         else plus.minus <- -1
 
-        Cplug[i] <- qmvt(conf.level, df = degree.f[i], 
+        Cplug[i] <- qmvt(conf.level, df = as.integer(degree.f[i]), 
             corr = CorrMat.plug, delta = rep(0, n.comp), tail = "lower.tail", 
             abseps = 1e-05)$quantile
     }
 }
-        PlugCL <- matrix(as.numeric(rep(NA, side * n.comp)), nr = n.comp)
+        PlugCL <- matrix(as.numeric(rep(NA, side * n.comp)), nrow = n.comp)
         for (j in 1:n.comp) {
             AjPlug <- (DMat[j,]%*%Mean.Treat)^2 - (Cplug[j]^2)*DMat[j,]%*%MMH%*%DMat[j,]
             BjPlug <- -2*((CMat[j,]%*%Mean.Treat)*(DMat[j,]%*%Mean.Treat) - (Cplug[j]^2)*CMat[j,]%*%MMH%*%DMat[j,])
@@ -271,6 +273,7 @@ for (i in 1:n.comp) {
             PlugCL[j,] <- Quad.root(AjPlug, BjPlug,  CjPlug)
         }
         sci.table <- data.frame(PlugCL)
+	df <- as.integer(degree.f); critp <- Cplug
     })
     if (alternative == "two.sided") {
         names(sci.table) <- c("lower", "upper")
@@ -289,7 +292,7 @@ for (i in 1:n.comp) {
 
     list(estimate = gammaC.vec, CorrMat.est = CorrMat.plug, Num.Contrast = CMat, 
         Den.Contrast = DMat, conf.int = sci.table, NSD = NSD, 
-        method = method, alternative = alternative, conf.level = conf.level)
+        method = method, alternative = alternative, conf.level = conf.level, df=df, quantile=critp)
 }
 
 #####################################################
@@ -460,9 +463,9 @@ if(any( ybar.Treat<0 ))
     for (i in 1:ncomp){
       dfNum.i  <- (  sum(  ((CMat[i,] - Margin.vec[i]*DMat[i,])^2)*(var.Treat/n.Treat)  )  )^2
       dfDen.i  <-    sum(  ((CMat[i,] - Margin.vec[i]*DMat[i,])^4)*((var.Treat/n.Treat)^2)/(n.Treat - 1)  )
-      d.freedom[i] <- max(round(dfNum.i/dfDen.i, 4),2) # min df = 2 to avoid adj. p.val. < raw p.val.
+      d.freedom[i] <- max(round(dfNum.i/dfDen.i,4),2) # min df = 2 to avoid adj. p.val. < raw p.val.
     }
-    CorrMat.H0 <- matrix(as.numeric(rep(NA, ncomp * ncomp)), nr = ncomp)
+    CorrMat.H0 <- matrix(as.numeric(rep(NA, ncomp * ncomp)), nrow = ncomp)
     for (i in 1:ncomp) {
         for (j in 1:ncomp) {
             CorrMat.H0[i, j] <- (Margin.vec[i] * DMat[i, ] - 
@@ -480,19 +483,19 @@ if(any( ybar.Treat<0 ))
                         sqrt((CMat[i,] - Margin.vec[i]*DMat[i,])%*%MMH%*%(CMat[i,] - Margin.vec[i]*DMat[i,]))
 
         if (alternative=='two.sided'){ 
-            P.adjusted[i] <- 1 - pmvt(lower=rep(-abs(Test.Stat[i]),ncomp), upper=rep(abs(Test.Stat[i]),ncomp), df=d.freedom[i],corr=CorrMat.H0, abseps = 0.00001)
-            Critical.pt[i] <- qmvt(1-FWER, df=d.freedom[i],corr=CorrMat.H0, delta=0,tail='both' ,abseps = 0.00001)$quantile
+            P.adjusted[i] <- 1 - pmvt(lower=rep(-abs(Test.Stat[i]),ncomp), upper=rep(abs(Test.Stat[i]),ncomp), df=as.integer(d.freedom[i]),corr=CorrMat.H0, abseps = 0.00001)
+            Critical.pt[i] <- qmvt(1-FWER, df=as.integer(d.freedom[i]),corr=CorrMat.H0, delta=0,tail='both' ,abseps = 0.00001)$quantile
             P.raw[i]  <-  2*pt(abs(Test.Stat[i]),d.freedom[i],lower.tail=FALSE)
         }
     
         if (alternative=='greater'){
-            P.adjusted[i] <- 1 - pmvt(lower=rep(-Inf,ncomp), upper=rep(Test.Stat[i],ncomp), df=d.freedom[i],corr=CorrMat.H0, abseps = 0.00001)
-            Critical.pt[i] <- qmvt(1-FWER,  df=d.freedom[i],corr=CorrMat.H0, delta=0,tail='lower.tail' ,abseps = 0.00001)$quantile
+            P.adjusted[i] <- 1 - pmvt(lower=rep(-Inf,ncomp), upper=rep(Test.Stat[i],ncomp), df=as.integer(d.freedom[i]),corr=CorrMat.H0, abseps = 0.00001)
+            Critical.pt[i] <- qmvt(1-FWER,  df=as.integer(d.freedom[i]),corr=CorrMat.H0, delta=0,tail='lower.tail' ,abseps = 0.00001)$quantile
             P.raw[i]  <-  pt(Test.Stat[i],d.freedom[i],lower.tail=FALSE)
         }
         if (alternative=='less'){
-            P.adjusted[i] <- 1 - pmvt(lower=rep(-Inf,ncomp), upper=rep(-Test.Stat[i],ncomp), df=d.freedom[i],corr=CorrMat.H0,abseps = 0.00001)
-            Critical.pt[i] <-  qmvt(1-FWER,  df=d.freedom[i],corr=CorrMat.H0, delta=0,tail='lower.tail' ,abseps = 0.00001)$quantile
+            P.adjusted[i] <- 1 - pmvt(lower=rep(-Inf,ncomp), upper=rep(-Test.Stat[i],ncomp), df=as.integer(d.freedom[i]),corr=CorrMat.H0,abseps = 0.00001)
+            Critical.pt[i] <-  qmvt(1-FWER,  df=as.integer(d.freedom[i]),corr=CorrMat.H0, delta=0,tail='lower.tail' ,abseps = 0.00001)$quantile
             P.raw[i]  <-  pt(Test.Stat[i],d.freedom[i],lower.tail=TRUE)
         }
     }
@@ -500,7 +503,7 @@ if(any( ybar.Treat<0 ))
         Num.Contrast = Num.Contrast, Den.Contrast = Den.Contrast, 
         CorrMat = CorrMat.H0, critical.pt = Critical.pt, p.value.raw = P.raw, 
         p.value.adj = P.adjusted, Margin.vec = Margin.vec, alternative = alternative, 
-        FWER = FWER))
+        FWER = FWER, df=d.freedom, dfmvt=as.integer(d.freedom)))
 }
 
 

@@ -7,8 +7,8 @@
 }
 \usage{
 \method{plot}{sci.ratio}(x, rho0 = 1, rho0lty=2, rho0lwd=1, rho0col="black",
- CIvert = FALSE, CIlty = 1, CIlwd = 1, CIcex = 1,
- main = NULL, ylab = NULL, xlab = NULL, sub = NULL, ...)
+ CIvert = FALSE, CIlty = 1, CIlwd = 1, CIcex = 1, CIpch=16,
+ main = NULL, ylab = NULL, xlab = NULL, sub = NULL, length=NULL, ...)
 }
 
 \arguments{
@@ -21,11 +21,13 @@
   \item{CIlty}{ numeric value, giving the line type of the plotted confidence interval, see argument lty in ?par }
   \item{CIlwd}{ numeric value, giving the line width of the plotted confidence interval, see argument lwd in ?par }
   \item{CIcex}{ a single numeric value: by which amount the symbols in the CI shall be scaled relative to the default (see argument cex in ?par) }
+  \item{CIpch}{ the symbol to be used for the point estimate, see pch in ?points}
   \item{main}{ character string to be plotted as main title of the plot }
   \item{ylab}{ character string, label of the y axis (ignored if CIvert=TRUE) }
   \item{xlab}{ character string, label of the x axis (ignored if CIvert=FALSE)  }
   \item{sub}{ as in plot }
-  \item{\dots}{ further arguments from plot or par, e.g. cex.axis }
+  \item{length}{ a numeric value, specifying the length/2 of the bars at the ends of the confidence intervals in inches }
+  \item{\dots}{ further arguments to be passed to \code{axis()}}
  }
 
 \details{

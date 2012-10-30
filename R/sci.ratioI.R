@@ -34,7 +34,7 @@ n.comp <- nrow (CMat)     # Number of comparisons
 
 gammaC.vec <- CMat%*%Mean.Treat/DMat%*%Mean.Treat   #  MLE of the ratios
 
-CorrMat.plug <- matrix(as.numeric(rep(NA,n.comp*n.comp)),nr=n.comp)
+CorrMat.plug <- matrix(as.numeric(rep(NA,n.comp*n.comp)),nrow=n.comp)
     for(i in 1:n.comp) {
         for(j in 1:n.comp) {
             CorrMat.plug[i,j] <- (gammaC.vec[i]*DMat[i,] - CMat[i,])%*%M%*%(gammaC.vec[j]*DMat[j,] - CMat[j,])/
@@ -71,7 +71,7 @@ if ((alternative=="less")|(alternative=="greater")){
     cpUAd <- qt(1- (1-conf.level)/(side), degree.f, lower.tail = TRUE)
     }   
 
-UAdCL <- matrix(as.numeric(rep(NA,side*n.comp)),nr=n.comp)
+UAdCL <- matrix(as.numeric(rep(NA,side*n.comp)),nrow=n.comp)
 for(j in 1:n.comp)
  {
                   AjUAd <- (DMat[j,]%*%Mean.Treat)^2 - (cpUAd^2)*Pooled.Var*DMat[j,]%*%M%*%DMat[j,]
@@ -82,7 +82,7 @@ for(j in 1:n.comp)
  }
   
 sci.table <- data.frame( UAdCL)  
-
+df <- degree.f; critp <- cpUAd
 },
 # Bonferroni-adjustment
 
@@ -111,7 +111,7 @@ if ((alternative=="less")|(alternative=="greater")){
     
 
 
-BonCL <- matrix(as.numeric(rep(NA,side*n.comp)),nr=n.comp)
+BonCL <- matrix(as.numeric(rep(NA,side*n.comp)),nrow=n.comp)
 for(j in 1:n.comp)
  {
                   AjBon <- (DMat[j,]%*%Mean.Treat)^2 - (cpBon^2)*Pooled.Var*DMat[j,]%*%M%*%DMat[j,]
@@ -122,7 +122,7 @@ for(j in 1:n.comp)
  }
   
 sci.table <- data.frame(BonCL)  
-
+df <- degree.f; critp <- cpBon
 },
 
 # MtI: Sidak or Slepian for two-sided or one-sided CI
@@ -134,7 +134,7 @@ if (alternative=="two.sided"){
     side <- 2
     plus.minus <- c(-1,1)
     
-    cpMtI <- qmvt(conf.level, interval=c(0,10),df=degree.f,corr=diag(n.comp),delta=rep(0,n.comp), tail="both", abseps=1e-05)$quantile
+    cpMtI <- qmvt(conf.level, interval=c(0,10),df=as.integer(degree.f),corr=diag(n.comp),delta=rep(0,n.comp), tail="both", abseps=1e-05)$quantile
 
    } # End of two-sided CI
     
@@ -143,14 +143,14 @@ if ((alternative=="less")|(alternative=="greater")){
     if (alternative=="less") plus.minus <- 1
     else plus.minus <- -1
 
-    cpMtI <- qmvt(conf.level, interval=c(0,10),df=degree.f,corr=diag(n.comp),delta=rep(0,n.comp), 
+    cpMtI <- qmvt(conf.level, interval=c(0,10),df=as.integer(degree.f),corr=diag(n.comp),delta=rep(0,n.comp), 
 tail="lower.tail", abseps=1e-05)$quantile
 
     } # End of one-sided CI    
     
 
 
-MtICL <- matrix(as.numeric(rep(NA,side*n.comp)),nr=n.comp)
+MtICL <- matrix(as.numeric(rep(NA,side*n.comp)),nrow=n.comp)
 
 for(j in 1:n.comp)
  {
@@ -164,7 +164,7 @@ for(j in 1:n.comp)
  } 
 
 sci.table <- data.frame(MtICL)
-
+df <- as.integer(degree.f); critp <- cpMtI
 },
 
 # Plug in of ratio estimates
@@ -177,7 +177,7 @@ if (alternative=="two.sided"){
     side <- 2
     plus.minus <- c(-1,1)
     
-    Cplug <- qmvt(conf.level, interval=c(0,10),df=degree.f,corr=CorrMat.plug,delta=rep(0,n.comp), tail="both", abseps=1e-05)$quantile
+    Cplug <- qmvt(conf.level, interval=c(0,10),df=as.integer(degree.f),corr=CorrMat.plug,delta=rep(0,n.comp), tail="both", abseps=1e-05)$quantile
     
    } # End of two-sided CI
     
@@ -186,14 +186,14 @@ if ((alternative=="less")|(alternative=="greater")){
     if (alternative=="less") plus.minus <- 1
     else plus.minus <- -1
 
-    Cplug <- qmvt(conf.level, interval=c(0,10),df=degree.f,corr=CorrMat.plug,delta=rep(0,n.comp), 
+    Cplug <- qmvt(conf.level, interval=c(0,10),df=as.integer(degree.f),corr=CorrMat.plug,delta=rep(0,n.comp), 
 tail="lower.tail", abseps=1e-05)$quantile
    
     } # End of one-sided CI    
     
 
 
- PlugCL <- matrix(as.numeric(rep(NA,side*n.comp)),nr=n.comp)
+ PlugCL <- matrix(as.numeric(rep(NA,side*n.comp)),nrow=n.comp)
 
 for(j in 1:n.comp)
  {
@@ -205,7 +205,7 @@ for(j in 1:n.comp)
  } 
 
 sci.table <- data.frame(PlugCL)
-
+df <- as.integer(degree.f); critp <- Cplug
 }
 )
 
@@ -228,8 +228,7 @@ names(sci.table) <- c("lower")
 
 if( any(CorrMat.plug<0) && method=="MtI" && alternative!="two.sided")
  {
-  cat("Warning: At least one element of the estimated correlation matrix is negative,","\n",
-  "therefore, according to Slepian inequality, the MtI method might yield incorrect estimates.","\n")
+  warning(paste("At least one element of the estimated correlation matrix is negative, therefore, according to Slepian inequality, the MtI method might yield incorrect estimates."))
  }
 
 if (any(is.na(sci.table))){NSD <- TRUE}
@@ -244,7 +243,9 @@ conf.int=sci.table,
 NSD=NSD,
 method=method,
 alternative=alternative,
-conf.level=conf.level
+conf.level=conf.level,
+df=df,
+quantile=critp
 )
 
 } # END OF sci.ratioI

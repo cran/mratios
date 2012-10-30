@@ -3,19 +3,19 @@ function(object, digits=4, ...)
 {
 cat("","\n")
 cat("Numerator contrast matrix:", "\n")
-print(object$Num.Contrast, digits=digits)
+print(object$Num.Contrast, digits=digits,...)
 
 cat("","\n")
 cat("Denominator contrast matrix:", "\n")
-print(object$Den.Contrast, digits=digits)
+print(object$Den.Contrast, digits=digits,...)
 
 cat("","\n")
 cat("Correlation matrix under the null hypotheses:", "\n")
-print(object$CorrMat, digits=digits)
+print(object$CorrMat, digits=digits,...)
 
 cat("","\n")
-cat("Equi-coordinate critical point:", "\n")
-print(object$critical.pt, digits=digits)
+dfcrit<-cbind("Degree of freedom"=object$df, "Critical point"=object$critical.pt)
+print(dfcrit, digits=digits, ...)
 
 cat("","\n")
 if(object$alternative=="two.sided")
@@ -29,7 +29,7 @@ rownames(out) <- object$compnames
 colnames(out) <- c("margin", "estimate", "statistic", "p.value.raw", "p.value.adj")
 
 cat("","\n")
-print(round(out, digits=digits))
+print(round(out, digits=digits),...)
 cat("","\n")
 }
 
