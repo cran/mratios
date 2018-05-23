@@ -100,11 +100,10 @@ data(Mutagenicity, package="mratios")
 
 boxplot(MN~Treatment, data=Mutagenicity)
 
-Mutas<-subset(Mutagenicity, Treatment!="Cyclo25")
+\dontrun{
 
 simtest.ratioVH(MN~Treatment, data=Mutagenicity,
  type="Dunnett", base=6, Margin.vec=1.2, alternative="less")
-
 
 ###############################################
 
@@ -149,7 +148,7 @@ DC
 simtest.ratioVH(formula=MN~Treatment, data=Mutagenicity,
  Num.Contrast=NC, Den.Contrast=DC,
  alternative="less", Margin.vec=0.5, FWER=0.05)
-
+}
 }
 
 \keyword{ htest }

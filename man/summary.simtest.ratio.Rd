@@ -20,12 +20,6 @@ A print out, containing the numerator and denominator contrast matrices, the cor
 }
 
 
-\examples{
-data(BW)
-RES <- simtest.ratio(Weight~Dose, data=BW, type="Dunnett", Margin.vec=0.9, alternative="greater")
-summary(RES)
-}
-
 \keyword{ print }
 
 

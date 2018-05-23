@@ -2,9 +2,11 @@ export(contrMatRatio, n.ratio,
  sci.ratio, sci.ratio.gen, sci.ratioVH,
  simtest.ratio, simtest.ratioVH,
  gsci.ratio,
- t.test.ratio, t.test.ratio.formula, t.test.ratio.default)
+ttestratio, ttestratio.default, ttestratio.formula)
 
 import(graphics, mvtnorm)
+
+importFrom("stats", "lm", "model.frame", "pt", "qnorm", "qt", "uniroot", "var")
 
 S3method(plot, sci.ratio)
 
@@ -13,3 +15,6 @@ S3method(summary, sci.ratio)
 
 S3method(print, simtest.ratio)
 S3method(summary, simtest.ratio)
+
+S3method(ttestratio, formula)
+S3method(ttestratio, default)

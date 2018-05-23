@@ -21,10 +21,5 @@
 
 \seealso{ \link{plot.sci.ratio}, \link{summary.sci.ratio} }
 
-\examples{
-data(BW)
-RES <- sci.ratio(Weight~Dose, data=BW, type="Dunnett", alternative="greater")
-print(RES)
-}
 
 \keyword{ print }

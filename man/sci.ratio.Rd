@@ -103,24 +103,6 @@ And some further elements to be passed to print and summary functions.
 
 \examples{
 
-# # #
-
-# Antibiotic activity of 8 different strains of a micro organisms.
-# (Horn and Vollandt, 1995): 
-
-data(Penicillin)
-
-boxplot(diameter~strain, data=Penicillin)
-
-allpairs<-sci.ratio(diameter~strain, data=Penicillin, type="Tukey")
-plot(allpairs)
-summary(allpairs)
-
-# Comparison to the grand mean of all strains:
-
-CGM<-sci.ratio(diameter~strain, data=Penicillin, type="GrandMean")
-plot(CGM)
-summary(CGM)
 
 # # #
 
@@ -137,6 +119,22 @@ BWnoninf <- sci.ratio(Weight~Dose, data=BW, type="Dunnett",
  alternative="greater")
 
 plot(BWnoninf, rho0=0.9)
+
+\dontrun{
+# # #
+
+# Antibiotic activity of 8 different strains of a micro organisms.
+# (Horn and Vollandt, 1995): 
+
+data(Penicillin)
+
+boxplot(diameter~strain, data=Penicillin)
+
+allpairs<-sci.ratio(diameter~strain, data=Penicillin, type="Tukey")
+plot(allpairs)
+summary(allpairs)
+
+}
 
 }
 

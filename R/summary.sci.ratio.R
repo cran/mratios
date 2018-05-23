@@ -16,9 +16,12 @@ if(object$method=="Plug")
 }
 cat("\n")
 
+if(!is.null(object$df)){
 dfcrit<-cbind("Degree of freedom"=object$df, "Critical point"=object$quantile)
 print(dfcrit, digits=digits, ...)
-
+}else{
+cat("Critical point: ", signif(object$quantile, digits), "\n")
+}
 cat("\n")
 
 if(object$method=="Unadj")

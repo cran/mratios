@@ -1,10 +1,9 @@
 \name{gsci.ratio}
 \alias{gsci.ratio}
-\title{Test version! Simultaneous confidence intervals for ratios of linear combinations of parameters.}
+\title{Simultaneous confidence intervals for ratios of linear combinations of parameters.}
 \description{
 This function calculates simultaneous confidence intervals for ratios of user-defined linear combinations, given a vector parameter estiamtes and a corresponding variance-covariance matrix.
-Beside unadjusted intervals, multiplicity adjustments are available using quantiles of a multivariate Normal- or t-distribution. The function provides a more general, but less user-friendly function
-to calculate ratios of mean parameters from linear (mixed models).
+Beside unadjusted intervals, multiplicity adjustments are available using quantiles of a multivariate Normal- or t-distribution. The function provides a more general, but less user-friendly function to calculate ratios of mean parameters from linear (mixed models).
 }
 \usage{
 gsci.ratio(est, vcmat, Num.Contrast, Den.Contrast,
@@ -51,8 +50,13 @@ However, when \code{adjusted=TRUE}, the quantiles are not obtained as described 
 
 \emph{Dilba, G., Bretz, F., and Guiard, V. (2006):} Simultaneous confidence sets and confidence intervals for multiple ratios. Journal of Statistical Planning and Inference 136, 2640-2658.
 
+A simulation study of the performance of these methods in linear mixed models:
+ 
+\emph{Schaarschmidt and Djira(2016):} Simultaneous Confidence Intervals for Ratios of Fixed Effect Parameters in Linear Mixed Models.
+ Communications in Statistics - Simulation and Computation 45:5, 1704-1717. DOI: 10.1080/03610918.2013.849741
+
 }
-\author{Daniel Gerhard, adapting code of Gemechis Dilba Djira}
+\author{Daniel Gerhard & Frank Schaarschmidt adapting code of Gemechis Dilba Djira}
 \seealso{glht(multcomp) for simultaneous CI of differences of means, and function sci.ratio.gen(mratios)}
 
 \examples{
@@ -80,8 +84,6 @@ BWnoninf <- gsci.ratio(est, vc, CMAT$numC, CMAT$denC,
  alternative="greater", degfree=lmfit$df.residual)
 
 BWnoninf
-# the same:
-sci.ratio(Weight~Dose, data=BW, type="Dunnett", alternative="greater")
 
 # Plot
 plot(BWnoninf, rho0=0.9)
@@ -92,7 +94,7 @@ plot(BWnoninf, rho0=0.9)
 
 ##############################################################
 
-library(nlme)
+library("nlme")
 data(Milk)
 
 # Fit a linear mixed model (maybe there are nicer models available!)

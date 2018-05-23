@@ -141,6 +141,7 @@ plot(SlopeRatioCI)
 
 #########################################################
 
+\dontrun{
 
 # If one starts with a dataframe, the function model.matrix
 # can be used to create the design matrix:
@@ -173,6 +174,7 @@ Den.Contrast <- matrix(c(0,1,0,0,0,
 
 summary(sci.ratio.gen(Y=Response, X=X, Num.Contrast, Den.Contrast))
 
+}
 }
 \keyword{ htest }
 \concept{simultaneous confidence intervals}

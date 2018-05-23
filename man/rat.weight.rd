@@ -28,6 +28,5 @@ library(mratios)
 data(rat.weight)
 boxplot(weight~group, data=rat.weight)
 
-boxplot(weight~group, data=rat.weight)
 }
 \keyword{datasets}

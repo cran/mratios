@@ -8,7 +8,8 @@
 \usage{
 \method{plot}{sci.ratio}(x, rho0 = 1, rho0lty=2, rho0lwd=1, rho0col="black",
  CIvert = FALSE, CIlty = 1, CIlwd = 1, CIcex = 1, CIpch=16,
- main = NULL, ylab = NULL, xlab = NULL, sub = NULL, length=NULL, ...)
+ main = NULL, ylab = NULL, xlab = NULL, sub = NULL, length=NULL,
+ sortby=NULL, decreasing=NULL, ...)
 }
 
 \arguments{
@@ -27,6 +28,8 @@
   \item{xlab}{ character string, label of the x axis (ignored if CIvert=FALSE)  }
   \item{sub}{ as in plot }
   \item{length}{ a numeric value, specifying the length/2 of the bars at the ends of the confidence intervals in inches }
+  \item{sortby}{ a character string, one of "estimate", "lower, or "upper"; if specified, the results are ordered by magnitude of estimates, lower or upper limits  }
+  \item{decreasing}{ logical, to be passed to \code{order}, if \code{sortby} is specified, ignored otherwise }
   \item{\dots}{ further arguments to be passed to \code{axis()}}
  }
 

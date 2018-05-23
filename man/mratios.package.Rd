@@ -61,13 +61,13 @@ library(mratios)
 
 ############################################################
 
-# # # t.test.ratio: 
+# # # ttestratio: 
 # Two-sample test and confidence interval
 # for comparison of means, allowing for heteroscedasticity
 
 data(ASAT)
 ASAT
-t.test.ratio(ASAT~group, data=ASAT, alternative="less", base=1,
+ttestratio(ASAT~group, data=ASAT, alternative="less", base=1,
  rho=1.25, var.equal=TRUE)
 
 data(Mutagenicity)
@@ -77,13 +77,13 @@ boxplot(MN~Treatment, data=Mutagenicity)
 # 1) comparing whether the active control is more effective
 # than vehicle control
 
-t.test.ratio(MN~Treatment,
+ttestratio(MN~Treatment,
  data=subset(Mutagenicity, Treatment=="Cyclo25"|Treatment=="Vehicle"),
  alternative="greater", rho=1, var.equal=FALSE)
 
 # 2) lowest dose vs. vehicle control
 
-t.test.ratio(MN~Treatment,
+ttestratio(MN~Treatment,
  data=subset(Mutagenicity, Treatment=="Hydro30"|Treatment=="Vehicle"),
  alternative="greater", rho=1, var.equal=FALSE)
 
@@ -116,7 +116,7 @@ plot(m21, rho0=0.9)
 
 # # # simtest.ratio: Simultaneous tests for ratios of means 
 
-
+\dontrun{
 data(AP)
 
 boxplot(prepost~treatment, data=AP)
@@ -137,21 +137,10 @@ DC <- rbind(
 NC
 DC
 
-simtest.ratio(prepost ~ treatment, data=AP,
+stAP <- simtest.ratio(prepost ~ treatment, data=AP,
  Num.Contrast=NC, Den.Contrast=DC, Margin.vec=c(0.9,0.9,0.9))
-
-summary( simtest.ratio(prepost ~ treatment, data=AP,
- Num.Contrast=NC, Den.Contrast=DC, Margin.vec=c(0.9,0.9,0.9)) )
-
-
-# Comparisons vs. Control (default type of comparisons):
-
-many21 <- simtest.ratio(prepost ~ treatment, data=AP,
- type="Dunnett")
-
-summary(many21)
-
-
+summary(stAP)
+}
 
 #####################################################################
 

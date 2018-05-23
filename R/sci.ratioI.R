@@ -44,12 +44,40 @@ CorrMat.plug <- matrix(as.numeric(rep(NA,n.comp*n.comp)),nrow=n.comp)
     }
 
 
+Quad.root <- function(Aj, Bj, Cj, alternative) {
+  
+  Discrimi <- Bj^2 - 4 * Aj * Cj
+  
+  switch(alternative,
+         "two.sided"={
+           if ((Aj > 0) & (Discrimi >= 0)) {
+             lower <- (-Bj - sqrt(Discrimi))/(2 * Aj)
+             upper <- (-Bj + sqrt(Discrimi))/(2 * Aj)
+             Limit.s <- c(lower, upper)
+           }
+           else{ Limit.s <- c(NA, NA)}},
+         
+         "less"={
+           if ((Aj > 0) & (Discrimi >= 0)) {
+             upper <- (-Bj + sqrt(Discrimi))/(2 * Aj)
+             Limit.s <- c(upper)
+           }
+           else{ Limit.s <- c(NA)}},
+         "greater"={
+           if ((Aj > 0) & (Discrimi >= 0)) {
+             lower <- (-Bj - sqrt(Discrimi))/(2 * Aj)
+             Limit.s <- c(lower)
+           }
+           else{ Limit.s <- c(NA)}})
+  
+  return(Limit.s)
+}
 
-Quad.root <- function(Aj, Bj, Cj){
-        Discrimi <- Bj^2 - 4*Aj*Cj   
-        if ((Aj > 0)&(Discrimi >= 0)) Limit.s <- (-Bj + plus.minus*sqrt(Discrimi))/(2*Aj)
-        else  Limit.s <- as.numeric(NA)
-        return(Limit.s)}
+# Quad.root <- function(Aj, Bj, Cj){
+#         Discrimi <- Bj^2 - 4*Aj*Cj   
+#         if ((Aj > 0)&(Discrimi >= 0)) Limit.s <- (-Bj + plus.minus*sqrt(Discrimi))/(2*Aj)
+#         else  Limit.s <- as.numeric(NA)
+#         return(Limit.s)}
 
 switch(method,
 
@@ -60,14 +88,11 @@ Unadj =
 {
 if (alternative=="two.sided"){ 
     side <- 2
-    plus.minus <- c(-1,1)
     cpUAd <- qt(1- (1-conf.level)/(side), degree.f, lower.tail = TRUE)
    }
     
 if ((alternative=="less")|(alternative=="greater")){
     side <- 1
-    if (alternative=="less") plus.minus <- 1
-    else plus.minus <- -1
     cpUAd <- qt(1- (1-conf.level)/(side), degree.f, lower.tail = TRUE)
     }   
 
@@ -78,7 +103,7 @@ for(j in 1:n.comp)
                   BjUAd <- -2*((CMat[j,]%*%Mean.Treat)*(DMat[j,]%*%Mean.Treat) - 
 (cpUAd^2)*Pooled.Var*CMat[j,]%*%M%*%DMat[j,])
                   CjUAd <- (CMat[j,]%*%Mean.Treat)^2 - (cpUAd^2)*Pooled.Var*CMat[j,]%*%M%*%CMat[j,]
-    UAdCL[j,]  <- Quad.root(AjUAd, BjUAd,  CjUAd)
+    UAdCL[j,]  <- Quad.root(AjUAd, BjUAd, CjUAd, alternative=alternative)
  }
   
 sci.table <- data.frame( UAdCL)  
@@ -94,7 +119,6 @@ Bonf =
 
 if (alternative=="two.sided"){ 
     side <- 2
-    plus.minus <- c(-1,1)
    
     cpBon <- qt(1- (1-conf.level)/(side*n.comp), degree.f, lower.tail = TRUE)
 
@@ -102,8 +126,6 @@ if (alternative=="two.sided"){
     
 if ((alternative=="less")|(alternative=="greater")){
     side <- 1
-    if (alternative=="less") plus.minus <- 1
-    else plus.minus <- -1
 
     cpBon <- qt(1- (1-conf.level)/(side*n.comp), degree.f, lower.tail = TRUE)
 
@@ -118,7 +140,7 @@ for(j in 1:n.comp)
                   BjBon <- -2*((CMat[j,]%*%Mean.Treat)*(DMat[j,]%*%Mean.Treat) - 
 (cpBon^2)*Pooled.Var*CMat[j,]%*%M%*%DMat[j,])
                   CjBon <- (CMat[j,]%*%Mean.Treat)^2 - (cpBon^2)*Pooled.Var*CMat[j,]%*%M%*%CMat[j,]
-    BonCL[j,]  <- Quad.root(AjBon, BjBon,  CjBon)
+    BonCL[j,]  <- Quad.root(AjBon, BjBon, CjBon, alternative=alternative)
  }
   
 sci.table <- data.frame(BonCL)  
@@ -132,7 +154,6 @@ MtI =
 
 if (alternative=="two.sided"){ 
     side <- 2
-    plus.minus <- c(-1,1)
     
     cpMtI <- qmvt(conf.level, interval=c(0,10),df=as.integer(degree.f),corr=diag(n.comp),delta=rep(0,n.comp), tail="both", abseps=1e-05)$quantile
 
@@ -140,8 +161,6 @@ if (alternative=="two.sided"){
     
 if ((alternative=="less")|(alternative=="greater")){
     side <- 1
-    if (alternative=="less") plus.minus <- 1
-    else plus.minus <- -1
 
     cpMtI <- qmvt(conf.level, interval=c(0,10),df=as.integer(degree.f),corr=diag(n.comp),delta=rep(0,n.comp), 
 tail="lower.tail", abseps=1e-05)$quantile
@@ -159,7 +178,7 @@ for(j in 1:n.comp)
                   BjMtI <- -2*((CMat[j,]%*%Mean.Treat)*(DMat[j,]%*%Mean.Treat) - 
 (cpMtI^2)*Pooled.Var*CMat[j,]%*%M%*%DMat[j,])
                   CjMtI <- (CMat[j,]%*%Mean.Treat)^2 - (cpMtI^2)*Pooled.Var*CMat[j,]%*%M%*%CMat[j,]
-    MtICL[j,]  <- Quad.root(AjMtI, BjMtI,  CjMtI)
+    MtICL[j,]  <- Quad.root(AjMtI, BjMtI, CjMtI, alternative=alternative)
     
  } 
 
@@ -175,7 +194,6 @@ Plug =
 
 if (alternative=="two.sided"){ 
     side <- 2
-    plus.minus <- c(-1,1)
     
     Cplug <- qmvt(conf.level, interval=c(0,10),df=as.integer(degree.f),corr=CorrMat.plug,delta=rep(0,n.comp), tail="both", abseps=1e-05)$quantile
     
@@ -183,16 +201,12 @@ if (alternative=="two.sided"){
     
 if ((alternative=="less")|(alternative=="greater")){
     side <- 1
-    if (alternative=="less") plus.minus <- 1
-    else plus.minus <- -1
 
     Cplug <- qmvt(conf.level, interval=c(0,10),df=as.integer(degree.f),corr=CorrMat.plug,delta=rep(0,n.comp), 
 tail="lower.tail", abseps=1e-05)$quantile
    
     } # End of one-sided CI    
     
-
-
  PlugCL <- matrix(as.numeric(rep(NA,side*n.comp)),nrow=n.comp)
 
 for(j in 1:n.comp)
@@ -201,7 +215,7 @@ for(j in 1:n.comp)
                   BjPlug <- -2*((CMat[j,]%*%Mean.Treat)*(DMat[j,]%*%Mean.Treat) - 
 (Cplug^2)*Pooled.Var*CMat[j,]%*%M%*%DMat[j,])
                   CjPlug <- (CMat[j,]%*%Mean.Treat)^2 - (Cplug^2)*Pooled.Var*CMat[j,]%*%M%*%CMat[j,]
-   PlugCL[j,] <- Quad.root(AjPlug, BjPlug,  CjPlug)
+   PlugCL[j,] <- Quad.root(AjPlug, BjPlug, CjPlug, alternative=alternative)
  } 
 
 sci.table <- data.frame(PlugCL)

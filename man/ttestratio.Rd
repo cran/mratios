@@ -1,7 +1,7 @@
-\name{t.test.ratio}
-\alias{t.test.ratio}
-\alias{t.test.ratio.default}
-\alias{t.test.ratio.formula}
+\name{ttestratio}
+\alias{ttestratio}
+\alias{ttestratio.default}
+\alias{ttestratio.formula}
 
 
 \title{ t-test for the ratio of two means }
@@ -13,10 +13,10 @@ is used (Tamhane & Logan, 2004).
 
 \usage{
  
-\method{t.test.ratio}{default}(x, y, alternative = "two.sided",
+\method{ttestratio}{default}(x, y, alternative = "two.sided",
  rho = 1, var.equal = FALSE, conf.level = 0.95,
  iterativeCI=FALSE, ul=1e+10, ll=-1e+10, ...)
-\method{t.test.ratio}{formula}(formula, data, base=2, ...)
+\method{ttestratio}{formula}(formula, data, base=2, ...)
 }
 \arguments{
   \item{x}{ A numeric vector (group in the numerator of the ratio) }
@@ -32,7 +32,7 @@ is used (Tamhane & Logan, 2004).
   \item{iterativeCI}{a single logical, indicating whether the confidence limits shall be found with based on Fiellers formula (default) or by iteratively inverting the test (if TRUE); ignored when \kbd{var.equal=TRUE}}
   \item{ul}{a single numeric, defining the upper limit for searching the upper confidence bound in uniroot, if iterativeCI=TRUE and var.equal=FALSE, ignored otherwise}
   \item{ll}{a single numeric, defining the lower limit for searching the lower confidence bound in uniroot, if iterativeCI=TRUE and var.equal=FALSE, ignored otherwise}
-  \item{\dots}{arguments to be passed to t.test.ratio.default}
+  \item{\dots}{arguments to be passed to ttestratio.default}
 }
 \details{
 This function implements the t-test for the ratio of two means and Fiellers confidence interval for the ratio of two means assuming mutually independent Gaussian errors with homogeneous variances, e.g. in Hauschke, Kieser, Hothorn (1999), when the argument \kbd{var.equal=TRUE}. With the argument \kbd{var.equal=FALSE} (default), the t-test for the ratio of two means assuming mutually independent Gaussian errors and possibly heterogeneous group variances (Tamhane and Logan, 2004) is implemented. When \kbd{iterativeCI = FALSE} (default) the corresponding confidence limits are obtained by using Fiellers formula with plug-in of the Satterthwaites degree of freedom calculated with the sample estimates for ratio and variances (not published). These bounds perform quite well but do not necessarily exactly coincide with the test decision. Setting \kbd{iterativeCI = TRUE} invokes interatively searching for the confidence limits by inverting Tamhane and Logans test using the function uniroot. If the confidence set is unbounded or gives irregular upper and/or lower bounds, a warning and NAs for the confidence limits are returned.
@@ -67,7 +67,7 @@ library(mratios)
 data(ASAT)
 ASAT
 
-t.test.ratio(ASAT~group, data=ASAT, alternative="less",
+ttestratio(ASAT~group, data=ASAT, alternative="less",
  base=1, rho=1.25, var.equal=TRUE)
 
 ######################################################
@@ -82,20 +82,20 @@ data(rat.weight)
 
 # two one-sided tests:
 
-t.test.ratio(weight~group, data=rat.weight, alternative="less",
+ttestratio(weight~group, data=rat.weight, alternative="less",
  rho=1.25, var.equal=TRUE)
 
-t.test.ratio(weight~group, data=rat.weight, alternative="greater",
+ttestratio(weight~group, data=rat.weight, alternative="greater",
  rho=0.8, var.equal=TRUE)
 
 
 
-# For rho=1, t.test.ratio corresponds to a simple t.test
+# For rho=1, ttestratio corresponds to a simple t.test
 # with the difference of means under the null set to zero 
 # (,i.e. mu=0).
 
 
-t.test.ratio(ASAT~group, data=ASAT, alternative="less",
+ttestratio(ASAT~group, data=ASAT, alternative="less",
  rho=1, var.equal=TRUE)
 
 t.test(ASAT~group, data=ASAT, alternative="less",
@@ -110,17 +110,15 @@ DM<-subset(Mutagenicity, Treatment=="Vehicle"|Treatment=="Cyclo25")
 # 95%-CI using the Fieller formula, Satterthwaite df with plug-in of 
 # ratio estimate 
 
-t.test.ratio(MN~Treatment, data=DM, alternative="two.sided",
+ttestratio(MN~Treatment, data=DM, alternative="two.sided",
  var.equal=FALSE, iterativeCI=FALSE)
 
 # 95%-CI based on directly inverting Tamhane and Logans test 
 # (Satterthwaite df, avoiding simple plug-in of the ratio estimate)
 
-t.test.ratio(MN~Treatment, data=DM, alternative="two.sided",
+ttestratio(MN~Treatment, data=DM, alternative="two.sided",
  var.equal=FALSE, iterativeCI=TRUE)
 
-t.test.ratio(MN~Treatment, data=DM, alternative="greater", rho=4.589893)$p.value
-t.test.ratio(MN~Treatment, data=DM, alternative="less", rho=18.640143)$p.value
 
 }
 \keyword{ htest }

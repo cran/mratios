@@ -101,7 +101,7 @@ sci.ratioVH <- function(formula, data, type = "Dunnett", base = 1, method = "Plu
 
 
 
-if(method=="Unadj")
+if(method=="Unadj"|length(out$estimate)==1)
 {
 methodname<-paste( round(conf.level*100,4), "% confidence intervals (heteroscedasticity)", sep="")
 }
@@ -164,14 +164,47 @@ if(any( n.Treat < 2 ))
         }
     }
 
-    Quad.root <- function(Aj, Bj, Cj) {
-        Discrimi <- Bj^2 - 4 * Aj * Cj
-        if ((Aj > 0) & (Discrimi >= 0))
-            Limit.s <- (-Bj + plus.minus * sqrt(Discrimi))/(2 * 
-                Aj)
-        else Limit.s <- as.numeric(NA)
-        return(Limit.s)
+    
+    Quad.root <- function(Aj, Bj, Cj, alternative) {
+      
+      Discrimi <- Bj^2 - 4 * Aj * Cj
+      
+      switch(alternative,
+             "two.sided"={
+               if ((Aj > 0) & (Discrimi >= 0)) {
+                 lower <- (-Bj - sqrt(Discrimi))/(2 * Aj)
+                 upper <- (-Bj + sqrt(Discrimi))/(2 * Aj)
+                 Limit.s <- c(lower, upper)
+               }
+               else{ Limit.s <- c(NA, NA)}},
+             
+             "less"={
+               if ((Aj > 0) & (Discrimi >= 0)) {
+                 upper <- (-Bj + sqrt(Discrimi))/(2 * Aj)
+                 Limit.s <- c(upper)
+               }
+               else{ Limit.s <- c(NA)}},
+             "greater"={
+               if ((Aj > 0) & (Discrimi >= 0)) {
+                 lower <- (-Bj - sqrt(Discrimi))/(2 * Aj)
+                 Limit.s <- c(lower)
+               }
+               else{ Limit.s <- c(NA)}})
+      
+      return(Limit.s)
     }
+    
+    
+    
+    
+    # Quad.root <- function(Aj, Bj, Cj) {
+    #     Discrimi <- Bj^2 - 4 * Aj * Cj
+    #     if ((Aj > 0) & (Discrimi >= 0))
+    #         Limit.s <- (-Bj + plus.minus * sqrt(Discrimi))/(2 * 
+    #             Aj)
+    #     else Limit.s <- as.numeric(NA)
+    #     return(Limit.s)
+    # }
 
 
 switch(method,
@@ -183,14 +216,10 @@ Unadj = {
 for (i in 1:n.comp) {
     if (alternative == "two.sided") {
         side <- 2
-        plus.minus <- c(-1, 1)
         cpUAd[i] <- qt(1 - (1 - conf.level)/(side), degree.f[i], lower.tail = TRUE)
     }
     if ((alternative == "less") | (alternative == "greater")) {
         side <- 1
-        if (alternative == "less") 
-            plus.minus <- 1
-        else plus.minus <- -1
         cpUAd[i] <- qt(1 - (1 - conf.level)/(side), degree.f[i], lower.tail = TRUE)
 
     }
@@ -204,7 +233,7 @@ for (i in 1:n.comp) {
                 CMat[j, ] %*% MMH %*% DMat[j, ])
             CjUAd <- (CMat[j, ] %*% Mean.Treat)^2 - (cpUAd[j]^2) * 
                 CMat[j, ] %*% MMH %*% CMat[j, ]
-            UAdCL[j, ] <- Quad.root(AjUAd, BjUAd, CjUAd)
+            UAdCL[j, ] <- Quad.root(AjUAd, BjUAd, CjUAd, alternative=alternative)
         }
         sci.table <- data.frame(UAdCL)
 	df <- degree.f; critp <- cpUAd
@@ -219,15 +248,11 @@ for (i in 1:n.comp)
  {
     if (alternative == "two.sided") {
         side <- 2
-        plus.minus <- c(-1, 1)
         cpBon[i] <- qt(1 - (1 - conf.level)/(side * n.comp), degree.f[i], lower.tail = TRUE)
 
     }
     if ((alternative == "less") | (alternative == "greater")) {
         side <- 1
-        if (alternative == "less") 
-            plus.minus <- 1
-        else plus.minus <- -1
         cpBon[i] <- qt(1 - (1 - conf.level)/(side * n.comp), degree.f[i], lower.tail = TRUE)
     }
  }
@@ -236,7 +261,7 @@ for (i in 1:n.comp)
             AjBon <- (DMat[j,]%*%Mean.Treat)^2 - (cpBon[j]^2)*DMat[j,]%*%MMH%*%DMat[j,]
             BjBon <- -2*((CMat[j,]%*%Mean.Treat)*(DMat[j,]%*%Mean.Treat) - (cpBon[j]^2)*CMat[j,]%*%MMH%*%DMat[j,])
             CjBon <- (CMat[j,]%*%Mean.Treat)^2 - (cpBon[j]^2)*CMat[j,]%*%MMH%*%CMat[j,]
-            BonCL[j,]  <- Quad.root(AjBon, BjBon,  CjBon)
+            BonCL[j,]  <- Quad.root(AjBon, BjBon,  CjBon, alternative=alternative)
         }
         sci.table <- data.frame(BonCL)
 	df <- degree.f; critp <- cpBon
@@ -248,7 +273,6 @@ for (i in 1:n.comp)
 for (i in 1:n.comp) {
     if (alternative == "two.sided") {
         side <- 2
-        plus.minus <- c(-1, 1)
 
         Cplug[i] <- qmvt(conf.level, df = as.integer(degree.f[i]), 
             corr = CorrMat.plug, delta = rep(0, n.comp), tail = "both", 
@@ -256,9 +280,6 @@ for (i in 1:n.comp) {
     }
     if ((alternative == "less") | (alternative == "greater")) {
         side <- 1
-        if (alternative == "less") 
-            plus.minus <- 1
-        else plus.minus <- -1
 
         Cplug[i] <- qmvt(conf.level, df = as.integer(degree.f[i]), 
             corr = CorrMat.plug, delta = rep(0, n.comp), tail = "lower.tail", 
@@ -270,7 +291,7 @@ for (i in 1:n.comp) {
             AjPlug <- (DMat[j,]%*%Mean.Treat)^2 - (Cplug[j]^2)*DMat[j,]%*%MMH%*%DMat[j,]
             BjPlug <- -2*((CMat[j,]%*%Mean.Treat)*(DMat[j,]%*%Mean.Treat) - (Cplug[j]^2)*CMat[j,]%*%MMH%*%DMat[j,])
             CjPlug <- (CMat[j,]%*%Mean.Treat)^2 - (Cplug[j]^2)*CMat[j,]%*%MMH%*%CMat[j,]
-            PlugCL[j,] <- Quad.root(AjPlug, BjPlug,  CjPlug)
+            PlugCL[j,] <- Quad.root(AjPlug, BjPlug,  CjPlug, alternative=alternative)
         }
         sci.table <- data.frame(PlugCL)
 	df <- as.integer(degree.f); critp <- Cplug
@@ -428,7 +449,6 @@ else
     class(out) <- "simtest.ratio"
     return(out)
 }
-
 
 
 

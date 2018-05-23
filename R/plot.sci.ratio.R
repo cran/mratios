@@ -1,5 +1,5 @@
 "plot.sci.ratio" <-
-function(x, rho0 = 1, rho0lty=2, rho0lwd=1, rho0col="black", CIvert=FALSE, CIlty = 1, CIlwd=1, CIcex=1, CIpch=16, main=NULL, ylab=NULL, xlab=NULL, sub=NULL, length=NULL, ...)
+function(x, rho0 = 1, rho0lty=2, rho0lwd=1, rho0col="black", CIvert=FALSE, CIlty = 1, CIlwd=1, CIcex=1, CIpch=16, main=NULL, ylab=NULL, xlab=NULL, sub=NULL, length=NULL, sortby=NULL, decreasing=NULL, ...)
 {
 
 old.par <- par(no.readonly=TRUE)
@@ -13,6 +13,27 @@ args <- list(...)
 alternative <- x$alternative
 conf.level <- x$conf.level
 mymai <- par("mai")
+
+
+if(!is.null(sortby)){
+sortby <- match.arg(sortby, choices=c("estimate","lower","upper"))
+if(is.null(decreasing)){decreasing <- FALSE}
+
+
+
+switch(sortby,
+estimate={ OD <- order(esti, decreasing=decreasing) },
+lower={if(alternative=="less"){warning("There is no lower limit."); OD<-num}else{ OD <- order(conf.int$lower, decreasing=decreasing)} },
+upper={if(alternative=="greater"){warning("There is no upper limit."); OD<-num}else{ OD <- order(conf.int$upper, decreasing=decreasing)} })
+
+
+esti<-esti[OD]
+compn<-compn[OD]
+conf.int<-conf.int[OD,, drop = FALSE]
+
+
+}
+
 
 if(is.null(sub))
 {

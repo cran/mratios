@@ -105,9 +105,9 @@ if(type=="User defined")
  rownames(out$estimate)<-compnames
 }
 
-if(method=="Unadj")
+if(method=="Unadj"|length(out$estimate)==1)
 {
-methodname<-paste( round(conf.level*100,2), "-% confidence intervals", sep="")
+methodname<-paste( round(conf.level*100,2), "% confidence intervals", sep="")
 }
 else{
 methodname<-paste("Simultaneous ", round(conf.level*100,4), "% confidence intervals", sep="")

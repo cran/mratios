@@ -151,6 +151,8 @@ summary( noninf )
 
 #########################################################
 
+\dontrun{
+
 # Some more examples on standard multiple comparison procedures
 # stated in terms of ratio hypotheses:
 
@@ -187,6 +189,8 @@ data(Penicillin)
 CGM <- simtest.ratio(diameter~strain, data=Penicillin, type="GrandMean")
 CGM
 summary(CGM)
+
+}
 
 }
 

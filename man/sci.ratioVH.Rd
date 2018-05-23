@@ -115,8 +115,11 @@ boxplot(MN~Treatment, data=Mutagenicity)
 # Proof of Hazard, using multiplicity adjusted 
 # confidence intervals:
 
+\dontrun{
+
 sci.ratioVH(MN~Treatment, data=Mutagenicity,
  type="Dunnett", base=6, method="Plug")
+
 
 # Unadjusted confidence intervals for an 
 # intersection union test to proof safety
@@ -160,6 +163,7 @@ NC
 DC
 
 
+
 CIs<-sci.ratioVH(MN~Treatment, data=Mutagenicity,
  Num.Contrast=NC,
  Den.Contrast=DC)
@@ -176,6 +180,7 @@ CIs<-sci.ratioVH(MN~Treatment, data=Mutagenicity,
 sci.ratioVH(formula=MN~Treatment, data=Mutagenicity,
  Num.Contrast=NC, Den.Contrast=DC,
  method="Unadj", alternative="less", conf.level=0.95)
+}
 
 }
 

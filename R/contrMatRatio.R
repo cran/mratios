@@ -1,10 +1,10 @@
 "contrMatRatio" <-
-function(n, type="Tukey", base=1)
+function(n, type=c("Tukey", "Dunnett", "Sequen", "AVE", "GrandMean", "Changepoint", "Marcus", "McDermott", "Williams", "UmbrellaWilliams"), base=1)
 {
 
 # check:
 
-type<-match.arg(arg=type, choices=c("Dunnett", "Tukey", "Sequen", "AVE", "GrandMean", "Changepoint", "Marcus", "McDermott", "Williams", "UmbrellaWilliams"))
+type<-match.arg(arg=type)
 
 if (length(n) < 2) 
  {stop("less than 2 groups")}
