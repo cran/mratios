@@ -246,11 +246,11 @@ ttestratio.default <- function (x, y, alternative = "two.sided", rho = 1, var.eq
              LOWER <- try(uniroot(f=function(x){tratio(rho=x, nx=nx, ny=ny, mx=mx, my=my, vx=vx, vy=vy, alpha=alpha2)},
                                   interval=c(ll, est)), silent=TRUE)
              
-             if(class(LOWER)=="try-error")
+             if(inherits(LOWER,"try-error"))
              {lower<-NA; warning(paste("Lower confidence limit can not be found in [",ll, ",", signif(est,3),"].", LOWER))}
              else{lower <- LOWER$root}
              
-             if(class(UPPER)=="try-error")
+             if(inherits(UPPER,"try-error"))
              {upper <- NA; warning(paste("Upper confidence limit can not be foundin [", signif(est,4), ",", ul,"].", UPPER))}
              else{upper <- UPPER$root}
            },
@@ -260,7 +260,7 @@ ttestratio.default <- function (x, y, alternative = "two.sided", rho = 1, var.eq
              
              UPPER <- try(uniroot(f=function(x){tratio(rho=x, nx=nx, ny=ny, mx=mx, my=my, vx=vx, vy=vy, alpha=alpha)},
                                   lower=est, upper=ul), silent=TRUE)
-             if(class(UPPER)=="try-error")
+             if(inherits(UPPER,"try-error"))
              {upper <- NA; warning(paste("Upper confidence limit can not be found in [", signif(est,4), ",", ul,"].", UPPER))}
              else{upper <- UPPER$root}
            },
@@ -271,7 +271,7 @@ ttestratio.default <- function (x, y, alternative = "two.sided", rho = 1, var.eq
              
              LOWER <- try(uniroot(f=function(x){tratio(rho=x, nx=nx, ny=ny, mx=mx, my=my, vx=vx, vy=vy, alpha=alpha)},
                                   lower=ll, upper=est), silent=TRUE)
-             if(class(LOWER)=="try-error")
+             if(inherits(LOWER,"try-error"))
              {lower<-NA; warning(paste("Lower confidence limit can not be found in [",ll, ",", signif(est,3),"].", LOWER))}
              else{lower <- LOWER$root}
              

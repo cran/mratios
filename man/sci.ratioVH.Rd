@@ -20,37 +20,16 @@ sci.ratioVH(formula, data,
 \arguments{
   \item{formula}{ A formula specifying a numerical response and a grouping factor as e.g. response ~ treatment }
   \item{data}{  A dataframe containing the response and group variable }
-  \item{type}{ type of contrast, with the following options:
-    \itemize{
-    \item{"Dunnett":}{ many-to-one comparisons, with control in the denominator}
-    \item{"Tukey":}{ all-pair comparisons }
-    \item{"Sequen":}{ comparison of consecutive groups, where the group with lower order is the denominator}
-    \item{"AVE":}{ comparison of each group with average of all others, where the average is taken as denominator}
-    \item{"Changepoint":}{ ratio of averages of groups of higher order divided by averages of groups of lower order }
-    \item{"Marcus":}{ Marcus contrasts as ratios }
-    \item{"McDermott":}{ McDermott contrasts as ratios }
-    \item{"Williams": }{Williams contrasts as ratios }
-    }
- Note: type is ignored, if Num.Contrast and Den.Contrast are specified by the user (See below).}
+  \item{type}{ type of contrast, with the following options: "Dunnett" for many-to-one comparisons, with control in the denominator; "Tukey" for all-pair comparisons; "Sequen" for comparisons of consecutive groups, where the group with lower order is the denominator; "AVE" for comparison of each group with average of all others, where the average is taken as denominator; "Changepoint": ratio of averages of groups of higher order divided by averages of groups of lower order; "Marcus": Marcus contrasts as ratios; "McDermott":  McDermott contrasts as ratios; "Williams": Williams contrasts as ratios.
+Note that type is ignored, if Num.Contrast and Den.Contrast are specified by the user}
 
   \item{base}{ a single integer specifying the control (i.e. denominator) group for the Dunnett contrasts, ignored otherwise }
   \item{method}{ 
-    a character string, specifying the method to be used for confidence interval construction:
-    \itemize{
-    \item{"Plug":}{ Plug-in of ratio estimates to obtain the correlation matrix of contrasts (default)}
-    \item{"Bonf":}{ Simple Bonferroni-adjustment of Fieller confidence intervals for the ratios }
-    \item{"MtI":}{ Sidak- or Slepian- adjustment for two-sided and one-sided confidence intervals, respectively  }
-    \item{"Unadj":}{ Unadjusted Fieller confidence intervals for the ratios (i.e. with comparisonwise confidence level = conf.level) }}
-    }
+    a character string, specifying the method to be used for the multiplicity adjustment of the confidence intervals: "Plug": Plug-in of ratio estimates to obtain the correlation matrix of contrasts (default); "Bonf": Simple Bonferroni-adjustment of Fieller confidence intervals for the ratios; "MtI": Sidak- or Slepian- adjustment for two-sided and one-sided confidence intervals, respectively; "Unadj": Unadjusted Fieller confidence intervals for the ratios}
   \item{Num.Contrast}{ Numerator contrast matrix, where columns correspond to groups and rows correspond to contrasts  }
   \item{Den.Contrast}{ Denominator contrast matrix, where columns correspond to groups and rows correspond to contrasts }
   \item{alternative}{ 
-    a character string
-    \itemize{
-    \item{"two.sided":}{ for two-sided intervals }
-    \item{"less":}{ for upper confidence limits }
-    \item{"greater":}{ for lower confidence limits }}
-    }
+    a character string: "two.sided" for two-sided intervals; "less" for upper confidence limits: "greater" for lower confidence limits}
   \item{conf.level}{ simultaneous confidence level in case of method="Plug","Bonf", or "MtI", and comparisonwise confidence level in case of method="Unadj" }
   \item{names}{logical, indicating whether rownames of the contrast matrices shall be retained in the output}
 }

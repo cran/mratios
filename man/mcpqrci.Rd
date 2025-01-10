@@ -122,9 +122,11 @@ event <- rbinom(60,1,0.8)
 
 mcpqdci(y=y, f=f, method = "Fieller", base = 3)
 
-mcpqrci(y=abs(y), f=f, event=event, Right.Censored=TRUE,
-Num.cmat = cbind(c(1,1), 0*diag(2)),
-Den.cmat = cbind(c(0,0), diag(2)))
+
+# mcpqrci(y=abs(y), f=f, event=event, Right.Censored=TRUE,
+# Num.cmat = cbind(c(1,1), 0*diag(2)),
+# Den.cmat = cbind(c(0,0), diag(2)))
+
 
 cmat <- cbind(-c(1,1),diag(2))
 mcpqdci(y=y, f=f, method = "Fieller", cmat = cmat)
